@@ -27,18 +27,25 @@ public class Player : MonoBehaviour
     {
         em.OnGameStarted += OnGameStarted;
         em.OnInputEvent += OnInputEvent;
+        em.OnRequestPlayerReference += OnRequestPlayerReference;
     }
 
     private void OnDisable()
     {
         em.OnGameStarted -= OnGameStarted;
         em.OnInputEvent -= OnInputEvent;
+        em.OnRequestPlayerReference -= OnRequestPlayerReference;
     }
 
     private void OnGameStarted()
     {
         ResetAll();
         //PossessClosestPossessable();
+    }
+
+    private GameObject OnRequestPlayerReference()
+    {
+        return gameObject;
     }
 
     private bool PossessClosestPossessable()
