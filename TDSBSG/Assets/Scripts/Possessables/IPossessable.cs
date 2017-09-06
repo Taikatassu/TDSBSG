@@ -8,7 +8,9 @@ public interface IPossessable
 
     EPossessableType GetPossessableType();
 
-    GameObject GetGameObject();
+	ERobotType GetRobotType();
+
+	GameObject GetGameObject();
 
     void Possess();
 
@@ -23,4 +25,9 @@ public enum EPossessableType
     PRIMARY, //Primary host body of the player. Only one simultaneous possession
     SECONDARY, //For example a stationary turret. Multiple simultaneous possessions possible
 
+}
+
+public enum ERobotType {
+	CLEANING,
+	RADIO,
 }
