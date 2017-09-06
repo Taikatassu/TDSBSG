@@ -1,0 +1,43 @@
+Alert state system
+ - Global state (increases slowly by disobedience, but never decreases)
+ - Local state (increases faster, but can be decreased)
+
+Methods of disobedience:
+ - Enter a restricted room
+	- Room-class
+		- Room restrictions
+		- Level of security?
+		- Entering a room with higher level of security without 
+		  proper clearance will result in higher disobedience increases
+ - Pass through a restricted doorway
+	- Doorway-class
+		- Doorway restrictions
+		- Level of security?
+ - Interact with a restricted object
+	- Interactable-class
+		- Object restrictions
+		- Level of security?
+ - Harm humans
+	- Instant high level disobedience increase!
+ - ?
+
+Enemies
+- Patrol
+- Vision cones
+- Chase when seen
+- If they catch you, game over
+- Alert state (alerted / not alerted)
+
+UI
+- Main menu?
+- HUD?
+
+Varying possessables
+- Different abilities / functionalities
+- Primary / secondary
+- Radio, Vending machine, Roomba, Robotic forklift, 
+  Connected electronics (local network), e.g. tv screens / computers, etc...
+
+
+
+
