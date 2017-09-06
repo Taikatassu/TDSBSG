@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CleanerBot : MonoBehaviour, IPossessable
+public class Poss_CleanerBot : MonoBehaviour, IPossessable
 {
     #region References & variables
     Toolbox toolbox;
@@ -75,7 +75,6 @@ public class CleanerBot : MonoBehaviour, IPossessable
 
     public void Possess()
     {
-        Debug.Log("Possess");
         isPossessed = true;
         if(rb != null)
         {
@@ -85,7 +84,6 @@ public class CleanerBot : MonoBehaviour, IPossessable
 
     public void UnPossess()
     {
-        Debug.Log("UnPossess");
         isPossessed = false;
         movingUp = false;
         movingDown = false;

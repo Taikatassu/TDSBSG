@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
         em = toolbox.GetComponent<EventManager>();
         possInfo = toolbox.GetComponent<PossessableInfo>();
     }
+
     private void OnEnable()
     {
         em.OnGameStarted += OnGameStarted;
@@ -58,14 +59,14 @@ public class Player : MonoBehaviour
                     {
                         first = false;
                         closestPossessable = possInfo.possessables[i];
-                        Debug.Log("distanceToThis: " + distanceToThis);
+
                         distanceToClosest = distanceToThis;
-                        Debug.Log("distanceToClosest: " + distanceToClosest);
+
                     }
                 }
             }
 
-            Debug.Log("ClosestPossessable found, distanceToClosest: " + distanceToClosest);
+            //Debug.Log("ClosestPossessable found, distanceToClosest: " + distanceToClosest);
 
             if(distanceToClosest > possessionRange)
             {
@@ -75,7 +76,7 @@ public class Player : MonoBehaviour
             PossessPossessable(closestPossessable);
             return true;
         }
-        Debug.Log("No possessables found");
+        Debug.LogWarning("No possessables found");
         return false;
     }
 
