@@ -23,11 +23,13 @@ public class EventManager : MonoBehaviour
 
     public delegate void EmptyVoid();
     public delegate void InputVoid(EInputType inputType);
+    public delegate void IntBoolVoid(int integer, bool boolean);
+    public delegate GameObject EmptyGameObject();
 
     public event EmptyVoid OnGameStarted;
     public void BroadcastGameStarted()
     {
-        if(OnGameStarted != null)
+        if (OnGameStarted != null)
         {
             OnGameStarted();
         }
@@ -35,11 +37,32 @@ public class EventManager : MonoBehaviour
 
     public event InputVoid OnInputEvent;
     public void BroadcastInputEvent(EInputType newInput)
-     {
-        if(OnInputEvent != null)
+    {
+        if (OnInputEvent != null)
         {
             OnInputEvent(newInput);
         }
+    }
 
-     }
+    public event EmptyGameObject OnRequestPlayerReference;
+    public GameObject BroadcastRequestPlayerReference()
+    {
+        if (OnRequestPlayerReference != null)
+        {
+            return OnRequestPlayerReference();
+        }
+        else
+        {
+            return FindObjectOfType<Player>().gameObject;
+        }
+    }
+
+    public event IntBoolVoid OnRoomEntered;
+    public void BroadcastRoomEntered(int roomSecurityLevel, bool isAllowed)
+    {
+        if (OnRoomEntered != null)
+        {
+            OnRoomEntered(roomSecurityLevel, isAllowed);
+        }
+    }
 }

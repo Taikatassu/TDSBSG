@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CleanerBot : MonoBehaviour, IPossessable
+public class Poss_CleanerBot : MonoBehaviour, IPossessable
 {
     #region References & variables
     Toolbox toolbox;
@@ -16,7 +17,8 @@ public class CleanerBot : MonoBehaviour, IPossessable
     bool movingRight = false;
     bool movingLeft = false;
     readonly EPossessableType possessableType = EPossessableType.PRIMARY;
-    float defaultMovementSpeed = 150f;
+	readonly ERobotType robotType = ERobotType.CLEANING;
+	float defaultMovementSpeed = 150f;
     float currentMovementSpeedMultiplier = 1;
     #endregion
 
@@ -67,15 +69,17 @@ public class CleanerBot : MonoBehaviour, IPossessable
     {
         return possessableType;
     }
+	public ERobotType GetRobotType() {
+		return robotType;
+	}
 
-    public GameObject GetGameObject()
+	public GameObject GetGameObject()
     {
         return gameObject;
     }
 
     public void Possess()
     {
-        Debug.Log("Possess");
         isPossessed = true;
         if(rb != null)
         {
@@ -85,7 +89,6 @@ public class CleanerBot : MonoBehaviour, IPossessable
 
     public void UnPossess()
     {
-        Debug.Log("UnPossess");
         isPossessed = false;
         movingUp = false;
         movingDown = false;
@@ -162,4 +165,5 @@ public class CleanerBot : MonoBehaviour, IPossessable
 
     }
 
+	
 }

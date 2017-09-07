@@ -1,6 +1,9 @@
 Alert state system
- - Global state (increases slowly by disobedience, but never decreases)
- - Local state (increases faster, but can be decreased)
+ - Global security state (increases slowly by disobedience, but never decreases)
+ - Local alert state (alert on / off) (more than two states needed?)
+ - Instant alert triggered when progressing on global securit sale to the next level (~5 levels)
+ - Enemy field of vision increases with Global seurity state
+ - Vision cones not visible when the enemies are not alarmed
 
 Methods of disobedience:
  - Enter a restricted room
