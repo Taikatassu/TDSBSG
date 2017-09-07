@@ -41,6 +41,15 @@ Varying possessables
 - Radio, Vending machine, Roomba, Robotic forklift, 
   Connected electronics (local network), e.g. tv screens / computers, etc...
 
-
+- Mouse input events (buttons up / down, cursor location)
+- Change possession button from Q-key to mouse left click (on top of possessable)
+- Implement interactableObject interaction to mouse left click (on top of object)
+- Implement networked possessables
+	- Switching between nodes is done by choosing the direction with mouse click
+	- "Manager" has info on all the connected nodes (an list of ints which signify paired nodes)
+	- Draw indicator lines between nodes
+- Alert system
+	- All enemies register to alert system when spawned
+	- When alert starts, alert system will notify all registered enemies
 
 
