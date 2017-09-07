@@ -48,6 +48,8 @@ public class EnemyBase : MonoBehaviour
     {
         player = em.BroadcastRequestPlayerReference().GetComponent<Player>();
         myFoV = GetComponent<FieldOfView>();
+        em.BroadcastRegisterEnemy(gameObject);
+
         initialized = true;
     }
 
