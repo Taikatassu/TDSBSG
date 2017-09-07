@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Room : MonoBehaviour {
-
+public class Door : MonoBehaviour {
 	Toolbox toolbox;
 	EventManager em;
 	[SerializeField]
-	private int levelOfSecurity = 0; // room's level of security
-	[SerializeField,Header ("List of allowed robot type")]
+	private int levelOfSecurity = 0; // door's level of security
+	[SerializeField, Header("List of allowed robot type")]
 	List<ERobotType> listOfAllowedRobotType = new List<ERobotType>();
 
 	private void Awake() {
@@ -31,7 +30,7 @@ public class Room : MonoBehaviour {
 					break;
 				}
 			}
-			em.BroadcastRoomEntered(levelOfSecurity, isSameType);
+			em.BroadcastDoorEntered(levelOfSecurity, isSameType);
 		}
 	}
 }
