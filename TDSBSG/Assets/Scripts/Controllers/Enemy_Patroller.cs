@@ -18,7 +18,7 @@ public class Enemy_Patroller : EnemyBase
     {
         base.InitializeEnemy();
         navAgent = GetComponent<NavMeshAgent>();
-        //StartPatrolling();
+        StartPatrolling();
     }
 
     private void StopPatrolling()
@@ -68,8 +68,10 @@ public class Enemy_Patroller : EnemyBase
         }
     }
 
-    private void FixedUpdate()
+    protected override void FixedUpdate()
     {
+        base.FixedUpdate();
+
         if (initialized)
         {
             if (isPatrolling)

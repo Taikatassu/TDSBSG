@@ -32,6 +32,7 @@ public class Poss_CleanerBot : MonoBehaviour, IPossessable
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        tag = "Possessable"; //Add this to all possessables
     }
 
     private void OnEnable()

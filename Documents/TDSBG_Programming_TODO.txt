@@ -1,22 +1,22 @@
 Alert state system
- - Global security state (increases slowly by disobedience, but never decreases)
+DONE - Global security state (increases slowly by disobedience, but never decreases)
  - Local alert state (alert on / off) (more than two states needed?)
- - Instant alert triggered when progressing on global securit sale to the next level (~5 levels)
+DONE - Instant alert triggered when progressing on global securit sale to the next level (~5 levels)
  - Enemy field of vision increases with Global seurity state
  - Vision cones not visible when the enemies are not alarmed
 
 Methods of disobedience:
- - Enter a restricted room
+DONE - Enter a restricted room
 	- Room-class
 		- Room restrictions
 		- Level of security?
 		- Entering a room with higher level of security without 
 		  proper clearance will result in higher disobedience increases
- - Pass through a restricted doorway
+DONE - Pass through a restricted doorway
 	- Doorway-class
 		- Doorway restrictions
 		- Level of security?
- - Interact with a restricted object
+DONE - Interact with a restricted object
 	- Interactable-class
 		- Object restrictions
 		- Level of security?
@@ -25,8 +25,8 @@ Methods of disobedience:
  - ?
 
 Enemies
-- Patrol
-- Vision cones
+DONE - Patrol
+DONE - Vision cones
 - Chase when seen
 - If they catch you, game over
 - Alert state (alerted / not alerted)
