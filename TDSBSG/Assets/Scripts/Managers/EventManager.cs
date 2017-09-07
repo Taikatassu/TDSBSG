@@ -20,6 +20,7 @@ public class EventManager : MonoBehaviour {
 	public delegate void EmptyVoid();
 	public delegate void InputVoid(EInputType inputType);
 	public delegate void IntBoolVoid(int integer, bool boolean);
+
 	public delegate GameObject EmptyGameObject();
 
 	public event EmptyVoid OnGameStarted;
@@ -57,6 +58,13 @@ public class EventManager : MonoBehaviour {
 	public void BroadcastDoorEntered(int doorSecurityLevel, bool isAllowed) {
 		if (OnDoorEntered != null) {
 			OnDoorEntered(doorSecurityLevel, isAllowed);
+		}
+	}
+
+	public event EmptyVoid OnStartAlarm;
+	public void BroadcastStartAlarm() {
+		if (OnStartAlarm != null) {
+			OnStartAlarm();
 		}
 	}
 }

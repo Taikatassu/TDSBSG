@@ -340,6 +340,26 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 320893508}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &388515906 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1284438480634866, guid: 93bdcebf92400784985cbc4864120995,
+    type: 2}
+  m_PrefabInternal: {fileID: 1901844502}
+--- !u!114 &388515913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 388515906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deab7b8116bf8ee4bbe78b7788f76d0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numOfTiers: 5
+  pointPerTier: 100
+  roomEnterIncrease: 20
+  doorEnterIncrease: 20
 --- !u!4 &497345318 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4654406702728792, guid: 565bd8c8c0746484c8df7af11393f490,
