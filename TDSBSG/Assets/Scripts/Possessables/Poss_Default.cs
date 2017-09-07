@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Poss_CleanerBot : MonoBehaviour, IPossessable
+public class Poss_Default : MonoBehaviour, IPossessable
 {
     #region References & variables
     Toolbox toolbox;
@@ -17,7 +17,7 @@ public class Poss_CleanerBot : MonoBehaviour, IPossessable
     bool movingRight = false;
     bool movingLeft = false;
     readonly EPossessableType possessableType = EPossessableType.PRIMARY;
-	readonly ERobotType robotType = ERobotType.CLEANING;
+	readonly ERobotType robotType = ERobotType.DEFAULT;
 	float defaultMovementSpeed = 150f;
     float currentMovementSpeedMultiplier = 1;
     #endregion
@@ -39,18 +39,24 @@ public class Poss_CleanerBot : MonoBehaviour, IPossessable
     {
         possInfo.possessables.Add(this);
 
-        em.OnGameStarted += OnGameStarted;
+        em.OnInitializeGame += OnInitializeGame;
     }
 
     private void OnDisable()
     {
         possInfo.possessables.Remove(this);
 
-        em.OnGameStarted -= OnGameStarted;
+        em.OnInitializeGame -= OnInitializeGame;
     }
 
-    private void OnGameStarted()
+    private void OnInitializeGame()
     {
+        toolbox = FindObjectOfType<Toolbox>();
+        em = toolbox.GetComponent<EventManager>();
+        possInfo = toolbox.GetComponent<PossessableInfo>();
+        rb = GetComponent<Rigidbody>();
+        tag = "Possessable"; //Add this to all possessables
+
         ResetAll();
     }
 

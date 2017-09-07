@@ -24,12 +24,12 @@ public class CameraController : MonoBehaviour
 
     private void OnEnable()
     {
-        em.OnGameStarted += OnGameStarted;
+        em.OnInitializeGame += OnInitializeGame;
     }
 
     private void OnDisable()
     {
-        em.OnGameStarted -= OnGameStarted;
+        em.OnInitializeGame -= OnInitializeGame;
     }
 
     private void LateUpdate()
@@ -51,7 +51,7 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    void OnGameStarted()
+    void OnInitializeGame()
     {
         isFollowing = true;
         Vector3 targetPosition = target.position;

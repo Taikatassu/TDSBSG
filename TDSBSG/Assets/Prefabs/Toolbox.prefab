@@ -24,6 +24,8 @@ GameObject:
   - component: {fileID: 114294282154675122}
   - component: {fileID: 114117646893950290}
   - component: {fileID: 114328708380131670}
+  - component: {fileID: 114456939164099532}
+  - component: {fileID: 114695660420583582}
   m_Layer: 0
   m_Name: Toolbox
   m_TagString: Untagged
@@ -99,3 +101,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 827284437ae60d84385df4118817d36b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114456939164099532
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1284438480634866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deab7b8116bf8ee4bbe78b7788f76d0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numOfTiers: 5
+  pointPerTier: 100
+  roomEnterIncrease: 20
+  doorEnterIncrease: 20
+--- !u!114 &114695660420583582
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1284438480634866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c985d69b9ca9a8143b871a003ad49505, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showDebugIndicators: 0

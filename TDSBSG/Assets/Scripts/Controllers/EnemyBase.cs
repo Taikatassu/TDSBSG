@@ -51,6 +51,11 @@ public class EnemyBase : MonoBehaviour
         initialized = true;
     }
 
+    public bool GetCanPatrol()
+    {
+        return canPatrol;
+    }
+
     public bool GetIsAlerted()
     {
         return isAlerted;
@@ -76,63 +81,13 @@ public class EnemyBase : MonoBehaviour
         patrolPoints = newPatrolPoints;
     }
 
-    //protected Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
-    //{
-    //    if (!angleIsGlobal)
-    //    {
-    //        angleInDegrees += transform.eulerAngles.y;
-    //    }
-
-    //    return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0,
-    //        Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
-    //}
-
-    //private void DrawVisionCone()
-    //{
-    //    int stepCount = Mathf.RoundToInt(currentVisionAngle * visionMeshResolution);
-    //    float stepAngleSize = currentVisionAngle / stepCount;
-
-    //    for (int i = 0; i <= stepCount; i++)
-    //    {
-    //        float angle = transform.eulerAngles.y - currentVisionAngle / 2 + stepAngleSize * i;
-    //        Debug.Log("angle: " + angle);
-    //        Debug.DrawLine(transform.position, transform.position + DirFromAngle(angle, true)
-    //            * currentVisionRange, Color.red);
-    //    }
-    //}
-
-    //ViewCastInfo ViewCast(float globalAngle)
-    //{
-    //    Vector3 dir = DirFromAngle(globalAngle, true);
-    //    RaycastHit hit;
-    //    if (Physics.Raycast(transform.position, dir, out hit, currentVisionRange, obstacleMask))
-    //    {
-    //        return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
-    //    }
-    //    else
-    //    {
-    //        return new ViewCastInfo(false, transform.position + dir * currentVisionRange, 
-    //            hit.distance, globalAngle);
-    //    }
-    //}
-
-    //public struct ViewCastInfo
-    //{
-    //    bool hit;
-    //    Vector3 point;
-    //    float dist;
-    //    float angle;
-
-    //    public ViewCastInfo(bool _hit, Vector3 _point, float _dist, float _angle)
-    //    {
-    //        hit = _hit;
-    //        point = _point;
-    //        dist = _dist;
-    //        angle = _angle;
-    //    }
-
-    //}
-
+    protected virtual void SetIsAlerted(bool newState)
+    {
+        if(isAlerted != newState)
+        {
+            isAlerted = newState;
+        }
+    }
 
     protected virtual void FixedUpdate()
     {

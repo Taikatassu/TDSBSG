@@ -20,7 +20,9 @@ public class FieldOfView : MonoBehaviour
     {
         GameObject viewMeshHolder = new GameObject("View Mesh Holder");
         viewMeshHolder.transform.SetParent(transform);
-        viewMeshHolder.transform.localPosition = Vector3.zero;
+        Vector3 locPos = Vector3.zero;
+        locPos.y = 0.5f;
+        viewMeshHolder.transform.localPosition = locPos;
         viewMeshHolder.transform.localRotation = Quaternion.identity;
         viewMeshFilter = viewMeshHolder.AddComponent<MeshFilter>();
         MeshRenderer viewMeshRenderer = viewMeshHolder.AddComponent<MeshRenderer>();

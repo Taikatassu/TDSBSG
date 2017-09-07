@@ -29,7 +29,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        em.BroadcastGameStarted();
+        em.BroadcastInitializeGame();
+        em.BroadcastStartGame();
     }
     
 }

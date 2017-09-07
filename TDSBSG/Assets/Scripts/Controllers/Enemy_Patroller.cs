@@ -7,6 +7,8 @@ using UnityEngine.AI;
 public class Enemy_Patroller : EnemyBase
 {
     NavMeshAgent navAgent;
+    float defaultMovementSpeed = 2f;
+    float currentMovementSpeed = 0f;
     float movementSpeedMultiplier = 1f;
     int currentPatrolPointIndex = -1;
     float navTickInterval = 0.1f;
@@ -18,7 +20,25 @@ public class Enemy_Patroller : EnemyBase
     {
         base.InitializeEnemy();
         navAgent = GetComponent<NavMeshAgent>();
-        StartPatrolling();
+        InitializePatrolling();
+    }
+
+    private void InitializePatrolling()
+    {
+        isPatrolling = true;
+
+        transform.position = patrolPoints[0].position;
+
+        if (patrolPoints.Count > 0)
+        {
+            currentPatrolPointIndex = 1;
+        }
+        else
+        {
+            currentPatrolPointIndex = 0;
+        }
+
+        navAgent.SetDestination(patrolPoints[currentPatrolPointIndex].position);
     }
 
     private void StopPatrolling()
@@ -68,12 +88,35 @@ public class Enemy_Patroller : EnemyBase
         }
     }
 
+    protected override void SetIsAlerted(bool newState)
+    {
+        base.SetIsAlerted(newState);
+
+        if (isAlerted)
+        {
+            movementSpeedMultiplier = 2f;
+        }
+        else
+        {
+            movementSpeedMultiplier = 1f;
+        }
+    }
+
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
 
         if (initialized)
         {
+            if (patrolPoints.Count < 1)
+            {
+                Debug.LogWarning("Patroller has only one patrol point!");
+            }
+
+            currentMovementSpeed = defaultMovementSpeed * movementSpeedMultiplier;
+
+            navAgent.speed = currentMovementSpeed;
+
             if (isPatrolling)
             {
                 navTickTimer += Time.fixedDeltaTime;

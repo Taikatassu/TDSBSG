@@ -23,14 +23,23 @@ public class EventManager : MonoBehaviour {
 
 	public delegate GameObject EmptyGameObject();
 
-	public event EmptyVoid OnGameStarted;
-	public void BroadcastGameStarted() {
-		if (OnGameStarted != null) {
-			OnGameStarted();
+	public event EmptyVoid OnInitializeGame;
+	public void BroadcastInitializeGame() {
+		if (OnInitializeGame != null) {
+			OnInitializeGame();
 		}
 	}
 
-	public event InputVoid OnInputEvent;
+    public event EmptyVoid OnStartGame;
+    public void BroadcastStartGame()
+    {
+        if (OnStartGame != null)
+        {
+            OnStartGame();
+        }
+    }
+
+    public event InputVoid OnInputEvent;
 	public void BroadcastInputEvent(EInputType newInput) {
 		if (OnInputEvent != null) {
 			OnInputEvent(newInput);

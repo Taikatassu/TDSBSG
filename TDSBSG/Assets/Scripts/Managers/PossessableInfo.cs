@@ -29,15 +29,15 @@ public class PossessableInfo : MonoBehaviour
 
     private void OnEnable()
     {
-        em.OnGameStarted += OnGameStarted;
+        em.OnInitializeGame += OnInitializeGame;
     }
 
     private void OnDisable()
     {
-        em.OnGameStarted -= OnGameStarted;
+        em.OnInitializeGame -= OnInitializeGame;
     }
 
-    private void OnGameStarted()
+    private void OnInitializeGame()
     {
         //ResetAll();
     }

@@ -25,22 +25,28 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        em.OnGameStarted += OnGameStarted;
+        em.OnInitializeGame += OnInitializeGame;
+        em.OnStartGame += OnStartGame;
         em.OnInputEvent += OnInputEvent;
         em.OnRequestPlayerReference += OnRequestPlayerReference;
     }
 
     private void OnDisable()
     {
-        em.OnGameStarted -= OnGameStarted;
+        em.OnInitializeGame -= OnInitializeGame;
+        em.OnStartGame -= OnStartGame;
         em.OnInputEvent -= OnInputEvent;
         em.OnRequestPlayerReference -= OnRequestPlayerReference;
     }
 
-    private void OnGameStarted()
+    private void OnInitializeGame()
     {
         ResetAll();
-        //PossessClosestPossessable();
+    }
+
+    private void OnStartGame()
+    {
+        PossessClosestPossessable();
     }
 
     private GameObject OnRequestPlayerReference()
@@ -119,7 +125,8 @@ public class Player : MonoBehaviour
 
     private void OnInputEvent(EInputType newInput)
     {
-        if(newInput == EInputType.POSSESS_KEYDOWN)
+        //Debug.Log("Player.OnInputEvent");
+        if (newInput == EInputType.POSSESS_KEYDOWN)
         {
             PossessClosestPossessable();
         }

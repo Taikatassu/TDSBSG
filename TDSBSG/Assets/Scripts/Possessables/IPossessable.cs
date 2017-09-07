@@ -28,6 +28,9 @@ public enum EPossessableType
 }
 
 public enum ERobotType {
-	CLEANING,
-	RADIO,
+    DEBUG,
+    NONE, // Use when all types should be restricted
+	DEFAULT,
+	WORKER,
+    SMALL,
 }

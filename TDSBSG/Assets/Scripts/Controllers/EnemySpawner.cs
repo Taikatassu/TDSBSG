@@ -17,15 +17,15 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnEnable()
     {
-        em.OnGameStarted += OnGameStarted;
+        em.OnInitializeGame += OnInitializeGame;
     }
 
     private void OnDisable()
     {
-        em.OnGameStarted -= OnGameStarted;
+        em.OnInitializeGame -= OnInitializeGame;
     }
     
-    private void OnGameStarted()
+    private void OnInitializeGame()
     {
         SpawnEnemy(enemyToSpawn);
     }
