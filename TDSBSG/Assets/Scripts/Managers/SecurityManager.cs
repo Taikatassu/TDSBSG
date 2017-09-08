@@ -38,6 +38,10 @@ public class SecurityManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         toolbox = FindObjectOfType<Toolbox>();
+        if(toolbox.GetComponent<EventManager>())
+        {
+            Debug.Log("find Event Manager");
+        }
         em = toolbox.GetComponent<EventManager>();
 
         maximumOfSecurityPoint = numOfTiers * pointPerTier;
