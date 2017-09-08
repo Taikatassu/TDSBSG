@@ -15,7 +15,6 @@ public class Player : MonoBehaviour
     float possessionRange = 5;
     #endregion
 
-
     private void Awake()
     {
         toolbox = FindObjectOfType<Toolbox>();
@@ -29,6 +28,7 @@ public class Player : MonoBehaviour
         em.OnStartGame += OnStartGame;
         em.OnInputEvent += OnInputEvent;
         em.OnRequestPlayerReference += OnRequestPlayerReference;
+        em.OnMouseInputEvent += OnMouseInputEvent;
     }
 
     private void OnDisable()
@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
         em.OnStartGame -= OnStartGame;
         em.OnInputEvent -= OnInputEvent;
         em.OnRequestPlayerReference -= OnRequestPlayerReference;
+        em.OnMouseInputEvent -= OnMouseInputEvent;
     }
 
     private void OnInitializeGame()
@@ -56,7 +57,7 @@ public class Player : MonoBehaviour
 
     private bool PossessClosestPossessable()
     {
-        if(possInfo.possessables.Count > 0)
+        if (possInfo.possessables.Count > 0)
         {
             IPossessable closestPossessable = possInfo.possessables[0];
             float distanceToClosest = -1;
@@ -64,7 +65,7 @@ public class Player : MonoBehaviour
             int count = possInfo.possessables.Count;
             for (int i = 0; i < count; i++)
             {
-                if(possInfo.possessables[i] != primaryPossession)
+                if (possInfo.possessables[i] != primaryPossession)
                 {
                     float distanceToThis = (transform.position -
                         possInfo.possessables[i].GetGameObject().transform.position).magnitude;
@@ -81,7 +82,7 @@ public class Player : MonoBehaviour
 
             //Debug.Log("ClosestPossessable found, distanceToClosest: " + distanceToClosest);
 
-            if(distanceToClosest > possessionRange)
+            if (distanceToClosest > possessionRange)
             {
                 return false;
             }
@@ -95,7 +96,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(primaryPossession != null)
+        if (primaryPossession != null)
         {
             transform.position = primaryPossessionTransform.position;
         }
@@ -106,7 +107,7 @@ public class Player : MonoBehaviour
         switch (newPossession.GetPossessableType())
         {
             case EPossessableType.PRIMARY:
-                if(primaryPossession != null)
+                if (primaryPossession != null)
                 {
                     primaryPossession.UnPossess();
                 }
@@ -123,6 +124,29 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnMouseInputEvent(int button, bool down, Vector3 mousePosition)
+    {
+        Debug.Log("Player.OnMouseInputEvent");
+        if (button == 0 && down)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                float distaneToClickedObject = (hit.collider.transform.position - transform.position).magnitude;
+                if(distaneToClickedObject <= possessionRange)
+                {
+                    Debug.Log("Player.OnMouseInputEvent, raycast hit found");
+                    if (hit.collider.GetComponent(typeof(IPossessable)))
+                    {
+                        Debug.Log("Player.OnMouseInputEvent, object hit with raycast has a IPossessable as a component");
+                        PossessPossessable(hit.collider.GetComponent<IPossessable>());
+                    }
+                }
+            }
+        }
+    }
+
     private void OnInputEvent(EInputType newInput)
     {
         //Debug.Log("Player.OnInputEvent");
@@ -131,7 +155,7 @@ public class Player : MonoBehaviour
             PossessClosestPossessable();
         }
 
-        else if(primaryPossession != null)
+        else if (primaryPossession != null)
         {
             primaryPossession.GiveInput(newInput);
         }

@@ -36,7 +36,18 @@ public class Door : MonoBehaviour
                     break;
                 }
             }
-            em.BroadcastDoorEntered(levelOfSecurity, isSameType);
+
+            iPossessable.AddDisobeyingToList(gameObject);
+            em.BroadcastDoorEntered(levelOfSecurity, isSameType,
+                other.GetComponent<IPossessable>().GetRobotType());
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.GetComponent(typeof(IPossessable))) { return; }
+        IPossessable iPossessable = other.GetComponent<IPossessable>();
+
+        iPossessable.RemoveDisobeyingFromList(gameObject);
     }
 }

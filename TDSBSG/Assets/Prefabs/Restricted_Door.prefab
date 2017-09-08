@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 65890580894208110}
   - component: {fileID: 23876556302306478}
   - component: {fileID: 114195632580711726}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Restricted_Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}

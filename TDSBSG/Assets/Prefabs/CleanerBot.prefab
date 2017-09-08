@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4762498067980518}
   - component: {fileID: 33138898339196780}
   - component: {fileID: 23370894444561198}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4939681152532970}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ GameObject:
   - component: {fileID: 54663456998330688}
   - component: {fileID: 136164480163190494}
   - component: {fileID: 114653950137385622}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CleanerBot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

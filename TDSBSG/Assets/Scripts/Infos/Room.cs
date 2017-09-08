@@ -31,7 +31,18 @@ public class Room : MonoBehaviour {
 					break;
 				}
 			}
-			em.BroadcastRoomEntered(levelOfSecurity, isSameType);
+
+            iPossessable.AddDisobeyingToList(gameObject);
+			em.BroadcastRoomEntered(levelOfSecurity, isSameType, 
+                other.GetComponent<IPossessable>().GetRobotType());
 		}
 	}
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.GetComponent(typeof(IPossessable))) { return; }
+        IPossessable iPossessable = other.GetComponent<IPossessable>();
+
+        iPossessable.RemoveDisobeyingFromList(gameObject);
+    }
 }

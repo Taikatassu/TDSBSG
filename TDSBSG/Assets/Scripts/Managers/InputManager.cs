@@ -13,6 +13,7 @@ public class InputManager : MonoBehaviour
     private KeyCode moveRightKey;
     private KeyCode moveLeftKey;
     private KeyCode possessKey;
+    private KeyCode pauseKey;
     #endregion
 
     void Awake()
@@ -29,6 +30,7 @@ public class InputManager : MonoBehaviour
         moveRightKey = KeyCode.D;
         moveLeftKey = KeyCode.A;
         possessKey = KeyCode.Q;
+        pauseKey = KeyCode.Escape;
 
     }
 
@@ -103,6 +105,34 @@ public class InputManager : MonoBehaviour
             em.BroadcastInputEvent(EInputType.POSSESS_KEYUP);
         }
         #endregion
+
+        //Mouse input
+        if (Input.GetMouseButtonDown(0))
+        {
+            em.BroadcastMouseInputEvent(0, true, Input.mousePosition);
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            em.BroadcastMouseInputEvent(0, false, Input.mousePosition);
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            em.BroadcastMouseInputEvent(1, true, Input.mousePosition);
+        }
+        if (Input.GetMouseButtonUp(1))
+        {
+            em.BroadcastMouseInputEvent(1, false, Input.mousePosition);
+        }
+
+        if (Input.GetKeyDown(pauseKey))
+        {
+            em.BroadcastInputEvent(EInputType.PAUSE_KEYDOWN);
+        }
+        if (Input.GetKeyUp(pauseKey))
+        {
+            em.BroadcastInputEvent(EInputType.PAUSE_KEYUP);
+        }
     }
 }
 
@@ -123,5 +153,7 @@ public enum EInputType
     MOVERIGHT_KEYUP,
     MOVELEFT_KEYUP,
     POSSESS_KEYUP,
+    PAUSE_KEYDOWN,
+    PAUSE_KEYUP,
 
 }

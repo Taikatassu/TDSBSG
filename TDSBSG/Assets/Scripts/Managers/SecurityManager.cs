@@ -21,6 +21,10 @@ public class SecurityManager : MonoBehaviour
     [SerializeField, Range(0, 100)]
     int doorEnterIncrease = 20; // Value of Increase for passing through a restricted door
 
+    int alertState = 0; //0 = no alert, 1 = alerted (enemies have sight of player)
+                        //, 2 = cautious (timer running for the ending of the alert)
+    ERobotType wantedRobot = ERobotType.NONE; //The type of robot the enemies should be looking for
+    ERobotType lastDisobeyingRobot = ERobotType.NONE; //The type of robot that last disobeyed the humans (passed restricted door)
     int maximumOfSecurityPoint = -1;
     #endregion
 
@@ -38,7 +42,7 @@ public class SecurityManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         toolbox = FindObjectOfType<Toolbox>();
-        if(toolbox.GetComponent<EventManager>())
+        if (toolbox.GetComponent<EventManager>())
         {
             Debug.Log("find Event Manager");
         }
@@ -51,33 +55,43 @@ public class SecurityManager : MonoBehaviour
     {
         em.OnRoomEntered += OnRoomEntered;
         em.OnDoorEntered += OnDoorEntered;
+        em.OnDisobeyingDetected += OnDisobeyingDetected;
     }
 
     private void OnDisable()
     {
         em.OnRoomEntered -= OnRoomEntered;
         em.OnDoorEntered -= OnDoorEntered;
+        em.OnDisobeyingDetected -= OnDisobeyingDetected;
     }
 
-    private void OnRoomEntered(int roomSecurityLevel, bool isAllowed)
+    private void OnDisobeyingDetected(ERobotType disobeyingRobotType)
+    {
+        wantedRobot = disobeyingRobotType;
+        StartAlarm();
+    }
+
+    private void OnRoomEntered(int roomSecurityLevel, bool isAllowed, ERobotType enteringRobotType)
     {
         if (isAllowed)
         {
             return;
         }
 
+        lastDisobeyingRobot = enteringRobotType;
         int valueOfIncrease = roomEnterIncrease * roomSecurityLevel;
         IncreaseSecurityPoints(valueOfIncrease);
     }
 
-    private void OnDoorEntered(int doorSecurityLevel, bool isAllowed)
+    private void OnDoorEntered(int doorSecurityLevel, bool isAllowed, ERobotType enteringRobotType)
     {
 
         if (isAllowed)
         {
             return;
         }
-        
+
+        lastDisobeyingRobot = enteringRobotType;
         int valueOfIncrease = doorEnterIncrease * doorSecurityLevel;
         IncreaseSecurityPoints(valueOfIncrease);
     }
@@ -96,15 +110,16 @@ public class SecurityManager : MonoBehaviour
 
         if (securityTier > previousSecurityTier)
         {
+            em.BroadcastSecurityTierChange(securityTier);
+            wantedRobot = lastDisobeyingRobot;
             StartAlarm();
         }
 
-        Debug.Log("SecurityPoints increased! SecurityPoints: " + securityPoints + ", Security tier: " + securityTier);
+        //Debug.Log("SecurityPoints increased! SecurityPoints: " + securityPoints + ", Security tier: " + securityTier);
     }
 
     private void StartAlarm()
     {
-        em.BroadcastStartAlarm();
-        Debug.Log("Start alarm");
+        em.BroadcastAlertStateChange(1, wantedRobot);
     }
 }

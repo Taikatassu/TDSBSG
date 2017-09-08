@@ -1,9 +1,9 @@
 Alert state system
 DONE - Global security state (increases slowly by disobedience, but never decreases)
- - Local alert state (alert on / off) (more than two states needed?)
+DONE - Global alert state (alert on / off) (more than two states needed?)
 DONE - Instant alert triggered when progressing on global securit sale to the next level (~5 levels)
  - Enemy field of vision increases with Global seurity state
- - Vision cones not visible when the enemies are not alarmed
+DONE - Vision cone angle and range increases when alerted
 
 Methods of disobedience:
 DONE - Enter a restricted room
@@ -20,36 +20,52 @@ DONE - Interact with a restricted object
 	- Interactable-class
 		- Object restrictions
 		- Level of security?
- - Harm humans
+ - Harm humans (by shooting cans from vending machine)
 	- Instant high level disobedience increase!
  - ?
 
 Enemies
 DONE - Patrol
 DONE - Vision cones
-- Chase when seen
-- If they catch you, game over
-- Alert state (alerted / not alerted)
+DONE - Alert system
+	DONE - All enemies register to alert system when spawned
+	DONE - When alert starts, alert system will notify all registered enemies
+	- If no sight of target for a duration X, end alert
+- Chasing mechanics
+- PatrolPoint temporary guarding (enemy stops at a patrol point for a certain duration, before continuing on it's route)
+	- A float value for guardDuration (if 0, no guarding, e.i. continue the patrol instantly)
+- If AI (player) swaps body within enemy vision cone while being chased, enemy target changes to the newly possessed unit
 
 UI
 - Main menu?
 - HUD?
 
 Varying possessables
+DONE - Change possession button from Q-key to mouse left click (on top of possessable)
+DONE - Primary / secondary
 - Different abilities / functionalities
-- Primary / secondary
 - Radio, Vending machine, Roomba, Robotic forklift, 
   Connected electronics (local network), e.g. tv screens / computers, etc...
-
-- Mouse input events (buttons up / down, cursor location)
-- Change possession button from Q-key to mouse left click (on top of possessable)
-- Implement interactableObject interaction to mouse left click (on top of object)
 - Implement networked possessables
 	- Switching between nodes is done by choosing the direction with mouse click
 	- "Manager" has info on all the connected nodes (an list of ints which signify paired nodes)
 	- Draw indicator lines between nodes
-- Alert system
-	- All enemies register to alert system when spawned
-	- When alert starts, alert system will notify all registered enemies
+
+Interactable objects
+	DONE - Base
+	- Implement interactableObject interaction to mouse left click (on top of object)
+	- Various different functionalities
+
+
+Input
+DONE - Mouse input events (buttons up / down, cursor location)
+
+
+
+
+
+
+
+
 
 

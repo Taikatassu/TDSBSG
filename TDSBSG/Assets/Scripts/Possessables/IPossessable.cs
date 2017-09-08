@@ -6,6 +6,12 @@ public interface IPossessable
 {
     bool GetIsPossessed();
 
+    bool GetIsDisobeying();
+
+    void AddDisobeyingToList(GameObject go);
+
+    void RemoveDisobeyingFromList(GameObject go);
+
     EPossessableType GetPossessableType();
 
 	ERobotType GetRobotType();

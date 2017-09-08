@@ -10,15 +10,17 @@ public class Poss_Default : MonoBehaviour, IPossessable
     EventManager em;
     PossessableInfo possInfo;
     Rigidbody rb;
+    List<GameObject> disobeyingList = new List<GameObject>();
 
     bool isPossessed = false;
+    bool isDisobeying = false;
     bool movingUp = false;
     bool movingDown = false;
     bool movingRight = false;
     bool movingLeft = false;
     readonly EPossessableType possessableType = EPossessableType.PRIMARY;
-	readonly ERobotType robotType = ERobotType.DEFAULT;
-	float defaultMovementSpeed = 150f;
+    readonly ERobotType robotType = ERobotType.DEFAULT;
+    float defaultMovementSpeed = 150f;
     float currentMovementSpeedMultiplier = 1;
     #endregion
 
@@ -56,6 +58,7 @@ public class Poss_Default : MonoBehaviour, IPossessable
         possInfo = toolbox.GetComponent<PossessableInfo>();
         rb = GetComponent<Rigidbody>();
         tag = "Possessable"; //Add this to all possessables
+        disobeyingList = new List<GameObject>();
 
         ResetAll();
     }
@@ -72,15 +75,38 @@ public class Poss_Default : MonoBehaviour, IPossessable
         return isPossessed;
     }
 
+    public bool GetIsDisobeying()
+    {
+        return isDisobeying;
+    }
+
+    public void AddDisobeyingToList(GameObject go)
+    {
+        disobeyingList.Add(go);
+    }
+
+    public void RemoveDisobeyingFromList(GameObject go)
+    {
+        if (disobeyingList.Contains(go))
+        {
+            disobeyingList.Remove(go);
+        }
+        else
+        {
+            Debug.LogWarning("RemoveDisobeyingFromList: Object to remove not found!");
+        }
+    }
+
     public EPossessableType GetPossessableType()
     {
         return possessableType;
     }
-	public ERobotType GetRobotType() {
-		return robotType;
-	}
+    public ERobotType GetRobotType()
+    {
+        return robotType;
+    }
 
-	public GameObject GetGameObject()
+    public GameObject GetGameObject()
     {
         return gameObject;
     }
@@ -88,7 +114,7 @@ public class Poss_Default : MonoBehaviour, IPossessable
     public void Possess()
     {
         isPossessed = true;
-        if(rb != null)
+        if (rb != null)
         {
             rb.isKinematic = false;
         }
@@ -101,7 +127,7 @@ public class Poss_Default : MonoBehaviour, IPossessable
         movingDown = false;
         movingRight = false;
         movingLeft = false;
-        if(rb != null)
+        if (rb != null)
         {
             rb.isKinematic = true;
         }
@@ -143,6 +169,15 @@ public class Poss_Default : MonoBehaviour, IPossessable
 
     private void FixedUpdate()
     {
+        if (disobeyingList.Count > 0)
+        {
+            isDisobeying = true;
+        }
+        else
+        {
+            isDisobeying = false;
+        }
+
         //Movement by player
         float moveZValue = 0;
         float moveXValue = 0;
@@ -166,11 +201,9 @@ public class Poss_Default : MonoBehaviour, IPossessable
         }
         //
         Vector3 movementVelocity = new Vector3(moveXValue, 0, moveZValue).normalized;
-        movementVelocity *= defaultMovementSpeed * currentMovementSpeedMultiplier 
+        movementVelocity *= defaultMovementSpeed * currentMovementSpeedMultiplier
             * Time.fixedDeltaTime;
         rb.velocity = movementVelocity;
 
     }
-
-	
 }
