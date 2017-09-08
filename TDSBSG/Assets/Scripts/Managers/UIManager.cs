@@ -106,11 +106,4 @@ public class UIManager : MonoBehaviour {
         restartButton.gameObject.SetActive(false);
         exitGameButton.gameObject.SetActive(false);
     }
-
-	void OnLevelFinishedLoadingPlayScene(Scene scene, LoadSceneMode mode)
-	{
-		DisableMainMenu();
-
-		SceneManager.sceneLoaded -= OnLevelFinishedLoadingPlayScene;
-	}
 }
