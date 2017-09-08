@@ -18,6 +18,7 @@ public class EventManager : MonoBehaviour {
 	}
 
 	public delegate void EmptyVoid();
+	public delegate void BoolVoid(bool boolean);
 	public delegate void StringVoid(string str);
 	public delegate void InputVoid(EInputType inputType);
 	public delegate void IntBoolVoid(int integer, bool boolean);
@@ -87,6 +88,13 @@ public class EventManager : MonoBehaviour {
 	public void BroadcastRequestLoadLevel(string nameOfLoadScene) {
 		if (OnRequestLoadLevel != null) {
 			OnRequestLoadLevel(nameOfLoadScene);
+		}
+	}
+
+	public event BoolVoid OnPauseStateChange;
+	public void BroadcastPauseStateChange(bool newPauseState) {
+		if (OnPauseStateChange != null) {
+			OnPauseStateChange(newPauseState);
 		}
 	}
 }

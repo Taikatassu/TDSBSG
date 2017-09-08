@@ -2,112 +2,119 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class UIManager : MonoBehaviour
-{
-    public static UIManager _instance;
+public class UIManager : MonoBehaviour {
+	public static UIManager _instance;
 
-    Toolbox toolbox;
-    EventManager em;
+	Toolbox toolbox;
+	EventManager em;
 
-    public Transform mainMenuHolder;
-    Button startButton;
-    Button quitButton;
+	public Transform mainMenuHolder;
+	public Transform pauseMenuHolder;
+	Button startButton;
+	Button quitButton;
 
-    bool isPause = false;
+	bool isPause = false;
 
-    Button removeButton;
-    Button restartButton;
-    Button exitGameButton;
-
-
-    private void Awake()
-    {
-        if (_instance == null)
-        {
-            _instance = this;
-        }
-        else if (_instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        DontDestroyOnLoad(gameObject);
-
-        toolbox = FindObjectOfType<Toolbox>();
-        em = toolbox.GetComponent<EventManager>();
-
-        GameObject newStartButton = Instantiate(Resources.Load("UI/MainMenuButton_Base") as GameObject, mainMenuHolder);
-        startButton = newStartButton.GetComponent<Button>();
-        startButton.GetComponentInChildren<Text>().text = "PLAY";
-        startButton.onClick.AddListener(OnStartButtonPressed);
-
-        GameObject newQuitButton = Instantiate(Resources.Load("UI/MainMenuButton_Base") as GameObject, mainMenuHolder);
-        quitButton = newQuitButton.GetComponent<Button>();
-        quitButton.GetComponentInChildren<Text>().text = "QUIT";
-        quitButton.onClick.AddListener(OnQuitButtonPressed);
+	Button removeButton;
+	Button restartButton;
+	Button exitGameButton;
 
 
-        GameObject newRemoveButton = Instantiate(Resources.Load("UI/MainMenuButton_Base") as GameObject, mainMenuHolder);
-        removeButton = newRemoveButton.GetComponent<Button>();
-        removeButton.GetComponentInChildren<Text>().text = "REMOVE";
-        removeButton.onClick.AddListener(OnRemoveButtonPressed);
-        removeButton.gameObject.SetActive(isPause);
+	private void Awake() {
+		if (_instance == null) {
+			_instance = this;
+		}
+		else if (_instance != this) {
+			Destroy(gameObject);
+			return;
+		}
+		DontDestroyOnLoad(gameObject);
 
-        GameObject newRestartButton = Instantiate(Resources.Load("UI/MainMenuButton_Base") as GameObject, mainMenuHolder);
-        restartButton = newRestartButton.GetComponent<Button>();
-        restartButton.GetComponentInChildren<Text>().text = "RESTART";
-        restartButton.onClick.AddListener(OnRestartButtonPressed);
-        restartButton.gameObject.SetActive(isPause);
+		toolbox = FindObjectOfType<Toolbox>();
+		em = toolbox.GetComponent<EventManager>();
 
-        GameObject newExitGameButton = Instantiate(Resources.Load("UI/MainMenuButton_Base") as GameObject, mainMenuHolder);
-        exitGameButton = newExitGameButton.GetComponent<Button>();
-        exitGameButton.GetComponentInChildren<Text>().text = "EXITGAME";
-        exitGameButton.onClick.AddListener(OnExitGameButtonPressed);
-        exitGameButton.gameObject.SetActive(isPause);
+		GameObject newStartButton = Instantiate(Resources.Load("UI/MainMenuButton_Base") as GameObject, mainMenuHolder);
+		startButton = newStartButton.GetComponent<Button>();
+		startButton.GetComponentInChildren<Text>().text = "PLAY";
+		startButton.onClick.AddListener(OnStartButtonPressed);
 
-    }
+		GameObject newQuitButton = Instantiate(Resources.Load("UI/MainMenuButton_Base") as GameObject, mainMenuHolder);
+		quitButton = newQuitButton.GetComponent<Button>();
+		quitButton.GetComponentInChildren<Text>().text = "QUIT";
+		quitButton.onClick.AddListener(OnQuitButtonPressed);
 
-    private void OnStartButtonPressed()
-    {
-        Debug.Log("Start button pressed");
-        //Start the game (load first level, close main menu)
-        em.BroadcastRequestLoadLevel("Level_ShotaTest");
-    }
+		GameObject newRemoveButton = Instantiate(Resources.Load("UI/MainMenuButton_Base") as GameObject, pauseMenuHolder);
+		removeButton = newRemoveButton.GetComponent<Button>();
+		removeButton.GetComponentInChildren<Text>().text = "REMOVE";
+		removeButton.onClick.AddListener(OnRemoveButtonPressed);
+		removeButton.gameObject.SetActive(isPause);
 
-    private void OnQuitButtonPressed()
-    {
-        Debug.Log("Quit button pressed");
-        //Stop everything, close application
-    }
+		GameObject newRestartButton = Instantiate(Resources.Load("UI/MainMenuButton_Base") as GameObject, pauseMenuHolder);
+		restartButton = newRestartButton.GetComponent<Button>();
+		restartButton.GetComponentInChildren<Text>().text = "RESTART";
+		restartButton.onClick.AddListener(OnRestartButtonPressed);
+		restartButton.gameObject.SetActive(isPause);
 
-    private void OnRemoveButtonPressed()
-    {
-        DisablePause();
-        isPause = false;
-    }
+		GameObject newExitGameButton = Instantiate(Resources.Load("UI/MainMenuButton_Base") as GameObject, pauseMenuHolder);
+		exitGameButton = newExitGameButton.GetComponent<Button>();
+		exitGameButton.GetComponentInChildren<Text>().text = "EXITGAME";
+		exitGameButton.onClick.AddListener(OnExitGameButtonPressed);
+		exitGameButton.gameObject.SetActive(isPause);
 
-    private void OnRestartButtonPressed()
-    {
+	}
 
-    }
+	private void OnEnable() {
+		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+	}
 
-    private void OnExitGameButtonPressed()
-    {
-        DisablePause();
-        em.BroadcastRequestLoadLevel("MainMenu");
-    }
+	private void OnDisable() {
+		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+	}
 
-    void DisableMainMenu()
-    {
-        startButton.gameObject.SetActive(false);
-        quitButton.gameObject.SetActive(false);
-    }
+	private void OnStartButtonPressed() {
+		Debug.Log("Start button pressed");
+		//Start the game (load first level, close main menu)
+		em.BroadcastRequestLoadLevel("Level_ShotaTest");
+	}
 
-    void DisablePause()
-    {
-        removeButton.gameObject.SetActive(false);
-        restartButton.gameObject.SetActive(false);
-        exitGameButton.gameObject.SetActive(false);
-    }
+	private void OnQuitButtonPressed() {
+		Debug.Log("Quit button pressed");
+		//Stop everything, close application
+	}
+
+	private void OnRemoveButtonPressed() {
+		isPause = false;
+	}
+
+	private void OnRestartButtonPressed() {
+
+	}
+
+	private void OnExitGameButtonPressed() {
+		em.BroadcastRequestLoadLevel("MainMenu");
+	}
+
+	void EnableMainMenu() {
+		mainMenuHolder.gameObject.SetActive(true);
+	}
+
+	void DisableMainMenu() {
+		mainMenuHolder.gameObject.SetActive(false);
+	}
+
+	void EnablePauseMenu() {
+		pauseMenuHolder.gameObject.SetActive(true);
+	}
+
+	void DisablePauseMenu() {
+		pauseMenuHolder.gameObject.SetActive(false);
+	}
+
+	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode) {
+		if (scene.name == "Level_ShotaTest") {
+			DisableMainMenu();
+		}
+	}
 }

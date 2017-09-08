@@ -22,16 +22,38 @@ public class GameManager : MonoBehaviour {
 		em = toolbox.GetComponent<EventManager>();
 	}
 
+	private void OnEnable() {
+		em.OnPauseStateChange += OnPauseStateChange;
+		//em.OnInputEvent +=
+	}
+
+	private void OnDisable() {
+		em.OnPauseStateChange -= OnPauseStateChange;
+	}
+
 	void Start() {
 		em.BroadcastInitializeGame();
 		em.BroadcastStartGame();
 	}
 
-	void PuaseGame() {
+	void PauseGame() {
 		Time.timeScale = 0.0f;
 	}
 
 	void ResumeGame() {
 		Time.timeScale = 1.0f;
+	}
+
+	void OnPauseStateChange(bool newPauseState) {
+		if (newPauseState) {
+			PauseGame();
+		}
+		else {
+			ResumeGame();
+		}
+	}
+
+	private void OnInputEvent(EInputType newInput) {
+		//if(newInput == EInputType.PAUSE_KEYDOWN)S
 	}
 }
