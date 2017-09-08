@@ -1,0 +1,9 @@
+diff a/TDSBSG/Assets/Scripts/Managers/ApplicationManager.cs b/TDSBSG/Assets/Scripts/Managers/ApplicationManager.cs	(rejected hunks)
+@@ -28,7 +28,6 @@
+ 		em = toolbox.GetComponent<EventManager>();
+ 	}
+ 
+-	void OnLevelFinishedLoading(scene)
+     private void OnEnable()
+     {
+         SceneManager.sceneLoaded += OnLevelFinishedLoading;

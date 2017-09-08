@@ -27,6 +27,4 @@ public class ApplicationManager : MonoBehaviour {
 		toolbox = FindObjectOfType<Toolbox>();
 		em = toolbox.GetComponent<EventManager>();
 	}
-
-	void OnLevelFinishedLoading(scene)
 }
