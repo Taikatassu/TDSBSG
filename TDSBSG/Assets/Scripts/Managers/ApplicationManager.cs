@@ -46,7 +46,10 @@ public class ApplicationManager : MonoBehaviour {
 	}
 
 	void OnRequestLoadLevel(string nameOfLoadScene) {
-		if (nameOfLoadScene == currentSceneName) { return; }
+		if (nameOfLoadScene == currentSceneName) {
+			return;
+		}
+		currentSceneName = nameOfLoadScene;
 		SceneManager.LoadScene(nameOfLoadScene);
 	}
 }

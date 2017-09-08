@@ -13,8 +13,19 @@ public class UIManager : MonoBehaviour {
 	Button startButton;
 	Button quitButton;
 
+<<<<<<< HEAD
 	private void Awake() {
 		if (_instance == null) {
+=======
+    Button removeButton;
+    Button restartButton;
+
+
+	private void Awake()
+	{
+		if (_instance == null)
+		{
+>>>>>>> e8e0994c7343bb137f34327e1de39c8b0412f86a
 			_instance = this;
 		}
 		else if (_instance != this) {
@@ -35,6 +46,11 @@ public class UIManager : MonoBehaviour {
 		quitButton = newQuitButton.GetComponent<Button>();
 		quitButton.GetComponentInChildren<Text>().text = "QUIT";
 		quitButton.onClick.AddListener(OnQuitButtonPressed);
+
+        GameObject newRemoveButton = Instantiate(Resources.Load("UI/MainMenuButton_Base") as GameObject, mainMenuHolder);
+        removeButton = newRemoveButton.GetComponent<Button>();
+        removeButton.GetComponentInChildren<Text>().text = "REMOVE";
+
 	}
 
 	private void OnStartButtonPressed() {
@@ -48,7 +64,17 @@ public class UIManager : MonoBehaviour {
 		//Stop everything, close application
 	}
 
+<<<<<<< HEAD
 	void DisableMainMenu() {
+=======
+    private void OnRemoveButtonPressed()
+    {
+
+    }
+
+	void DisableMainMenu()
+	{
+>>>>>>> e8e0994c7343bb137f34327e1de39c8b0412f86a
 		startButton.gameObject.SetActive(false);
 		quitButton.gameObject.SetActive(false);
 	}
