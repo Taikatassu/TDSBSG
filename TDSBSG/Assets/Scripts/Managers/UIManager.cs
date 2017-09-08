@@ -15,6 +15,10 @@ public class UIManager : MonoBehaviour
 	Button startButton;
 	Button quitButton;
 
+    Button removeButton;
+    Button restartButton;
+
+
 	private void Awake()
 	{
 		if (_instance == null)
@@ -40,6 +44,11 @@ public class UIManager : MonoBehaviour
 		quitButton = newQuitButton.GetComponent<Button>();
 		quitButton.GetComponentInChildren<Text>().text = "QUIT";
 		quitButton.onClick.AddListener(OnQuitButtonPressed);
+
+        GameObject newRemoveButton = Instantiate(Resources.Load("UI/MainMenuButton_Base") as GameObject, mainMenuHolder);
+        removeButton = newRemoveButton.GetComponent<Button>();
+        removeButton.GetComponentInChildren<Text>().text = "REMOVE";
+
 	}
 
 	private void OnEnable()
@@ -61,6 +70,11 @@ public class UIManager : MonoBehaviour
 		Debug.Log("Quit button pressed");
 		//Stop everything, close application
 	}
+
+    private void OnRemoveButtonPressed()
+    {
+
+    }
 
 	void DisableMainMenu()
 	{
