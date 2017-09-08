@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
-public class UIManager : MonoBehaviour
-{
+public class UIManager : MonoBehaviour {
 	public static UIManager _instance;
 
 	Toolbox toolbox;
@@ -16,6 +14,7 @@ public class UIManager : MonoBehaviour
 	Button quitButton;
 
     bool isPause = false;
+
     Button removeButton;
     Button restartButton;
     Button exitGameButton;
@@ -27,8 +26,7 @@ public class UIManager : MonoBehaviour
 		{
 			_instance = this;
 		}
-		else if (_instance != this)
-		{
+		else if (_instance != this) {
 			Destroy(gameObject);
 			return;
 		}
@@ -68,22 +66,13 @@ public class UIManager : MonoBehaviour
 
     }
 
-	private void OnEnable()
-	{
-
-	}
-
-	private void OnStartButtonPressed()
-	{
+	private void OnStartButtonPressed() {
 		Debug.Log("Start button pressed");
 		//Start the game (load first level, close main menu)
-
 		em.BroadcastRequestLoadLevel("Level_ShotaTest");
-
 	}
 
-	private void OnQuitButtonPressed()
-	{
+	private void OnQuitButtonPressed() {
 		Debug.Log("Quit button pressed");
 		//Stop everything, close application
 	}
