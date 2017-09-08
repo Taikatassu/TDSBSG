@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
-public class UIManager : MonoBehaviour
-{
+public class UIManager : MonoBehaviour {
 	public static UIManager _instance;
 
 	Toolbox toolbox;
@@ -15,14 +13,11 @@ public class UIManager : MonoBehaviour
 	Button startButton;
 	Button quitButton;
 
-	private void Awake()
-	{
-		if (_instance == null)
-		{
+	private void Awake() {
+		if (_instance == null) {
 			_instance = this;
 		}
-		else if (_instance != this)
-		{
+		else if (_instance != this) {
 			Destroy(gameObject);
 			return;
 		}
@@ -42,36 +37,19 @@ public class UIManager : MonoBehaviour
 		quitButton.onClick.AddListener(OnQuitButtonPressed);
 	}
 
-	private void OnEnable()
-	{
-
-	}
-
-	private void OnStartButtonPressed()
-	{
+	private void OnStartButtonPressed() {
 		Debug.Log("Start button pressed");
 		//Start the game (load first level, close main menu)
-
 		em.BroadcastRequestLoadLevel("Level_ShotaTest");
-
 	}
 
-	private void OnQuitButtonPressed()
-	{
+	private void OnQuitButtonPressed() {
 		Debug.Log("Quit button pressed");
 		//Stop everything, close application
 	}
 
-	void DisableMainMenu()
-	{
+	void DisableMainMenu() {
 		startButton.gameObject.SetActive(false);
 		quitButton.gameObject.SetActive(false);
-	}
-
-	void OnLevelFinishedLoadingPlayScene(Scene scene, LoadSceneMode mode)
-	{
-		DisableMainMenu();
-
-		SceneManager.sceneLoaded -= OnLevelFinishedLoadingPlayScene;
 	}
 }
