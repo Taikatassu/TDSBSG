@@ -83,10 +83,10 @@ public class EventManager : MonoBehaviour {
 		}
 	}
 
-	public event StringVoid OnFinishLoading;
+	public event StringVoid OnRequestLoadLevel;
 	public void BroadcastRequestLoadLevel(string nameOfLoadScene) {
-		if (OnFinishLoading != null) {
-			OnFinishLoading(nameOfLoadScene);
+		if (OnRequestLoadLevel != null) {
+			OnRequestLoadLevel(nameOfLoadScene);
 		}
 	}
 }
