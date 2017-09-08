@@ -28,7 +28,7 @@ public class Enemy_Patroller : EnemyBase
     {
         isPatrolling = true;
 
-        transform.position = patrolPoints[0].position;
+        transform.position = patrolPoints[0].transform.position;
 
         if (patrolPoints.Count > 0)
         {
@@ -39,7 +39,7 @@ public class Enemy_Patroller : EnemyBase
             currentPatrolPointIndex = 0;
         }
 
-        navAgent.SetDestination(patrolPoints[currentPatrolPointIndex].position);
+        navAgent.SetDestination(patrolPoints[currentPatrolPointIndex].transform.position);
     }
 
     private void StopPatrolling()
@@ -73,7 +73,7 @@ public class Enemy_Patroller : EnemyBase
             }
 
             currentPatrolPointIndex = closestPointIndex;
-            navAgent.SetDestination(patrolPoints[currentPatrolPointIndex].position);
+            navAgent.SetDestination(patrolPoints[currentPatrolPointIndex].transform.position);
         }
     }
 
@@ -83,12 +83,12 @@ public class Enemy_Patroller : EnemyBase
         if (currentPatrolPointIndex < patrolPoints.Count - 1)
         {
             currentPatrolPointIndex++;
-            navAgent.SetDestination(patrolPoints[currentPatrolPointIndex].position);
+            navAgent.SetDestination(patrolPoints[currentPatrolPointIndex].transform.position);
         }
         else
         {
             currentPatrolPointIndex = 0;
-            navAgent.SetDestination(patrolPoints[currentPatrolPointIndex].position);
+            navAgent.SetDestination(patrolPoints[currentPatrolPointIndex].transform.position);
         }
     }
 
@@ -141,6 +141,11 @@ public class Enemy_Patroller : EnemyBase
 
                     if (navAgent.remainingDistance < patrolPointCompleteRadius)
                     {
+                        //TODO: Check if patrolPoint's Guarding Duration > 0
+                        //If so, rotate to patrolPoints rotation and stay there until
+                        //Guarding duration is up
+                        //Also after "look around" functionality has been implemented
+                        //add a way to control how many times the enemy "looks around" while guarding the point
                         SetNextPatrolPoint();
                     }
                 }

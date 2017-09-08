@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PatrolPoint))]
 public class EnemySpawner : MonoBehaviour
 {
     Toolbox toolbox;
     EventManager em;
     public GameObject enemyToSpawn;
-    public List<Transform> patrolPoints = new List<Transform>();
+    public List<PatrolPoint> patrolPoints = new List<PatrolPoint>();
 
     private void Awake()
     {
@@ -33,7 +34,7 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemy(GameObject enemyType)
     {
         GameObject newEnemy = Instantiate(enemyType, transform.position, transform.rotation);
-        patrolPoints.Insert(0, transform);
+        patrolPoints.Insert(0, GetComponent<PatrolPoint>());
         newEnemy.GetComponent<EnemyBase>().SetPatrolPoints(patrolPoints);
         newEnemy.GetComponent<EnemyBase>().InitializeEnemy();
     }

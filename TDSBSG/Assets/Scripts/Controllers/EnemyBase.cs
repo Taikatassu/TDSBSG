@@ -10,7 +10,7 @@ public class EnemyBase : MonoBehaviour
     protected EventManager em;
     protected Player player;
     protected FieldOfView myFoV;
-    protected List<Transform> patrolPoints = new List<Transform>();
+    protected List<PatrolPoint> patrolPoints = new List<PatrolPoint>();
     protected bool initialized = false;
     protected bool isAlerted = false;
     protected int chaseState = 0; //0 = not chasing, 1 = target acquired, 2 = searching for target (target just got away)
@@ -138,7 +138,7 @@ public class EnemyBase : MonoBehaviour
         return currentVisionAngle;
     }
 
-    public void SetPatrolPoints(List<Transform> newPatrolPoints)
+    public void SetPatrolPoints(List<PatrolPoint> newPatrolPoints)
     {
         patrolPoints = newPatrolPoints;
     }

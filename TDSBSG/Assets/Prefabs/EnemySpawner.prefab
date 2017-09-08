@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4375980578244586}
   - component: {fileID: 114318628391247550}
+  - component: {fileID: 114717214091839110}
   - component: {fileID: 23032225577945592}
   - component: {fileID: 33940562632331088}
   m_Layer: 0
@@ -96,3 +97,15 @@ MonoBehaviour:
     type: 2}
   patrolPoints:
   - {fileID: 0}
+--- !u!114 &114717214091839110
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1286249145753288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 241c7a6ec89438e4f97f4b17d3c0c3d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guardingDuration: 0

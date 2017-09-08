@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4866996995221560}
   - component: {fileID: 23653403926581470}
   - component: {fileID: 33377956802433000}
+  - component: {fileID: 114837506184473666}
   m_Layer: 0
   m_Name: PatrolPoint
   m_TagString: DebugIndicator
@@ -80,3 +81,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1603482631976740}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114837506184473666
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1603482631976740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 241c7a6ec89438e4f97f4b17d3c0c3d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guardingDuration: 0
