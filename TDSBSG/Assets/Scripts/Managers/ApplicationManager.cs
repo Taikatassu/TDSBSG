@@ -27,4 +27,25 @@ public class ApplicationManager : MonoBehaviour {
 		toolbox = FindObjectOfType<Toolbox>();
 		em = toolbox.GetComponent<EventManager>();
 	}
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
+        //em.BroadcastRequestLoadLevel += 
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+    }
+
+    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+    {
+        if(scene.name == currentSceneName) { return; }
+        if(scene.name == "Level_ShotaTest")
+        {
+            em.BroadcastInitializeGame();
+            em.BroadcastStartGame();
+        }
+    }
 }
