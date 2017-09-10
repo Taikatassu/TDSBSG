@@ -13,6 +13,7 @@ public class InputManager : MonoBehaviour
     private KeyCode moveRightKey;
     private KeyCode moveLeftKey;
     private KeyCode possessKey;
+    private KeyCode cameraModeKey;
     private KeyCode pauseKey;
     #endregion
 
@@ -31,22 +32,18 @@ public class InputManager : MonoBehaviour
         moveLeftKey = KeyCode.A;
         possessKey = KeyCode.Q;
         pauseKey = KeyCode.Escape;
-
+        cameraModeKey = KeyCode.M;
     }
 
     void Update()
     {
-        #region Reading inputs and broadcasting relevant events
+        #region Keyboard input
         //Movement
         //Up
         if (Input.GetKeyDown(moveUpKey))
         {
             em.BroadcastInputEvent(EInputType.MOVEUP_KEYDOWN);
         }
-        //if (Input.GetKey(moveUpKey))
-        //{
-        //    em.BroadcastInputEvent(EInputType.MOVEUP_KEY);
-        //}
         if (Input.GetKeyUp(moveUpKey))
         {
             em.BroadcastInputEvent(EInputType.MOVEUP_KEYUP);
@@ -56,10 +53,6 @@ public class InputManager : MonoBehaviour
         {
             em.BroadcastInputEvent(EInputType.MOVEDOWN_KEYDOWN);
         }
-        //if (Input.GetKey(moveUpKey))
-        //{
-        //    em.BroadcastInputEvent(EInputType.MOVEDOWN_KEY);
-        //}
         if (Input.GetKeyUp(moveDownKey))
         {
             em.BroadcastInputEvent(EInputType.MOVEDOWN_KEYUP);
@@ -69,10 +62,6 @@ public class InputManager : MonoBehaviour
         {
             em.BroadcastInputEvent(EInputType.MOVERIGHT_KEYDOWN);
         }
-        //if (Input.GetKey(moveRightKey))
-        //{
-        //    em.BroadcastInputEvent(EInputType.MOVERIGHT_KEY);
-        //}
         if (Input.GetKeyUp(moveRightKey))
         {
             em.BroadcastInputEvent(EInputType.MOVERIGHT_KEYUP);
@@ -82,30 +71,43 @@ public class InputManager : MonoBehaviour
         {
             em.BroadcastInputEvent(EInputType.MOVELEFT_KEYDOWN);
         }
-        //if (Input.GetKey(moveLeftKey))
-        //{
-        //    em.BroadcastInputEvent(EInputType.MOVELEFT_KEY);
-        //}
         if (Input.GetKeyUp(moveLeftKey))
         {
             em.BroadcastInputEvent(EInputType.MOVELEFT_KEYUP);
         }
 
-        //Other inputs
+        //Possess
         if (Input.GetKeyDown(possessKey))
         {
             em.BroadcastInputEvent(EInputType.POSSESS_KEYDOWN);
         }
-        //if (Input.GetKey(possessKey))
-        //{
-        //    em.BroadcastInputEvent(EInputType.POSSESS_KEY);
-        //}
         if (Input.GetKeyUp(possessKey))
         {
             em.BroadcastInputEvent(EInputType.POSSESS_KEYUP);
         }
+
+        //Pause
+        if (Input.GetKeyDown(pauseKey))
+        {
+            em.BroadcastInputEvent(EInputType.PAUSE_KEYDOWN);
+        }
+        if (Input.GetKeyUp(pauseKey))
+        {
+            em.BroadcastInputEvent(EInputType.PAUSE_KEYUP);
+        }
+
+        //Camera Mode
+        if (Input.GetKeyDown(cameraModeKey))
+        {
+            em.BroadcastInputEvent(EInputType.CAMERAMODE_KEYDOWN);
+        }
+        if (Input.GetKeyUp(cameraModeKey))
+        {
+            em.BroadcastInputEvent(EInputType.CAMRAMODE_KEYUP);
+        }
         #endregion
 
+        #region Mouse input
         //Mouse input
         if (Input.GetMouseButtonDown(0))
         {
@@ -124,15 +126,7 @@ public class InputManager : MonoBehaviour
         {
             em.BroadcastMouseInputEvent(1, false, Input.mousePosition);
         }
-
-        if (Input.GetKeyDown(pauseKey))
-        {
-            em.BroadcastInputEvent(EInputType.PAUSE_KEYDOWN);
-        }
-        if (Input.GetKeyUp(pauseKey))
-        {
-            em.BroadcastInputEvent(EInputType.PAUSE_KEYUP);
-        }
+        #endregion
     }
 }
 
@@ -143,11 +137,6 @@ public enum EInputType
     MOVERIGHT_KEYDOWN,
     MOVELEFT_KEYDOWN,
     POSSESS_KEYDOWN,
-    //MOVEUP_KEY,
-    //MOVEDOWN_KEY,
-    //MOVERIGHT_KEY,
-    //MOVELEFT_KEY,
-    //POSSESS_KEY,
     MOVEUP_KEYUP,
     MOVEDOWN_KEYUP,
     MOVERIGHT_KEYUP,
@@ -155,5 +144,7 @@ public enum EInputType
     POSSESS_KEYUP,
     PAUSE_KEYDOWN,
     PAUSE_KEYUP,
+    CAMERAMODE_KEYDOWN,
+    CAMRAMODE_KEYUP,
 
 }

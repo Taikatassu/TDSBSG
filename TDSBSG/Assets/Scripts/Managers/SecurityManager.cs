@@ -42,10 +42,6 @@ public class SecurityManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         toolbox = FindObjectOfType<Toolbox>();
-        if (toolbox.GetComponent<EventManager>())
-        {
-            Debug.Log("find Event Manager");
-        }
         em = toolbox.GetComponent<EventManager>();
 
         maximumOfSecurityPoint = numOfTiers * pointPerTier;
@@ -114,12 +110,11 @@ public class SecurityManager : MonoBehaviour
             wantedRobot = lastDisobeyingRobot;
             StartAlarm();
         }
-
-        //Debug.Log("SecurityPoints increased! SecurityPoints: " + securityPoints + ", Security tier: " + securityTier);
     }
 
     private void StartAlarm()
     {
-        em.BroadcastAlertStateChange(1, wantedRobot);
+        alertState = 1;
+        em.BroadcastAlertStateChange(alertState, wantedRobot);
     }
 }

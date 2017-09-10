@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     IPossessable primaryPossession;
     List<IPossessable> secondaryPossessions = new List<IPossessable>();
     Transform primaryPossessionTransform;
+    public LayerMask possessSelectionMask;
 
     float possessionRange = 5;
     #endregion
@@ -47,7 +48,7 @@ public class Player : MonoBehaviour
 
     private void OnStartGame()
     {
-        PossessClosestPossessable();
+        TryPossessClosestPossessable();
     }
 
     private GameObject OnRequestPlayerReference()
@@ -55,7 +56,7 @@ public class Player : MonoBehaviour
         return gameObject;
     }
 
-    private bool PossessClosestPossessable()
+    private bool TryPossessClosestPossessable()
     {
         if (possInfo.possessables.Count > 0)
         {
@@ -79,8 +80,6 @@ public class Player : MonoBehaviour
                     }
                 }
             }
-
-            //Debug.Log("ClosestPossessable found, distanceToClosest: " + distanceToClosest);
 
             if (distanceToClosest > possessionRange)
             {
@@ -126,21 +125,23 @@ public class Player : MonoBehaviour
 
     private void OnMouseInputEvent(int button, bool down, Vector3 mousePosition)
     {
-        Debug.Log("Player.OnMouseInputEvent");
         if (button == 0 && down)
         {
             Ray ray = Camera.main.ScreenPointToRay(mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit, 1000f, possessSelectionMask))
             {
-                float distaneToClickedObject = (hit.collider.transform.position - transform.position).magnitude;
-                if(distaneToClickedObject <= possessionRange)
+                if (hit.collider.GetComponent(typeof(IPossessable)))
                 {
-                    Debug.Log("Player.OnMouseInputEvent, raycast hit found");
-                    if (hit.collider.GetComponent(typeof(IPossessable)))
+                    IPossessable hitPossessable = hit.collider.GetComponent<IPossessable>();
+                    float distanceToClickedObject = (hit.collider.transform.position - transform.position).magnitude;
+                    if (distanceToClickedObject <= possessionRange)
                     {
-                        Debug.Log("Player.OnMouseInputEvent, object hit with raycast has a IPossessable as a component");
-                        PossessPossessable(hit.collider.GetComponent<IPossessable>());
+                        PossessPossessable(hitPossessable);
+                    }
+                    else if (primaryPossession.GetConnectedPossessablesList().Contains(hitPossessable))
+                    {
+                        PossessPossessable(hitPossessable);
                     }
                 }
             }
@@ -149,10 +150,9 @@ public class Player : MonoBehaviour
 
     private void OnInputEvent(EInputType newInput)
     {
-        //Debug.Log("Player.OnInputEvent");
         if (newInput == EInputType.POSSESS_KEYDOWN)
         {
-            PossessClosestPossessable();
+            TryPossessClosestPossessable();
         }
 
         else if (primaryPossession != null)
@@ -168,8 +168,7 @@ public class Player : MonoBehaviour
         //    }
         //}
 
-        //TODO: Handle player only inputs 
-        //(the ones not specific to bot, like opening menu etc.)
+        //TODO: Handle player only inputs if neccessary
 
     }
 
@@ -187,5 +186,7 @@ public class Player : MonoBehaviour
         }
 
         secondaryPossessions = new List<IPossessable>();
+        primaryPossession = null;
+        primaryPossessionTransform = null;
     }
 }

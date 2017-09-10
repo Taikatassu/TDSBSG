@@ -12,6 +12,10 @@ public interface IPossessable
 
     void RemoveDisobeyingFromList(GameObject go);
 
+    void AddToConnectedPossessablesList(IPossessable newConnection);
+
+    List<IPossessable> GetConnectedPossessablesList();
+
     EPossessableType GetPossessableType();
 
 	ERobotType GetRobotType();
