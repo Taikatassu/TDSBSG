@@ -24,11 +24,12 @@ public class GameManager : MonoBehaviour {
 
 	private void OnEnable() {
 		em.OnPauseStateChange += OnPauseStateChange;
-		//em.OnInputEvent +=
+		em.OnInputEvent += OnInputEvent;
 	}
 
 	private void OnDisable() {
 		em.OnPauseStateChange -= OnPauseStateChange;
+		em.OnInputEvent -= OnInputEvent;
 	}
 
 	void Start() {
@@ -54,6 +55,8 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void OnInputEvent(EInputType newInput) {
-		//if(newInput == EInputType.PAUSE_KEYDOWN)S
+		if (newInput == EInputType.PAUSE_KEYDOWN) {
+			em.BroadcastPauseStateChange(true);
+		}
 	}
 }

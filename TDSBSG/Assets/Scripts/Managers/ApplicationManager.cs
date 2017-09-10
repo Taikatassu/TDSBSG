@@ -17,8 +17,7 @@ public class ApplicationManager : MonoBehaviour {
 	private void Awake() {
 		if (_instance == null) {
 			_instance = this;
-		}
-		else if (_instance != this) {
+		} else if (_instance != this) {
 			Destroy(gameObject);
 			return;
 		}
@@ -31,6 +30,7 @@ public class ApplicationManager : MonoBehaviour {
 	private void OnEnable() {
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
 		em.OnRequestLoadLevel += OnRequestLoadLevel;
+		
 	}
 
 	private void OnDisable() {

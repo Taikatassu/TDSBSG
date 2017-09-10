@@ -11,12 +11,10 @@ public class UIManager : MonoBehaviour {
 	EventManager em;
 
 	public Transform mainMenuHolder;
-	public Transform pauseMenuHolder;
 	Button startButton;
 	Button quitButton;
 
-	bool isPause = false;
-
+	public Transform pauseMenuHolder;
 	Button removeButton;
 	Button restartButton;
 	Button exitGameButton;
@@ -45,32 +43,33 @@ public class UIManager : MonoBehaviour {
 		quitButton.GetComponentInChildren<Text>().text = "QUIT";
 		quitButton.onClick.AddListener(OnQuitButtonPressed);
 
-		GameObject newRemoveButton = Instantiate(Resources.Load("UI/MainMenuButton_Base") as GameObject, pauseMenuHolder);
-		removeButton = newRemoveButton.GetComponent<Button>();
-		removeButton.GetComponentInChildren<Text>().text = "REMOVE";
-		removeButton.onClick.AddListener(OnRemoveButtonPressed);
-		removeButton.gameObject.SetActive(isPause);
+		GameObject newResumeButton = Instantiate(Resources.Load("UI/MainMenuButton_Base") as GameObject, pauseMenuHolder);
+		removeButton = newResumeButton.GetComponent<Button>();
+		removeButton.GetComponentInChildren<Text>().text = "RESUME";
+		removeButton.onClick.AddListener(OnResumeButtonPressed);
 
 		GameObject newRestartButton = Instantiate(Resources.Load("UI/MainMenuButton_Base") as GameObject, pauseMenuHolder);
 		restartButton = newRestartButton.GetComponent<Button>();
 		restartButton.GetComponentInChildren<Text>().text = "RESTART";
 		restartButton.onClick.AddListener(OnRestartButtonPressed);
-		restartButton.gameObject.SetActive(isPause);
 
 		GameObject newExitGameButton = Instantiate(Resources.Load("UI/MainMenuButton_Base") as GameObject, pauseMenuHolder);
 		exitGameButton = newExitGameButton.GetComponent<Button>();
-		exitGameButton.GetComponentInChildren<Text>().text = "EXITGAME";
+		exitGameButton.GetComponentInChildren<Text>().text = "EXIT";
 		exitGameButton.onClick.AddListener(OnExitGameButtonPressed);
-		exitGameButton.gameObject.SetActive(isPause);
 
+		mainMenuHolder.gameObject.SetActive(true);
+		pauseMenuHolder.gameObject.SetActive(false);
 	}
 
 	private void OnEnable() {
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+		em.OnPauseStateChange += OnPauseStateChange;
 	}
 
 	private void OnDisable() {
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+		em.OnPauseStateChange -= OnPauseStateChange;
 	}
 
 	private void OnStartButtonPressed() {
@@ -84,8 +83,8 @@ public class UIManager : MonoBehaviour {
 		//Stop everything, close application
 	}
 
-	private void OnRemoveButtonPressed() {
-		isPause = false;
+	private void OnResumeButtonPressed() {
+		em.BroadcastPauseStateChange(false);
 	}
 
 	private void OnRestartButtonPressed() {
@@ -110,6 +109,16 @@ public class UIManager : MonoBehaviour {
 
 	void DisablePauseMenu() {
 		pauseMenuHolder.gameObject.SetActive(false);
+	}
+
+	void OnPauseStateChange(bool newPauseState) {
+		if (newPauseState) {
+			Debug.Log("PauseGame");
+			EnablePauseMenu();
+		} else {
+			Debug.Log("ResumeGame");
+			DisablePauseMenu();
+		}
 	}
 
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode) {
