@@ -37,11 +37,11 @@ public class GameManager : MonoBehaviour {
 		em.BroadcastStartGame();
 	}
 
-	void PauseGame() {
+	private void PauseGame() {
 		Time.timeScale = 0.0f;
 	}
 
-	void ResumeGame() {
+	private void ResumeGame() {
 		Time.timeScale = 1.0f;
 	}
 

@@ -10,10 +10,12 @@ public class UIManager : MonoBehaviour {
 	Toolbox toolbox;
 	EventManager em;
 
+	// MainMenu's button
 	public Transform mainMenuHolder;
 	Button startButton;
 	Button quitButton;
 
+	// PauseMenu's button
 	public Transform pauseMenuHolder;
 	Button removeButton;
 	Button restartButton;
@@ -33,6 +35,24 @@ public class UIManager : MonoBehaviour {
 		toolbox = FindObjectOfType<Toolbox>();
 		em = toolbox.GetComponent<EventManager>();
 
+		CreateMainMenu();
+		CreatePauseMenu();
+
+		EnableMainMenu();
+		DisablePauseMenu();
+	}
+
+	private void OnEnable() {
+		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+		em.OnPauseStateChange += OnPauseStateChange;
+	}
+
+	private void OnDisable() {
+		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+		em.OnPauseStateChange -= OnPauseStateChange;
+	}
+
+	private void CreateMainMenu() {
 		GameObject newStartButton = Instantiate(Resources.Load("UI/MainMenuButton_Base") as GameObject, mainMenuHolder);
 		startButton = newStartButton.GetComponent<Button>();
 		startButton.GetComponentInChildren<Text>().text = "PLAY";
@@ -42,7 +62,9 @@ public class UIManager : MonoBehaviour {
 		quitButton = newQuitButton.GetComponent<Button>();
 		quitButton.GetComponentInChildren<Text>().text = "QUIT";
 		quitButton.onClick.AddListener(OnQuitButtonPressed);
+	}
 
+	private void CreatePauseMenu() {
 		GameObject newResumeButton = Instantiate(Resources.Load("UI/MainMenuButton_Base") as GameObject, pauseMenuHolder);
 		removeButton = newResumeButton.GetComponent<Button>();
 		removeButton.GetComponentInChildren<Text>().text = "RESUME";
@@ -57,25 +79,12 @@ public class UIManager : MonoBehaviour {
 		exitGameButton = newExitGameButton.GetComponent<Button>();
 		exitGameButton.GetComponentInChildren<Text>().text = "EXIT";
 		exitGameButton.onClick.AddListener(OnExitGameButtonPressed);
-
-		mainMenuHolder.gameObject.SetActive(true);
-		pauseMenuHolder.gameObject.SetActive(false);
 	}
 
-	private void OnEnable() {
-		SceneManager.sceneLoaded += OnLevelFinishedLoading;
-		em.OnPauseStateChange += OnPauseStateChange;
-	}
-
-	private void OnDisable() {
-		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
-		em.OnPauseStateChange -= OnPauseStateChange;
-	}
-
-	private void OnStartButtonPressed() {
+		private void OnStartButtonPressed() {
 		Debug.Log("Start button pressed");
 		//Start the game (load first level, close main menu)
-		em.BroadcastRequestLoadLevel("Level_ShotaTest");
+		em.BroadcastRequestLoadLevel("Level_JuhoTest");
 	}
 
 	private void OnQuitButtonPressed() {
@@ -95,19 +104,19 @@ public class UIManager : MonoBehaviour {
 		em.BroadcastRequestLoadLevel("MainMenu");
 	}
 
-	void EnableMainMenu() {
+	private void EnableMainMenu() {
 		mainMenuHolder.gameObject.SetActive(true);
 	}
 
-	void DisableMainMenu() {
+	private void DisableMainMenu() {
 		mainMenuHolder.gameObject.SetActive(false);
 	}
 
-	void EnablePauseMenu() {
+	private void EnablePauseMenu() {
 		pauseMenuHolder.gameObject.SetActive(true);
 	}
 
-	void DisablePauseMenu() {
+	private void DisablePauseMenu() {
 		pauseMenuHolder.gameObject.SetActive(false);
 	}
 
@@ -123,6 +132,9 @@ public class UIManager : MonoBehaviour {
 
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode) {
 		if (scene.name == "Level_ShotaTest") {
+			DisableMainMenu();
+		}
+		if (scene.name == "Level_JuhoTest") {
 			DisableMainMenu();
 		}
 	}

@@ -43,6 +43,10 @@ public class ApplicationManager : MonoBehaviour {
 			em.BroadcastInitializeGame();
 			em.BroadcastStartGame();
 		}
+		if (scene.name == "Level_JuhoTest") {
+			em.BroadcastInitializeGame();
+			em.BroadcastStartGame();
+		}
 	}
 
 	void OnRequestLoadLevel(string nameOfLoadScene) {
