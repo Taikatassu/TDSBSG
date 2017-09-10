@@ -2,8 +2,25 @@ Alert state system
 DONE - Global security state (increases slowly by disobedience, but never decreases)
 DONE - Global alert state (alert on / off) (more than two states needed?)
 DONE - Instant alert triggered when progressing on global securit sale to the next level (~5 levels)
- - Enemy field of vision increases with Global seurity state
+DONE - Enemy field of vision increases with Global seurity state
 DONE - Vision cone angle and range increases when alerted
+- Enemies return to normal functionaliy once alert has stopped
+- Three alert states: No alert, Target in sight, Searching
+- No alert: 
+	- The default state
+	- Enemies patrol their designated routes
+	- If an enemy sees a possessable disobeying, they will sound an alarm and start chasing
+	- The enemes ignore non-disobeying possessables
+- Target in sight:
+	- The initial alert state
+	- When any enemy has a target in it's sights
+	- Target = wanted possessable type (set when the alert starts or when an enemy detects a possessable disobeying)
+- Searching:
+	- The second alert state
+	- When no enemies have possessables in sight, the initial alert state changes to this state
+	- If an enemy sees a target, the alert state changes back to the prior one
+	- When entering this state, a timer will start running (it will reset if the state changes)
+	- Once the timer is at zero, the alert will end and the state will return to the default one (No alert)
 
 Methods of disobedience:
 DONE - Enter a restricted room
@@ -31,9 +48,9 @@ DONE - Alert system
 	DONE - All enemies register to alert system when spawned
 	DONE - When alert starts, alert system will notify all registered enemies
 	- If no sight of target for a duration X, end alert
-- Chasing mechanics
-- PatrolPoint temporary guarding (enemy stops at a patrol point for a certain duration, before continuing on it's route)
-	- A float value for guardDuration (if 0, no guarding, e.i. continue the patrol instantly)
+WIP - Chasing mechanics
+DONE - PatrolPoint temporary guarding (enemy stops at a patrol point for a certain duration, before continuing on it's route)
+	DONE - A float value for guardDuration (if 0, no guarding, e.i. continue the patrol instantly)
 - If AI (player) swaps body within enemy vision cone while being chased, enemy target changes to the newly possessed unit
 
 UI
@@ -46,20 +63,29 @@ DONE - Primary / secondary
 - Different abilities / functionalities
 - Radio, Vending machine, Roomba, Robotic forklift, 
   Connected electronics (local network), e.g. tv screens / computers, etc...
-- Implement networked possessables
+WIP - Implement networked possessables
+	DONE - Switching between nodes by clicking another connected node, regardless of range
 	- Switching between nodes is done by choosing the direction with mouse click
-	- "Manager" has info on all the connected nodes (an list of ints which signify paired nodes)
+	DONE - "Manager" has info on all the connected nodes (an list of ints which signify paired nodes)
 	- Draw indicator lines between nodes
 
 Interactable objects
 	DONE - Base
-	- Implement interactableObject interaction to mouse left click (on top of object)
+	DONE - Implement interactableObject interaction to mouse left click (on top of object)
 	- Various different functionalities
 
 
 Input
 DONE - Mouse input events (buttons up / down, cursor location)
 
+Levels
+- Level start
+- Level end
+- Spawn player with the last possessed possessable at level start
+- Load new scene once the player finishes a level
+- Load the initial scene when pressing the play button in main menu
+- Create a animation scene for the elevator doors opening and closing at the start and end of a level
+	- Possibly with some "cinematic" camera work
 
 
 

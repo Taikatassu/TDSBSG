@@ -27,25 +27,33 @@ public class ApplicationManager : MonoBehaviour {
 		em = toolbox.GetComponent<EventManager>();
 	}
 
-	private void OnEnable() {
+    private void Start()
+    {
+        if(SceneManager.GetActiveScene().name == "Scene00")
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+    }
+
+    private void OnEnable() {
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
 		em.OnRequestLoadLevel += OnRequestLoadLevel;
-		
-	}
+        em.OnRequestExitApplication += OnRequestExitApplication;
+
+    }
 
 	private void OnDisable() {
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 		em.OnRequestLoadLevel -= OnRequestLoadLevel;
-	}
+        em.OnRequestExitApplication -= OnRequestExitApplication;
+    }
 
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode) {
 		if (scene.name == "Level_ShotaTest") {
-			em.BroadcastInitializeGame();
-			em.BroadcastStartGame();
+
 		}
 		if (scene.name == "Level_JuhoTest") {
-			em.BroadcastInitializeGame();
-			em.BroadcastStartGame();
+
 		}
 	}
 
@@ -56,4 +64,9 @@ public class ApplicationManager : MonoBehaviour {
 		currentSceneName = nameOfLoadScene;
 		SceneManager.LoadScene(nameOfLoadScene);
 	}
+
+    void OnRequestExitApplication()
+    {
+        Application.Quit();
+    }
 }

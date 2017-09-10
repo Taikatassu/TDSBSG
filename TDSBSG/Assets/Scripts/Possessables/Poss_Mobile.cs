@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Poss_Default : MonoBehaviour, IPossessable
+public class Poss_Mobile : MonoBehaviour, IPossessable
 {
     #region References & variables
     Toolbox toolbox;
@@ -180,7 +180,7 @@ public class Poss_Default : MonoBehaviour, IPossessable
     }
     #endregion
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (disobeyingList.Count > 0)
         {

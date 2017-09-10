@@ -146,4 +146,22 @@ public class EventManager : MonoBehaviour
             OnPauseStateChange(newPauseState);
         }
     }
+
+    public event BoolVoid OnRequestPauseStateChange;
+    public void BroadcastRequestPauseStateChange(bool newPauseState)
+    {
+        if (OnRequestPauseStateChange != null)
+        {
+            OnRequestPauseStateChange(newPauseState);
+        }
+    }
+
+    public event EmptyVoid OnRequestExitApplication;
+    public void BroadcastRequestExitApplication()
+    {
+        if (OnRequestExitApplication != null)
+        {
+            OnRequestExitApplication();
+        }
+    }
 }
