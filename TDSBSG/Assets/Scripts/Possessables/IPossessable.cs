@@ -28,6 +28,9 @@ public interface IPossessable
 
     void GiveInput(EInputType newInput);
 
+    Interactable GetInteractableObject();
+
+    void SetInteractableObject(Interactable interactableObject);
 }
 
 public enum EPossessableType

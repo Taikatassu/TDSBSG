@@ -10,18 +10,13 @@ public class Poss_Stationary : MonoBehaviour, IPossessable {
     Rigidbody rb;
     List<GameObject> disobeyingList = new List<GameObject>();
     List<IPossessable> connectedPossessables = new List<IPossessable>();
-    private Interactable interactableObject;
+    protected Interactable interactableObject;
 
     bool isPossessed = false;
     bool isDisobeying = false;
     readonly EPossessableType possessableType = EPossessableType.PRIMARY;
     readonly ERobotType robotType = ERobotType.DEFAULT;
     #endregion
-
-    public Interactable InteractableObject {
-        get { return interactableObject; }
-        set { interactableObject = value; }
-    }
 
     private void Awake()
     {
@@ -148,6 +143,15 @@ public class Poss_Stationary : MonoBehaviour, IPossessable {
             rb.isKinematic = true;
         }
     }
+
+    public Interactable GetInteractableObject() {
+        return interactableObject;
+    }
+
+    public void SetInteractableObject(Interactable interactableObject) {
+        this.interactableObject = interactableObject;
+    }
+
     #endregion
 
     private void FixedUpdate()
