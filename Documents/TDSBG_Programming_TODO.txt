@@ -71,14 +71,23 @@ WIP - Implement networked possessables
 
 Interactable objects
 	DONE - Base
-	DONE - Implement interactableObject interaction to mouse left click (on top of object)
+	- Implement interactableObject interaction to mouse left click (on top of object)
 	- Various different functionalities
+	- bool stationaryInteractable (if true, user cannon move when interacting)
+	- float interactionStartDuration (how long it takes for the user to start interacting with the object)
+		- User cannot move while starting interaction with the object
+	- float interactionEndDuration (how long it takes for the user to end interaction with the object)
+		- User cannot move while ending interaction with the object
+	- float StartInteraction() (return -1 if cannot interact. return interactionStartDuration if can interact)
+	- float EndInteraction() (return -1 if cannot interact. return interactionEndDuration if can interact)
+	- permissionList (contains robotTypes that can interact with the object)
 
 
 Input
 DONE - Mouse input events (buttons up / down, cursor location)
 
 Levels
+- Level manager
 - Level start
 - Level end
 - Spawn player with the last possessed possessable at level start
@@ -89,7 +98,10 @@ Levels
 
 
 
-
+TODO:
+- Fix debug manager
+- Find out why connected possessables don't always work
+- Implement visible connections to connected possessables (enabled on mouseover or when possessed)
 
 
 
