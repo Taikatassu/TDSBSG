@@ -11,8 +11,9 @@ public class Player : MonoBehaviour
     IPossessable primaryPossession;
     List<IPossessable> secondaryPossessions = new List<IPossessable>();
     Transform primaryPossessionTransform;
-    public LayerMask possessSelectionMask;
+    public LayerMask selectionMask;
     public LayerMask possessBlockinMask;
+    private Interactable currentInteractableObject;
 
     float possessionRange = 5;
     #endregion
@@ -131,7 +132,7 @@ public class Player : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(mousePosition);
             RaycastHit hit;
             Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.red, 5f);
-            if (Physics.Raycast(ray, out hit, 1000f, possessSelectionMask))
+            if (Physics.Raycast(ray, out hit, 1000f, selectionMask))
             {
                 if (hit.collider.GetComponent(typeof(IPossessable)))
                 {
@@ -171,7 +172,22 @@ public class Player : MonoBehaviour
                 else if (hit.collider.GetComponent(typeof(Interactable)))
                 {
                     //Try to interact
+                    Debug.Log("Hit InteractableObject");
+                    currentInteractableObject = hit.collider.GetComponent<Interactable>();
+
+                    if (currentInteractableObject.ContainPermissionList(primaryPossession.GetRobotType()))
+                    {
+                        currentInteractableObject.StartInteraction();   
+                    }
+
                 }
+            }
+        }
+        else if(button == 1 && down)
+        {
+            if(currentInteractableObject)
+            {
+                currentInteractableObject.EndInteraction();
             }
         }
     }

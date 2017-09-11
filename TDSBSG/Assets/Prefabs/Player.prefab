@@ -111,9 +111,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae69aabe7877754e8282b42e8c745d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  possessSelectionMask:
+  selectionMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 5120
+  possessBlockinMask:
+    serializedVersion: 2
+    m_Bits: 1280
 --- !u!198 &198138828815726276
 ParticleSystem:
   m_ObjectHideFlags: 1

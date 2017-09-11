@@ -94,7 +94,7 @@ public class UIManager : MonoBehaviour
     {
         //Start the game (load first level, close main menu)
         Debug.Log("Start button pressed");
-        em.BroadcastRequestLoadLevel("Level_JuhoTest");
+        em.BroadcastRequestLoadLevel("Level_ShotaTest");
     }
 
     private void OnQuitButtonPressed()

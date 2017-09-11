@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,9 @@ public class Interactable_Liftable : Interactable {
 
     // Use this for initialization
     void Start () {
+        permissionList = new List<ERobotType>();
+        permissionList.Add(ERobotType.DEFAULT);
+
         startPosition = transform.position;
         endPosition = transform.position;
         endPosition.y += 1.0f;
@@ -21,42 +25,61 @@ public class Interactable_Liftable : Interactable {
 	void Update () {
         if (Input.GetKey(KeyCode.Z))
         {
-            StartInteractable();
+            StartInteraction();
         }
         if (Input.GetKey(KeyCode.X))
         {
-            EndInteractable();
+            EndInteraction();
         }
 
         // Use Lerp function for moving
         if (GetIsInUse())
         {
-            // Clamp elapsedTime on maximum time
-            if (elapsedTime >= moveTime) { elapsedTime = moveTime; }
-
-            elapsedTime += moveTime * Time.deltaTime;
-            transform.position = Vector3.Lerp(startPosition, endPosition, elapsedTime);
+            InteractionStartDuration();
         }
         else
         {
-            // Clamp elapsedTime on minimum time
-            if (elapsedTime <= 0) { elapsedTime = 0; }
-
-            elapsedTime -= moveTime * Time.deltaTime;
-            transform.position = Vector3.Lerp(startPosition, endPosition, elapsedTime);
+            InteractionEndDuration();
         }
 	}
 
-    public override bool StartInteractable()
+    protected override float InteractionStartDuration()
     {
-        if (!base.StartInteractable()) { return false; }
+        // Clamp elapsedTime on maximum time
+        if (startDurationTime >= moveTime) { startDurationTime = moveTime; }
 
-        //transform.Translate(0, 1.0f, 0);
-        return false;
+        startDurationTime += moveTime * Time.deltaTime;
+        endDurationTime = startDurationTime;
+        transform.position = Vector3.Lerp(startPosition, endPosition, startDurationTime);
+
+        return startDurationTime;
     }
 
-    public override void EndInteractable()
+    protected override float InteractionEndDuration()
     {
-        base.EndInteractable();
+        // Clamp elapsedTime on minimum time
+        if (endDurationTime <= 0) { endDurationTime = 0; }
+
+        endDurationTime -= moveTime * Time.deltaTime;
+        startDurationTime = endDurationTime;
+        transform.position = Vector3.Lerp(startPosition, endPosition, endDurationTime);
+
+        return endDurationTime;
+    }
+
+    public override float StartInteraction()
+    {
+        if (base.StartInteraction() == -1.0f) { return -1.0f; }
+
+        //transform.Translate(0, 1.0f, 0);
+        return startDurationTime;
+    }
+
+    public override float EndInteraction()
+    {
+        if (base.EndInteraction() == -1.0f) { return -1.0f; }
+        
+
+        return endDurationTime;
     }
 }
