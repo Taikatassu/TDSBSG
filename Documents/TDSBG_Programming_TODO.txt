@@ -99,9 +99,9 @@ Levels
 
 
 TODO:
-- Fix debug manager
-- Find out why connected possessables don't always work
-- Implement visible connections to connected possessables (enabled on mouseover or when possessed)
+DONE - Fix debug manager
+DONE - Find out why connected possessables don't always work
+DONE - Implement visible connections to connected possessables (enabled on mouseover or when possessed)
 
 
 
