@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Poss_Mobile : MonoBehaviour, IPossessable
 {
@@ -12,6 +13,8 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
     Rigidbody rb;
     List<GameObject> disobeyingList = new List<GameObject>();
     List<IPossessable> connectedPossessables = new List<IPossessable>();
+    NavMeshAgent navMeshAgent;
+    private Interactable interactableObject;
 
     bool isPossessed = false;
     bool isDisobeying = false;
@@ -24,6 +27,11 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
     float defaultMovementSpeed = 150f;
     float currentMovementSpeedMultiplier = 1;
     #endregion
+
+    public Interactable InteractableObject {
+        get { return interactableObject; }
+        set { interactableObject = value; }
+    }
 
     private void Awake()
     {
@@ -218,5 +226,9 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
             * Time.fixedDeltaTime;
         rb.velocity = movementVelocity;
 
+    }
+
+   public void SetDestination(Vector3 newDest) {
+        navMeshAgent.SetDestination(newDest);
     }
 }

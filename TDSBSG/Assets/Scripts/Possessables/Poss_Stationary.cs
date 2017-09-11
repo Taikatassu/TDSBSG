@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Poss_Stationary : MonoBehaviour, IPossessable
-{
+public class Poss_Stationary : MonoBehaviour, IPossessable {
     #region References & variables
     Toolbox toolbox;
     EventManager em;
@@ -11,12 +10,18 @@ public class Poss_Stationary : MonoBehaviour, IPossessable
     Rigidbody rb;
     List<GameObject> disobeyingList = new List<GameObject>();
     List<IPossessable> connectedPossessables = new List<IPossessable>();
+    private Interactable interactableObject;
 
     bool isPossessed = false;
     bool isDisobeying = false;
     readonly EPossessableType possessableType = EPossessableType.PRIMARY;
     readonly ERobotType robotType = ERobotType.DEFAULT;
     #endregion
+
+    public Interactable InteractableObject {
+        get { return interactableObject; }
+        set { interactableObject = value; }
+    }
 
     private void Awake()
     {
