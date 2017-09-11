@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     List<IPossessable> secondaryPossessions = new List<IPossessable>();
     Transform primaryPossessionTransform;
     public LayerMask possessSelectionMask;
+    public LayerMask possessBlockinMask;
 
     float possessionRange = 5;
     #endregion
@@ -129,20 +130,47 @@ public class Player : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(mousePosition);
             RaycastHit hit;
+            Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.red, 5f);
             if (Physics.Raycast(ray, out hit, 1000f, possessSelectionMask))
             {
                 if (hit.collider.GetComponent(typeof(IPossessable)))
                 {
                     IPossessable hitPossessable = hit.collider.GetComponent<IPossessable>();
-                    float distanceToClickedObject = (hit.collider.transform.position - transform.position).magnitude;
-                    if (distanceToClickedObject <= possessionRange)
+                    Vector3 hitObjectDirection = hit.collider.transform.position - transform.position;
+                    //float distanceToClickedObject = hitObjectDirection.magnitude;
+                    Vector3 raycastOrigin = transform.position;
+                    raycastOrigin.y++;
+
+
+                    if (primaryPossession.GetConnectedPossessablesList().Contains(hitPossessable))
                     {
+                        Debug.Log("Selected possessable is connected to currently possessed, possessing selection");
                         PossessPossessable(hitPossessable);
+                        return;
                     }
-                    else if (primaryPossession.GetConnectedPossessablesList().Contains(hitPossessable))
+                    else if (Physics.Raycast(raycastOrigin, hitObjectDirection, out hit, possessionRange, possessBlockinMask))
                     {
-                        PossessPossessable(hitPossessable);
+                        Debug.Log("Visibility raycast hit something");
+                        if (hit.collider.gameObject == hitPossessable.GetGameObject())
+                        {
+                            Debug.Log("Selected possessable is in range and visible, possessing selection");
+                            PossessPossessable(hitPossessable);
+                            return;
+                        }
                     }
+
+                    Debug.Log("Selected possessable is not in range and visible, nor connected to currently possessed");
+                    List<IPossessable> connectedPossessables = primaryPossession.GetConnectedPossessablesList();
+                    float count = connectedPossessables.Count;
+                    Debug.Log("connectedPossessables.Count: " + connectedPossessables.Count);
+                    for (int i = 0; i < count; i++)
+                    {
+                        Debug.Log("connectedPossessables[i].GetGameObject().name: " + connectedPossessables[i].GetGameObject().name);
+                    }
+                }
+                else if (hit.collider.GetComponent(typeof(Interactable)))
+                {
+                    //Try to interact
                 }
             }
         }
@@ -150,12 +178,13 @@ public class Player : MonoBehaviour
 
     private void OnInputEvent(EInputType newInput)
     {
-        if (newInput == EInputType.POSSESS_KEYDOWN)
-        {
-            TryPossessClosestPossessable();
-        }
+        //if (newInput == EInputType.POSSESS_KEYDOWN)
+        //{
+        //    TryPossessClosestPossessable();
+        //}
 
-        else if (primaryPossession != null)
+        /*else */
+        if (primaryPossession != null)
         {
             primaryPossession.GiveInput(newInput);
         }
