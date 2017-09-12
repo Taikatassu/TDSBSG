@@ -103,7 +103,14 @@ DONE - Fix debug manager
 DONE - Find out why connected possessables don't always work
 DONE - Implement visible connections to connected possessables (enabled on mouseover or when possessed)
 DONE - Implement a way to pause all enemies during cutscenes without changing timescale
-- Rotate the possessable possessed by the player in the direction of movement (velocity direction)
-- Update scene indices if neccessary (ApplicationManager, UIManager, GameManager)
+DONE - Rotate the possessable possessed by the player in the direction of movement (velocity direction)
+DONE - Update scene indices if neccessary (ApplicationManager, UIManager, GameManager)
+DONE - PaperMario-like multi-sided sprite animation controller
+- Implement slight smooth on the possessed possessable rotation
+- Implement rotatable camera
+- Redo Poss_Worker & Interactable_Liftable
+- Implement the rest of the sprites on enemies and possessables (spriteAnimationController)
+- Screen To GIF (make a GIF of the sprite enemy walking around in the scene (pull populated scene from git))
+
 
 

@@ -9,7 +9,7 @@ public class EnemySpawner : MonoBehaviour
     EventManager em;
     public GameObject enemyToSpawn;
     public List<PatrolPoint> patrolPoints = new List<PatrolPoint>();
-
+     
     private void Awake()
     {
         toolbox = FindObjectOfType<Toolbox>();

@@ -11,9 +11,9 @@ public class GameManager : MonoBehaviour
     bool isPaused = false;
     bool pausingAvailable = false;
     ERobotType robotTypeToSpawnPlayerAs = ERobotType.DEFAULT;
-    int mainMenuIndex = 1; //TODO: Update this index if neccessary!!
-    int firstLevelIndex = 2; //TODO: Update this index if neccessary!!
-    int lastLevelIndex = 2; //TODO: Update this index if neccessary!!
+    int mainMenuIndex = -1;
+    int firstLevelIndex = -1;
+    int lastLevelIndex = -1;
     [SerializeField]
     bool loopLevels = false;
 
@@ -33,6 +33,14 @@ public class GameManager : MonoBehaviour
 
         toolbox = FindObjectOfType<Toolbox>();
         em = toolbox.GetComponent<EventManager>();
+    }
+
+    private void Start()
+    {
+        Vector3 sceneIndices = em.BroadcastRequestSceneIndices();
+        mainMenuIndex = (int)sceneIndices.x;
+        firstLevelIndex = (int)sceneIndices.y;
+        lastLevelIndex = (int)sceneIndices.z;
     }
 
     private void OnEnable()
@@ -96,6 +104,14 @@ public class GameManager : MonoBehaviour
 
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
+        if(mainMenuIndex == -1 || firstLevelIndex == -1 || lastLevelIndex == -1)
+        {
+            Vector3 sceneIndices = em.BroadcastRequestSceneIndices();
+            mainMenuIndex = (int)sceneIndices.x;
+            firstLevelIndex = (int)sceneIndices.y;
+            lastLevelIndex = (int)sceneIndices.z;
+        }
+
         if (scene.buildIndex == mainMenuIndex)
         {
             pausingAvailable = false;
@@ -131,25 +147,21 @@ public class GameManager : MonoBehaviour
     void OnLevelCompleted(ERobotType lastPossessedRobotType)
     {
         robotTypeToSpawnPlayerAs = lastPossessedRobotType;
-        Debug.Log("GameManager: OnLevelCompleted");
         LoadNextLevel();
     }
 
     void LoadNextLevel()
     {
         int currentSceneIndex = em.BroadcastRequestCurrentSceneIndex();
-        Debug.Log("LoadNextLevel, currentSceneIndex: " + currentSceneIndex + ", loopLevels: " + loopLevels);
         if (currentSceneIndex != -1)
         {
             if (currentSceneIndex < lastLevelIndex)
             {
-                Debug.Log("currentSceneIndex < lastLevelIndex, loading the next level");
                 currentSceneIndex++;
                 em.BroadcastRequestLoadLevel(currentSceneIndex);
             }
             else if (loopLevels)
             {
-                Debug.Log("loopLevels = true, loading first level");
                 currentSceneIndex = firstLevelIndex;
                 em.BroadcastRequestLoadLevel(currentSceneIndex);
             }

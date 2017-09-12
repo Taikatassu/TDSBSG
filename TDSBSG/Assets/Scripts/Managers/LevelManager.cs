@@ -15,10 +15,11 @@ public class LevelManager : MonoBehaviour
     Transform playerStart;
     NavMeshAgent cutsceneNavAgent = null;
 
+    //bool startingCutscenePlaying = false;
     bool endingCutscenePlaying = false;
-    bool startingCutscenePlaying = false;
     float cutsceneNavAgentCompleteDistance = 0.1f;
-    float endingCutscenWalkSpeed = 1f;
+    [SerializeField]
+    float endingCutscenWalkSpeed = 1.5f;
     ERobotType lastPossessedRobotType = ERobotType.NONE;
 
     private void Awake()
@@ -45,9 +46,9 @@ public class LevelManager : MonoBehaviour
     {
         if (endingCutscenePlaying)
         {
-            if(cutsceneNavAgent != null)
+            if (cutsceneNavAgent != null)
             {
-                if(cutsceneNavAgent.remainingDistance <= cutsceneNavAgentCompleteDistance)
+                if (cutsceneNavAgent.remainingDistance <= cutsceneNavAgentCompleteDistance)
                 {
                     endingCutscenePlaying = false;
                     em.BroadcastLevelCompleted(lastPossessedRobotType);
@@ -63,7 +64,6 @@ public class LevelManager : MonoBehaviour
             IPossessable enteringPossessable = enteringObject.GetComponent<IPossessable>();
             if (enteringPossessable.GetIsPossessed())
             {
-                Debug.Log("LevelManager: Player entered level ending trigger");
                 lastPossessedRobotType = enteringPossessable.GetRobotType();
                 em.BroadcastPauseActorsStateChange(true);
                 //TODO: Play the ending animation (set navAgent destination to endPoint, close elevator doors)
@@ -80,34 +80,25 @@ public class LevelManager : MonoBehaviour
 
     private void OnSpawnPlayer(ERobotType robotTypeToSpawnPlayerAs)
     {
-        GameObject newPlayer = Instantiate(Resources.Load("Prefabs/Player") as GameObject);
-        newPlayer.transform.position = playerStart.position;
-        newPlayer.transform.rotation = playerStart.rotation;
-
-        GameObject newPossessable = null;
-
+        Instantiate(Resources.Load("Prefabs/Player") as GameObject, playerStart.position, playerStart.rotation);
+        
         switch (robotTypeToSpawnPlayerAs)
         {
             case ERobotType.DEBUG:
-                newPossessable = Instantiate(Resources.Load("Prefabs/Poss_Mobile") as GameObject);
+                Instantiate(Resources.Load("Prefabs/Poss_Mobile") as GameObject, playerStart.position, playerStart.rotation);
                 break;
             case ERobotType.NONE:
-                //newPossessable = Instantiate(Resources.Load("Prefabs/Mobile") as GameObject);
+                //Instantiate(Resources.Load("Prefabs/Mobile") as GameObject, playerStart.position, playerStart.rotation);
                 break;
             case ERobotType.DEFAULT:
-                newPossessable = Instantiate(Resources.Load("Prefabs/Poss_Mobile") as GameObject);
+                Instantiate(Resources.Load("Prefabs/Poss_Mobile") as GameObject, playerStart.position, playerStart.rotation);
                 break;
             case ERobotType.WORKER:
-                //newPossessable = Instantiate(Resources.Load("Prefabs/Worker") as GameObject);
+                //Instantiate(Resources.Load("Prefabs/Worker") as GameObject, playerStart.position, playerStart.rotation);
                 break;
             case ERobotType.SMALL:
-                newPossessable = Instantiate(Resources.Load("Prefabs/Poss_Small") as GameObject);
+                Instantiate(Resources.Load("Prefabs/Poss_Small") as GameObject, playerStart.position, playerStart.rotation);
                 break;
-        }
-        if (newPossessable != null)
-        {
-            newPossessable.transform.position = playerStart.position;
-            newPossessable.transform.rotation = playerStart.rotation;
         }
     }
 

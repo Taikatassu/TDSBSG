@@ -11,6 +11,9 @@ public class EnemyBase : MonoBehaviour
     protected Player player;
     protected FieldOfView myFoV;
     protected List<PatrolPoint> patrolPoints = new List<PatrolPoint>();
+    [SerializeField]
+    protected SpriteAnimationController spriteController;
+
     protected bool initialized = false;
     protected bool isAlerted = false;
     protected int chaseState = 0; //0 = not chasing, 1 = target acquired, 2 = searching for target (target just got away)
@@ -25,7 +28,7 @@ public class EnemyBase : MonoBehaviour
     protected float currentVisionRange = 0f;
     [SerializeField]
     protected float defaultVisionAngle = 30f;
-    protected float currentVisionAngle = 0f;
+        protected float currentVisionAngle = 0f;
     protected float visionRangeMultiplier = 1f;
     protected float visionAngleMultiplier = 1f;
     protected float defaultVisionRangeMultiplier = 1f;
@@ -118,6 +121,11 @@ public class EnemyBase : MonoBehaviour
         if (patrolPoints.Count <= 1)
         {
             Debug.LogWarning("Patroller has only one patrol point, so it will remain stationary!");
+        }
+
+        if (spriteController)
+        {
+            spriteController.SetAnimationState(EAnimationState.IDLE);
         }
 
         initialized = true;

@@ -12,8 +12,11 @@ public class ApplicationManager : MonoBehaviour {
 
 	int currentSceneIndex = 0;
     int introSceneIndex = 0;
+    [SerializeField]
     int mainMenuIndex = 1; //TODO: Update this index if neccessary!!
+    [SerializeField]
     int firstLevelIndex = 2; //TODO: Update this index if neccessary!!
+    [SerializeField]
     int lastLevelIndex = 2; //TODO: Update this index if neccessary!!
     #endregion
 
@@ -43,6 +46,7 @@ public class ApplicationManager : MonoBehaviour {
 		em.OnRequestLoadLevel += OnRequestLoadLevel;
         em.OnRequestExitApplication += OnRequestExitApplication;
         em.OnRequestCurrentSceneIndex += OnRequestCurrentSceneIndex;
+        em.OnRequestSceneIndices += OnRequestSceneIndices;
     }
 
 	private void OnDisable() {
@@ -50,6 +54,7 @@ public class ApplicationManager : MonoBehaviour {
 		em.OnRequestLoadLevel -= OnRequestLoadLevel;
         em.OnRequestExitApplication -= OnRequestExitApplication;
         em.OnRequestCurrentSceneIndex -= OnRequestCurrentSceneIndex;
+        em.OnRequestSceneIndices -= OnRequestSceneIndices;
     }
 
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode) {
@@ -65,6 +70,11 @@ public class ApplicationManager : MonoBehaviour {
 		currentSceneIndex = sceneBuildIndex;
 		SceneManager.LoadScene(sceneBuildIndex);
 	}
+
+    Vector3 OnRequestSceneIndices()
+    {
+        return new Vector3(mainMenuIndex, firstLevelIndex, lastLevelIndex);
+    }
 
     int OnRequestCurrentSceneIndex()
     {

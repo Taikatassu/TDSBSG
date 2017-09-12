@@ -23,9 +23,9 @@ public class UIManager : MonoBehaviour
     Button exitGameButton;
 
     bool pauseMenuAvailable = false;
-    int mainMenuIndex = 1; //TODO: Update this index if neccessary!!
-    int firstLevelIndex = 2; //TODO: Update this index if neccessary!!
-    int lastLevelIndex = 2; //TODO: Update this index if neccessary!!
+    int mainMenuIndex = -1;
+    int firstLevelIndex = -1;
+    int lastLevelIndex = -1;
 
     private void Awake()
     {
@@ -48,6 +48,14 @@ public class UIManager : MonoBehaviour
 
         EnableMainMenu();
         DisablePauseMenu();
+    }
+
+    private void Start()
+    {
+        Vector3 sceneIndices = em.BroadcastRequestSceneIndices();
+        mainMenuIndex = (int)sceneIndices.x;
+        firstLevelIndex = (int)sceneIndices.y;
+        lastLevelIndex = (int)sceneIndices.z;
     }
 
     private void OnEnable()
@@ -161,6 +169,14 @@ public class UIManager : MonoBehaviour
 
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
+        if (mainMenuIndex == -1 || firstLevelIndex == -1 || lastLevelIndex == -1)
+        {
+            Vector3 sceneIndices = em.BroadcastRequestSceneIndices();
+            mainMenuIndex = (int)sceneIndices.x;
+            firstLevelIndex = (int)sceneIndices.y;
+            lastLevelIndex = (int)sceneIndices.z;
+        }
+
         if (scene.buildIndex == mainMenuIndex)
         {
             DisablePauseMenu();

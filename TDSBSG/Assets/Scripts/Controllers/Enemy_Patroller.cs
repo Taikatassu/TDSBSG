@@ -417,6 +417,36 @@ public class Enemy_Patroller : EnemyBase
                     }
                     #endregion
                 }
+
+
+                if (isGuarding)
+                {
+                    if (spriteController)
+                    {
+                        spriteController.SetAnimationState(EAnimationState.IDLE);
+                    }
+                }
+                else if (isPatrolling)
+                {
+                    if (spriteController)
+                    {
+                        spriteController.SetAnimationState(EAnimationState.WALK);
+                    }
+                }
+                else if (chaseState != 0)
+                {
+                    if (spriteController)
+                    {
+                        spriteController.SetAnimationState(EAnimationState.WALK);
+                    }
+                }
+                else
+                {
+                    if (spriteController)
+                    {
+                        spriteController.SetAnimationState(EAnimationState.IDLE);
+                    }
+                }
             }
         }
     }

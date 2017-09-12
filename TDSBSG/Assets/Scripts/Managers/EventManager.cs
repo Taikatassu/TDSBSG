@@ -33,6 +33,7 @@ public class EventManager : MonoBehaviour
     public delegate GameObject EmptyGameObject();
     public delegate void RobotTypeVoid(ERobotType eRobotType);
     public delegate int EmptyInt();
+    public delegate Vector3 EmptyVector3();
 
     public event EmptyVoid OnInitializeGame;
     public void BroadcastInitializeGame()
@@ -80,6 +81,32 @@ public class EventManager : MonoBehaviour
         else
         {
             return FindObjectOfType<Player>().gameObject;
+        }
+    }
+
+    public event EmptyGameObject OnRequestCameraReference;
+    public GameObject BroadcastRequestCameraReference()
+    {
+        if (OnRequestCameraReference != null)
+        {
+            return OnRequestCameraReference();
+        }
+        else
+        {
+            return FindObjectOfType<Player>().gameObject;
+        }
+    }
+
+    public event EmptyVector3 OnRequestSceneIndices;
+    public Vector3 BroadcastRequestSceneIndices()
+    {
+        if (OnRequestSceneIndices != null)
+        {
+            return OnRequestSceneIndices();
+        }
+        else
+        {
+            return Vector3.zero;
         }
     }
 

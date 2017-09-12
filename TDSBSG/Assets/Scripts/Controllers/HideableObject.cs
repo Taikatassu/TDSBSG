@@ -6,7 +6,7 @@ public class HideableObject : MonoBehaviour
 {
     Toolbox toolbox;
     EventManager em;
-    Renderer renderer = null;
+    Renderer _renderer = null;
 
     [SerializeField]
     float hiddenAlphaMultiplier = 0.5f;
@@ -25,7 +25,7 @@ public class HideableObject : MonoBehaviour
 
     private void OnEnable()
     {
-        renderer = GetComponent<Renderer>();
+        _renderer = GetComponent<Renderer>();
 
         em.OnHideEnvironmentStateChange += OnHideEnvironmentStateChange;
     }
@@ -53,7 +53,7 @@ public class HideableObject : MonoBehaviour
         {
             isHidden = true;
             useTimer = true;
-            originalColor = renderer.material.color;
+            originalColor = _renderer.material.color;
         }
 
         hideRecoveryTimer = hideRecoveryDuration;
@@ -65,15 +65,15 @@ public class HideableObject : MonoBehaviour
         {
             isHidden = true;
 
-            if (renderer == null)
+            if (_renderer == null)
             {
-                renderer = GetComponent<Renderer>();
+                _renderer = GetComponent<Renderer>();
             }
 
-            originalColor = renderer.material.color;
+            originalColor = _renderer.material.color;
             Color hiddenColor = originalColor;
-            hiddenColor.a = 0; //hiddenColor.a * hiddenAlphaMultiplier;
-            renderer.material.color = hiddenColor;
+            hiddenColor.a = hiddenColor.a * hiddenAlphaMultiplier;
+            _renderer.material.color = hiddenColor;
         }
     }
 
@@ -83,12 +83,12 @@ public class HideableObject : MonoBehaviour
         {
             isHidden = false;
 
-            if (renderer == null)
+            if (_renderer == null)
             {
-                renderer = GetComponent<Renderer>();
+                _renderer = GetComponent<Renderer>();
             }
             
-            renderer.material.color = originalColor;
+            _renderer.material.color = originalColor;
         }
     }
 

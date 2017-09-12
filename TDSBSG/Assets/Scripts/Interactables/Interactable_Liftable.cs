@@ -5,20 +5,20 @@ using UnityEngine;
 
 public class Interactable_Liftable : Interactable {
 
-    float moveTime = 1.0f;     // Time taken to move
+    //float moveTime = 1.0f;     // Time taken to move
 
-    Vector3 startPosition;    // Initial position
-    Vector3 endPosition;      // Position after movement
+    //Vector3 startPosition;    // Initial position
+    //Vector3 endPosition;      // Position after movement
     Transform currentLifter;
 
     // Use this for initialization
         void Start() {
-            permissionList = new List<ERobotType>();
-            permissionList.Add(ERobotType.DEFAULT);
+            //permissionList = new List<ERobotType>();
+            //permissionList.Add(ERobotType.DEFAULT);
 
-            startPosition = transform.position;
-            endPosition = transform.position;
-            endPosition.y += 1.0f;
+            //startPosition = transform.position;
+            //endPosition = transform.position;
+            //endPosition.y += 1.0f;
         }
 
     private void FixedUpdate() {

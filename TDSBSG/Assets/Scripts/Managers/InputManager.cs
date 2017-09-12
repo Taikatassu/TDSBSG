@@ -16,6 +16,7 @@ public class InputManager : MonoBehaviour
     private KeyCode possessKey;
     private KeyCode cameraModeKey;
     private KeyCode pauseKey;
+    private KeyCode useKey;
     #endregion
 
     void Awake()
@@ -46,6 +47,7 @@ public class InputManager : MonoBehaviour
         possessKey = KeyCode.Q;
         pauseKey = KeyCode.Escape;
         cameraModeKey = KeyCode.M;
+        useKey = KeyCode.Space;
     }
 
     void Update()
@@ -118,6 +120,16 @@ public class InputManager : MonoBehaviour
         {
             em.BroadcastInputEvent(EInputType.CAMRAMODE_KEYUP);
         }
+
+        //Use (possessable ability)
+        if (Input.GetKeyDown(useKey))
+        {
+            em.BroadcastInputEvent(EInputType.USE_KEYDOWN);
+        }
+        if (Input.GetKeyUp(useKey))
+        {
+            em.BroadcastInputEvent(EInputType.USE_KEYUP);
+        }
         #endregion
 
         #region Mouse input
@@ -159,5 +171,7 @@ public enum EInputType
     PAUSE_KEYUP,
     CAMERAMODE_KEYDOWN,
     CAMRAMODE_KEYUP,
+    USE_KEYDOWN,
+    USE_KEYUP,
 
 }

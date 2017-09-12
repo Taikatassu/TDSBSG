@@ -151,9 +151,9 @@ public class Player : MonoBehaviour
                     if (hit.collider.GetComponent(typeof(IPossessable)))
                     {
                         IPossessable hitPossessable = hit.collider.GetComponent<IPossessable>();
-                        Vector3 hitObjectDirection = hit.collider.transform.position - transform.position;
                         Vector3 raycastOrigin = transform.position;
                         raycastOrigin.y++;
+                        Vector3 hitObjectDirection = hit.collider.transform.position - raycastOrigin;
 
                         if (primaryPossession.GetConnectedPossessablesList().Contains(hitPossessable))
                         {
