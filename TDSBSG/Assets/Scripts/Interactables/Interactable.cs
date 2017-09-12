@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour {
 
-    private bool isInUse = false;
+    protected bool isInUse = false;
     protected bool stationaryInteractable;
-    protected float startDurationTime;
-    protected float endDurationTime;
+    protected float startDurationTime = 0.0f;
+    protected float endDurationTime = 0.0f;
     protected List<ERobotType> permissionList;
 
 
