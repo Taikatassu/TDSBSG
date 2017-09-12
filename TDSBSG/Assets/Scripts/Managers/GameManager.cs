@@ -10,6 +10,12 @@ public class GameManager : MonoBehaviour
     EventManager em;
     bool isPaused = false;
     bool pausingAvailable = false;
+    ERobotType robotTypeToSpawnPlayerAs = ERobotType.DEFAULT;
+    int mainMenuIndex = 1; //TODO: Update this index if neccessary!!
+    int firstLevelIndex = 2; //TODO: Update this index if neccessary!!
+    int lastLevelIndex = 2; //TODO: Update this index if neccessary!!
+    [SerializeField]
+    bool loopLevels = false;
 
     private void Awake()
     {
@@ -34,6 +40,7 @@ public class GameManager : MonoBehaviour
         em.OnInputEvent += OnInputEvent;
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
         em.OnRequestPauseStateChange += OnRequestPauseStateChange;
+        em.OnLevelCompleted += OnLevelCompleted;
     }
 
     private void OnDisable()
@@ -41,6 +48,7 @@ public class GameManager : MonoBehaviour
         em.OnInputEvent -= OnInputEvent;
         SceneManager.sceneLoaded -= OnLevelFinishedLoading;
         em.OnRequestPauseStateChange -= OnRequestPauseStateChange;
+        em.OnLevelCompleted -= OnLevelCompleted;
     }
 
     //void Start()
@@ -67,15 +75,14 @@ public class GameManager : MonoBehaviour
     {
         if(pausingAvailable)
         {
-            
-        }
-        if (isPaused)
-        {
-            ResumeGame();
-        }
-        else
-        {
-            PauseGame();
+            if (isPaused)
+            {
+                ResumeGame();
+            }
+            else
+            {
+                PauseGame();
+            }
         }
     }
 
@@ -89,20 +96,16 @@ public class GameManager : MonoBehaviour
 
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "MainMenu")
+        if (scene.buildIndex == mainMenuIndex)
         {
             pausingAvailable = false;
             ResumeGame();
         }
-        if (scene.name == "Level_ShotaTest")
+        if (scene.buildIndex >= firstLevelIndex/* && scene.buildIndex <= lastLevelIndex*/)
         {
-            em.BroadcastInitializeGame();
-            em.BroadcastStartGame();
-            pausingAvailable = true;
-            ResumeGame();
-        }
-        if (scene.name == "Level_JuhoTest")
-        {
+            //TODO: Spawn player
+            //em.BroadcastSpawnPlayer(robotTypeToSpawnPlayerWith)
+            em.BroadcastSpawnPlayer(robotTypeToSpawnPlayerAs);
             em.BroadcastInitializeGame();
             em.BroadcastStartGame();
             pausingAvailable = true;
@@ -123,5 +126,44 @@ public class GameManager : MonoBehaviour
                 ResumeGame();
             }
         }
+    }
+
+    void OnLevelCompleted(ERobotType lastPossessedRobotType)
+    {
+        robotTypeToSpawnPlayerAs = lastPossessedRobotType;
+        Debug.Log("GameManager: OnLevelCompleted");
+        LoadNextLevel();
+    }
+
+    void LoadNextLevel()
+    {
+        int currentSceneIndex = em.BroadcastRequestCurrentSceneIndex();
+        Debug.Log("LoadNextLevel, currentSceneIndex: " + currentSceneIndex + ", loopLevels: " + loopLevels);
+        if (currentSceneIndex != -1)
+        {
+            if (currentSceneIndex < lastLevelIndex)
+            {
+                Debug.Log("currentSceneIndex < lastLevelIndex, loading the next level");
+                currentSceneIndex++;
+                em.BroadcastRequestLoadLevel(currentSceneIndex);
+            }
+            else if (loopLevels)
+            {
+                Debug.Log("loopLevels = true, loading first level");
+                currentSceneIndex = firstLevelIndex;
+                em.BroadcastRequestLoadLevel(currentSceneIndex);
+            }
+            else
+            {
+                //TODO: Implement proper game completed screen
+                Debug.Log("Game completed! Loading main menu");
+                em.BroadcastRequestLoadLevel(mainMenuIndex);
+            }
+        }
+        else
+        {
+            Debug.Log("Scene index not found!");
+        }
+
     }
 }

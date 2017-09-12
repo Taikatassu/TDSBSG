@@ -37,6 +37,7 @@ public class EnemyBase : MonoBehaviour
     LayerMask obstacleMask;
     protected int currentSecurityTier = 0;
     int visionAngleIncreasePerSecurityTier = 15;
+    protected bool isPaused = false; //Separate from full game pause. Used for example during cutscenes if necessary to pause all movement
     #endregion
 
     private void Awake()
@@ -49,12 +50,14 @@ public class EnemyBase : MonoBehaviour
     {
         em.OnAlertStateChange += OnAlartStateChange;
         em.OnSecurityTierChange += OnSecurityTierChange;
+        em.OnPauseActorsStateChange += OnPauseActorsStateChange;
     }
 
     private void OnDisable()
     {
         em.OnAlertStateChange -= OnAlartStateChange;
         em.OnSecurityTierChange -= OnSecurityTierChange;
+        em.OnPauseActorsStateChange -= OnPauseActorsStateChange;
     }
 
     protected virtual void OnAlartStateChange(int newState, ERobotType newWantedRobot)
@@ -100,6 +103,11 @@ public class EnemyBase : MonoBehaviour
     private void OnSecurityTierChange(int newTier)
     {
         currentSecurityTier = newTier;
+    }
+
+    private void OnPauseActorsStateChange(bool newState)
+    {
+        isPaused = newState;
     }
 
     public virtual void InitializeEnemy()

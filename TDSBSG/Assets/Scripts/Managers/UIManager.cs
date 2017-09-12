@@ -23,6 +23,9 @@ public class UIManager : MonoBehaviour
     Button exitGameButton;
 
     bool pauseMenuAvailable = false;
+    int mainMenuIndex = 1; //TODO: Update this index if neccessary!!
+    int firstLevelIndex = 2; //TODO: Update this index if neccessary!!
+    int lastLevelIndex = 2; //TODO: Update this index if neccessary!!
 
     private void Awake()
     {
@@ -93,8 +96,8 @@ public class UIManager : MonoBehaviour
     private void OnStartButtonPressed()
     {
         //Start the game (load first level, close main menu)
-        Debug.Log("Start button pressed");
-        em.BroadcastRequestLoadLevel("Level_ShotaTest");
+        //em.BroadcastRequestLoadLevel(firstLevelIndex);
+        em.BroadcastRequestLoadLevel(firstLevelIndex);
     }
 
     private void OnQuitButtonPressed()
@@ -106,7 +109,6 @@ public class UIManager : MonoBehaviour
 
     private void OnResumeButtonPressed()
     {
-        Debug.Log("OnResumeButtonPressed");
         em.BroadcastRequestPauseStateChange(false);
     }
 
@@ -119,7 +121,7 @@ public class UIManager : MonoBehaviour
     private void OnExitGameButtonPressed()
     {
         Debug.Log("OnExitGameButtonPressed");
-        em.BroadcastRequestLoadLevel("MainMenu");
+        em.BroadcastRequestLoadLevel(mainMenuIndex);
     }
 
     private void EnableMainMenu()
@@ -144,37 +146,32 @@ public class UIManager : MonoBehaviour
 
     void OnPauseStateChange(bool newPauseState)
     {
-        if (newPauseState)
+        if (pauseMenuAvailable)
         {
-            Debug.Log("PauseGame");
-            EnablePauseMenu();
-        }
-        else
-        {
-            Debug.Log("ResumeGame");
-            DisablePauseMenu();
+            if (newPauseState)
+            {
+                EnablePauseMenu();
+            }
+            else
+            {
+                DisablePauseMenu();
+            }
         }
     }
 
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "MainMenu")
+        if (scene.buildIndex == mainMenuIndex)
         {
             DisablePauseMenu();
             EnableMainMenu();
             pauseMenuAvailable = false;
         }
-        if (scene.name == "Level_ShotaTest")
+        if (scene.buildIndex >= firstLevelIndex/* && scene.buildIndex <= lastLevelIndex*/)
         {
             DisableMainMenu();
             DisablePauseMenu();
             pauseMenuAvailable = true;
-        }
-        if (scene.name == "Level_JuhoTest")
-        {
-            DisableMainMenu();
-            DisablePauseMenu();
-            pauseMenuAvailable = false;
         }
     }
 }

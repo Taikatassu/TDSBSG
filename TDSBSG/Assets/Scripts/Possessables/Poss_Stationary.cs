@@ -54,14 +54,14 @@ public class Poss_Stationary : MonoBehaviour, IPossessable {
         rb = GetComponent<Rigidbody>();
         tag = "Possessable"; //Add this to all possessables
         disobeyingList = new List<GameObject>();
-        connectedPossessables = new List<IPossessable>();
 
-        ResetAll();
+        //ResetAll();
     }
 
     private void ResetAll()
     {
         UnPossess();
+        connectedPossessables = new List<IPossessable>();
     }
 
     #region IPossessable implementation

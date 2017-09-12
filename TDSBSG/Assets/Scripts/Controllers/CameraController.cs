@@ -48,6 +48,11 @@ public class CameraController : MonoBehaviour
     Quaternion startingRotation = Quaternion.identity;
     float rotationSlerpDuration = 0.75f;
     float rotationSlerpStartTime = 0f;
+    float obscuringObjectsCheckTickInterval = 0.25f;
+    float obscuringObjectsCheckTimer = 0f;
+    float obscuringObjectsCheckSpherecastRadius = 3f;
+    [SerializeField]
+    LayerMask obscuringObjectsCheckMask;
     #endregion
 
     private void Awake()
@@ -116,6 +121,39 @@ public class CameraController : MonoBehaviour
             desiredRotation = Quaternion.Euler(new Vector3(xRotMode0, yRotMode0, zRotMode0));
             rotationSlerpStartTime = Time.time;
             isRotatingToDesiredRotation = true;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+
+        //TODO: Instead of trying to find objects with "HideableObject" component, add the component to all hit objects
+        //TODO: Find out why this isn't working (hideable object found, but it will not turn transparent)
+        obscuringObjectsCheckTimer -= Time.fixedDeltaTime;
+
+        if(obscuringObjectsCheckTimer <= 0)
+        {
+            Debug.Log("obscuringObjectsCheck tick");
+            obscuringObjectsCheckTimer = obscuringObjectsCheckTickInterval;
+
+            RaycastHit[] hits;
+            Vector3 spherecastDirection = target.position - transform.position;
+            hits = Physics.SphereCastAll(transform.position, obscuringObjectsCheckSpherecastRadius,
+                spherecastDirection, spherecastDirection.magnitude, obscuringObjectsCheckMask);
+            
+            if(hits.Length > 0)
+            {
+                for (int i = 0; i < hits.Length; i++)
+                {
+                    if (hits[i].collider.GetComponent<HideableObject>())
+                    {
+                        Debug.Log("Hideable object found, hiding with timer");
+                        HideableObject hitHideable = hits[i].collider.GetComponent<HideableObject>();
+                        hitHideable.HideObjectWithTimer();
+                    }
+                }
+            }
+
         }
     }
 

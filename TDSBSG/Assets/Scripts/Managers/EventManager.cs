@@ -32,6 +32,7 @@ public class EventManager : MonoBehaviour
     public delegate void GameObjectVoid(GameObject go);
     public delegate GameObject EmptyGameObject();
     public delegate void RobotTypeVoid(ERobotType eRobotType);
+    public delegate int EmptyInt();
 
     public event EmptyVoid OnInitializeGame;
     public void BroadcastInitializeGame()
@@ -128,14 +129,24 @@ public class EventManager : MonoBehaviour
         }
     }
 
-
-    public event StringVoid OnRequestLoadLevel;
-    public void BroadcastRequestLoadLevel(string nameOfLoadScene)
+    public event IntVoid OnRequestLoadLevel;
+    public void BroadcastRequestLoadLevel(int desiredSceneBuildIndex)
     {
         if (OnRequestLoadLevel != null)
         {
-            OnRequestLoadLevel(nameOfLoadScene);
+            OnRequestLoadLevel(desiredSceneBuildIndex);
         }
+    }
+
+    public event EmptyInt OnRequestCurrentSceneIndex;
+    public int BroadcastRequestCurrentSceneIndex()
+    {
+        if (OnRequestCurrentSceneIndex != null)
+        {
+            return OnRequestCurrentSceneIndex();
+        }
+
+        return -1;
     }
 
     public event BoolVoid OnPauseStateChange;
@@ -162,6 +173,42 @@ public class EventManager : MonoBehaviour
         if (OnRequestExitApplication != null)
         {
             OnRequestExitApplication();
+        }
+    }
+
+    public event BoolVoid OnPauseActorsStateChange;
+    public void BroadcastPauseActorsStateChange(bool newState)
+    {
+        if (OnPauseActorsStateChange != null)
+        {
+            OnPauseActorsStateChange(newState);
+        }
+    }
+
+    public event RobotTypeVoid OnLevelCompleted;
+    public void BroadcastLevelCompleted(ERobotType lastPossessedRobotType)
+    {
+        if(OnLevelCompleted != null)
+        {
+            OnLevelCompleted(lastPossessedRobotType);
+        }
+    }
+
+    public event RobotTypeVoid OnSpawnPlayer;
+    public void BroadcastSpawnPlayer(ERobotType robotTypeToSpawnAs)
+    {
+        if (OnSpawnPlayer != null)
+        {
+            OnSpawnPlayer(robotTypeToSpawnAs);
+        }
+    }
+
+    public event BoolVoid OnHideEnvironmentStateChange;
+    public void BroadcastHideEnvironmentStateChange(bool newState)
+    {
+        if(OnHideEnvironmentStateChange != null)
+        {
+            OnHideEnvironmentStateChange(newState);
         }
     }
 }

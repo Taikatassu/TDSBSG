@@ -47,6 +47,7 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
         possInfo.possessables.Add(this);
 
         em.OnInitializeGame += OnInitializeGame;
+        em.OnPauseActorsStateChange += OnPauseActorsStateChange;
     }
 
     private void OnDisable()
@@ -54,6 +55,7 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
         possInfo.possessables.Remove(this);
 
         em.OnInitializeGame -= OnInitializeGame;
+        em.OnPauseActorsStateChange -= OnPauseActorsStateChange;
     }
 
     private void OnInitializeGame()
@@ -67,6 +69,32 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
         connectedPossessables = new List<IPossessable>();
 
         ResetAll();
+    }
+
+    private void OnPauseActorsStateChange(bool newState)
+    {
+        if (newState)
+        {
+            movingUp = false;
+            movingDown = false;
+            movingRight = false;
+            movingLeft = false;
+            if (rb != null)
+            {
+                rb.isKinematic = true;
+            }
+        }
+        else
+        {
+            movingUp = false;
+            movingDown = false;
+            movingRight = false;
+            movingLeft = false;
+            if (isPossessed && rb != null)
+            {
+                rb.isKinematic = false;
+            }
+        }
     }
 
     private void ResetAll()

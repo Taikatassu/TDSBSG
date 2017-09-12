@@ -5,6 +5,7 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     #region References & variables
+    public static InputManager _instance;
     Toolbox toolbox;
     EventManager em;
 
@@ -19,6 +20,18 @@ public class InputManager : MonoBehaviour
 
     void Awake()
     {
+        if (_instance == null)
+        {
+            _instance = this;
+        }
+        else if (_instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        DontDestroyOnLoad(gameObject);
+
         toolbox = FindObjectOfType<Toolbox>();
         em = toolbox.GetComponent<EventManager>();
     }

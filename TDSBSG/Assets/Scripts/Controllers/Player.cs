@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     public LayerMask possessBlockinMask;
     private Interactable currentInteractableObject;
 
+    bool controllable = false; //Set to false during cutscenes etc., true while player is supposed to be able to move around
     float possessionRange = 5;
     #endregion
 
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour
         em.OnInputEvent += OnInputEvent;
         em.OnRequestPlayerReference += OnRequestPlayerReference;
         em.OnMouseInputEvent += OnMouseInputEvent;
+        em.OnPauseActorsStateChange += OnPauseActorsStateChange;
     }
 
     private void OnDisable()
@@ -41,6 +43,7 @@ public class Player : MonoBehaviour
         em.OnInputEvent -= OnInputEvent;
         em.OnRequestPlayerReference -= OnRequestPlayerReference;
         em.OnMouseInputEvent -= OnMouseInputEvent;
+        em.OnPauseActorsStateChange -= OnPauseActorsStateChange;
     }
 
     private void OnInitializeGame()
@@ -51,8 +54,13 @@ public class Player : MonoBehaviour
     private void OnStartGame()
     {
         TryPossessClosestPossessable();
+        controllable = true;
     }
 
+    private void OnPauseActorsStateChange(bool newState)
+    {
+        ChangeControllableState(!newState);
+    }
     private GameObject OnRequestPlayerReference()
     {
         return gameObject;
@@ -78,7 +86,6 @@ public class Player : MonoBehaviour
                         closestPossessable = possInfo.possessables[i];
 
                         distanceToClosest = distanceToThis;
-
                     }
                 }
             }
@@ -94,6 +101,12 @@ public class Player : MonoBehaviour
         Debug.LogWarning("No possessables found");
         return false;
     }
+
+    private void ChangeControllableState(bool newState)
+    {
+        controllable = newState;
+    }
+
 
     private void FixedUpdate()
     {
@@ -127,67 +140,55 @@ public class Player : MonoBehaviour
 
     private void OnMouseInputEvent(int button, bool down, Vector3 mousePosition)
     {
-        if (button == 0 && down)
+        if (controllable)
         {
-            Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-            RaycastHit hit;
-            Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.red, 5f);
-            if (Physics.Raycast(ray, out hit, 1000f, selectionMask))
+            if (button == 0 && down)
             {
-                if (hit.collider.GetComponent(typeof(IPossessable)))
+                Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+                RaycastHit hit;
+                Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.red, 5f);
+                if (Physics.Raycast(ray, out hit, 1000f, selectionMask))
                 {
-                    IPossessable hitPossessable = hit.collider.GetComponent<IPossessable>();
-                    Vector3 hitObjectDirection = hit.collider.transform.position - transform.position;
-                    //float distanceToClickedObject = hitObjectDirection.magnitude;
-                    Vector3 raycastOrigin = transform.position;
-                    raycastOrigin.y++;
-
-
-                    if (primaryPossession.GetConnectedPossessablesList().Contains(hitPossessable))
+                    if (hit.collider.GetComponent(typeof(IPossessable)))
                     {
-                        Debug.Log("Selected possessable is connected to currently possessed, possessing selection");
-                        PossessPossessable(hitPossessable);
-                        return;
-                    }
-                    else if (Physics.Raycast(raycastOrigin, hitObjectDirection, out hit, possessionRange, possessBlockinMask))
-                    {
-                        Debug.Log("Visibility raycast hit something");
-                        if (hit.collider.gameObject == hitPossessable.GetGameObject())
+                        IPossessable hitPossessable = hit.collider.GetComponent<IPossessable>();
+                        Vector3 hitObjectDirection = hit.collider.transform.position - transform.position;
+                        Vector3 raycastOrigin = transform.position;
+                        raycastOrigin.y++;
+
+                        if (primaryPossession.GetConnectedPossessablesList().Contains(hitPossessable))
                         {
-                            Debug.Log("Selected possessable is in range and visible, possessing selection");
                             PossessPossessable(hitPossessable);
                             return;
                         }
+                        else if (Physics.Raycast(raycastOrigin, hitObjectDirection, out hit, possessionRange, possessBlockinMask))
+                        {
+                            if (hit.collider.gameObject == hitPossessable.GetGameObject())
+                            {
+                                PossessPossessable(hitPossessable);
+                                return;
+                            }
+                        }
                     }
-
-                    Debug.Log("Selected possessable is not in range and visible, nor connected to currently possessed");
-                    List<IPossessable> connectedPossessables = primaryPossession.GetConnectedPossessablesList();
-                    float count = connectedPossessables.Count;
-                    Debug.Log("connectedPossessables.Count: " + connectedPossessables.Count);
-                    for (int i = 0; i < count; i++)
+                    else if (hit.collider.GetComponent(typeof(Interactable)))
                     {
-                        Debug.Log("connectedPossessables[i].GetGameObject().name: " + connectedPossessables[i].GetGameObject().name);
-                    }
-                }
-                else if (hit.collider.GetComponent(typeof(Interactable)))
-                {
-                    //Try to interact
-                    Debug.Log("Hit InteractableObject");
-                    currentInteractableObject = hit.collider.GetComponent<Interactable>();
+                        ////Try to interact
+                        Debug.Log("Hit InteractableObject");
+                        currentInteractableObject = hit.collider.GetComponent<Interactable>();
 
-                    if (currentInteractableObject.ContainPermissionList(primaryPossession.GetRobotType()))
-                    {
-                        currentInteractableObject.StartInteraction();   
+                        if (currentInteractableObject.ContainPermissionList(primaryPossession.GetRobotType()))
+                        {
+                            currentInteractableObject.StartInteraction();
+                        }
                     }
-
                 }
             }
-        }
-        else if(button == 1 && down)
-        {
-            if(currentInteractableObject)
+            else if (button == 1 && down)
             {
-                currentInteractableObject.EndInteraction();
+                if (currentInteractableObject)
+                {
+                    currentInteractableObject.EndInteraction();
+                }
             }
         }
     }
@@ -200,9 +201,12 @@ public class Player : MonoBehaviour
         //}
 
         /*else */
-        if (primaryPossession != null)
+        if (controllable)
         {
-            primaryPossession.GiveInput(newInput);
+            if (primaryPossession != null)
+            {
+                primaryPossession.GiveInput(newInput);
+            }
         }
 
         //if (currentSecondaryPossessions.Count > 0)
@@ -214,7 +218,6 @@ public class Player : MonoBehaviour
         //}
 
         //TODO: Handle player only inputs if neccessary
-
     }
 
     private void ResetAll()

@@ -87,12 +87,12 @@ Input
 DONE - Mouse input events (buttons up / down, cursor location)
 
 Levels
-- Level manager
-- Level start
-- Level end
-- Spawn player with the last possessed possessable at level start
-- Load new scene once the player finishes a level
-- Load the initial scene when pressing the play button in main menu
+DONE - Level manager
+DONE - Level start
+DONE- Level end
+DONE - Spawn player with the last possessed possessable at level start
+DONE - Load new scene once the player finishes a level
+DONE - Load the initial scene when pressing the play button in main menu
 - Create a animation scene for the elevator doors opening and closing at the start and end of a level
 	- Possibly with some "cinematic" camera work
 
@@ -102,8 +102,8 @@ TODO:
 DONE - Fix debug manager
 DONE - Find out why connected possessables don't always work
 DONE - Implement visible connections to connected possessables (enabled on mouseover or when possessed)
-
-
-
+DONE - Implement a way to pause all enemies during cutscenes without changing timescale
+- Rotate the possessable possessed by the player in the direction of movement (velocity direction)
+- Update scene indices if neccessary (ApplicationManager, UIManager, GameManager)
 
 

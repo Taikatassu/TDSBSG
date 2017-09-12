@@ -19,6 +19,7 @@ public class FieldOfView : MonoBehaviour
     private void Start()
     {
         GameObject viewMeshHolder = new GameObject("View Mesh Holder");
+        //viewMeshHolder.layer = LayerMask.NameToLayer("Indicators");
         viewMeshHolder.transform.SetParent(transform);
         Vector3 locPos = Vector3.zero;
         locPos.y = 0.5f;
