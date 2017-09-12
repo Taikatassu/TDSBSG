@@ -20,6 +20,8 @@ public class Interactable_Door : Interactable {
 
     EDoorState state;
 
+    ParticleSystem lightEffect;
+
     private enum EDoorState {
         IS_WAITING,
         IS_OPENING,
@@ -28,11 +30,12 @@ public class Interactable_Door : Interactable {
 
     private void Start() {
         permissionList = new List<ERobotType>();
-        permissionList.Add(ERobotType.DEFAULT);
-        permissionList.Add(ERobotType.SMALL);
+        
 
         closedPos = doorObject.transform.position;
         closedRot = doorObject.transform.eulerAngles;
+
+        lightEffect = null;
     }
 
     private void Update() {
@@ -99,6 +102,11 @@ public class Interactable_Door : Interactable {
         }
         if (ContainPermissionList(user.GetRobotType())) {
             state = EDoorState.IS_OPENING;
+            CreateGreanLightEffect();
+        }
+        else
+        {
+            CreateRedLightEffect();
         }
     }
 
@@ -114,5 +122,25 @@ public class Interactable_Door : Interactable {
         if (ContainPermissionList(user.GetRobotType())) {
             state = EDoorState.IS_CLOSING;
         }
+        OffLightEffect();
+    }
+
+    void CreateGreanLightEffect()
+    {
+        if(lightEffect != null) { OffLightEffect(); }
+        lightEffect = Instantiate(Resources.Load<ParticleSystem>("ParticleEffect/GreanLight"),
+            gameObject.transform.position + new Vector3(0, 3, 0), Quaternion.identity);
+        lightEffect.Play();
+    }
+    void CreateRedLightEffect()
+    {
+        if (lightEffect != null) { OffLightEffect(); }
+        lightEffect = Instantiate(Resources.Load<ParticleSystem>("ParticleEffect/RedLight"),
+            gameObject.transform.position + new Vector3(0, 3, 0), Quaternion.identity);
+        lightEffect.Play();
+    }
+    void OffLightEffect()
+    {
+        Destroy(lightEffect.gameObject);
     }
 }
