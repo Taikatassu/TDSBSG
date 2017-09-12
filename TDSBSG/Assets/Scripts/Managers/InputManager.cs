@@ -13,10 +13,11 @@ public class InputManager : MonoBehaviour
     private KeyCode moveDownKey;
     private KeyCode moveRightKey;
     private KeyCode moveLeftKey;
-    private KeyCode possessKey;
     private KeyCode cameraModeKey;
     private KeyCode pauseKey;
     private KeyCode useKey;
+    private KeyCode rotateCameraClockwise;
+    private KeyCode rotateCameraCounterClockwise;
     #endregion
 
     void Awake()
@@ -44,10 +45,11 @@ public class InputManager : MonoBehaviour
         moveDownKey = KeyCode.S;
         moveRightKey = KeyCode.D;
         moveLeftKey = KeyCode.A;
-        possessKey = KeyCode.Q;
         pauseKey = KeyCode.Escape;
         cameraModeKey = KeyCode.M;
         useKey = KeyCode.Space;
+        rotateCameraClockwise = KeyCode.Q;
+        rotateCameraCounterClockwise = KeyCode.E;
     }
 
     void Update()
@@ -89,16 +91,6 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyUp(moveLeftKey))
         {
             em.BroadcastInputEvent(EInputType.MOVELEFT_KEYUP);
-        }
-
-        //Possess
-        if (Input.GetKeyDown(possessKey))
-        {
-            em.BroadcastInputEvent(EInputType.POSSESS_KEYDOWN);
-        }
-        if (Input.GetKeyUp(possessKey))
-        {
-            em.BroadcastInputEvent(EInputType.POSSESS_KEYUP);
         }
 
         //Pause
@@ -151,6 +143,25 @@ public class InputManager : MonoBehaviour
         {
             em.BroadcastMouseInputEvent(1, false, Input.mousePosition);
         }
+
+        //Rotate camera
+        if (Input.GetKeyDown(rotateCameraClockwise))
+        {
+            em.BroadcastInputEvent(EInputType.ROTATECAMERACLOCKWISE_KEYDOWN);
+        }
+        if (Input.GetKeyUp(rotateCameraClockwise))
+        {
+            em.BroadcastInputEvent(EInputType.ROTATECAMERACLOCKWISE_KEYUP);
+        }
+
+        if (Input.GetKeyDown(rotateCameraCounterClockwise))
+        {
+            em.BroadcastInputEvent(EInputType.ROTATECAMERACOUNTERCLOCKWISE_KEYDOWN);
+        }
+        if (Input.GetKeyUp(rotateCameraCounterClockwise))
+        {
+            em.BroadcastInputEvent(EInputType.ROTATECAMERACOUNTERCLOCKWISE_KEYUP);
+        }
         #endregion
     }
 }
@@ -158,20 +169,22 @@ public class InputManager : MonoBehaviour
 public enum EInputType
 {
     MOVEUP_KEYDOWN,
-    MOVEDOWN_KEYDOWN,
-    MOVERIGHT_KEYDOWN,
-    MOVELEFT_KEYDOWN,
-    POSSESS_KEYDOWN,
     MOVEUP_KEYUP,
+    MOVEDOWN_KEYDOWN,
     MOVEDOWN_KEYUP,
+    MOVERIGHT_KEYDOWN,
     MOVERIGHT_KEYUP,
+    MOVELEFT_KEYDOWN,
     MOVELEFT_KEYUP,
-    POSSESS_KEYUP,
     PAUSE_KEYDOWN,
     PAUSE_KEYUP,
     CAMERAMODE_KEYDOWN,
     CAMRAMODE_KEYUP,
     USE_KEYDOWN,
     USE_KEYUP,
+    ROTATECAMERACLOCKWISE_KEYDOWN,
+    ROTATECAMERACLOCKWISE_KEYUP,
+    ROTATECAMERACOUNTERCLOCKWISE_KEYDOWN,
+    ROTATECAMERACOUNTERCLOCKWISE_KEYUP,
 
 }

@@ -13,8 +13,10 @@ public class CameraController : MonoBehaviour
     #region References & variables
     Toolbox toolbox;
     EventManager em;
+    Transform rotatorTransform;
     Transform target;
 
+    //TODO: Change these to vector3s
     [SerializeField]
     float xOffsetMode0 = 0;
     [SerializeField]
@@ -48,11 +50,15 @@ public class CameraController : MonoBehaviour
     Quaternion startingRotation = Quaternion.identity;
     float rotationSlerpDuration = 0.75f;
     float rotationSlerpStartTime = 0f;
+    Vector3 rotationOffset = Vector3.zero;
     //float obscuringObjectsCheckTickInterval = 0.25f;
     //float obscuringObjectsCheckTimer = 0f;
     //float obscuringObjectsCheckSpherecastRadius = 3f;
     //[SerializeField]
     //LayerMask obscuringObjectsCheckMask;
+    bool rotatingCameraClockwise = false;
+    bool rotatingCameraCounterClockwise = false;
+    float rotationSpeed = 50f;
     #endregion
 
     private void Awake()
@@ -77,9 +83,13 @@ public class CameraController : MonoBehaviour
 
     void OnInitializeGame()
     {
+        rotatorTransform = transform.parent;
         target = em.BroadcastRequestPlayerReference().transform;
 
         cameraMode = 0;
+        rotatingCameraClockwise = false;
+        rotatingCameraCounterClockwise = false;
+        rotationOffset = Vector3.zero;
         Vector3 targetPosition = target.position;
         Vector3 desiredPosition = new Vector3(targetPosition.x + xOffsetMode0,
             targetPosition.y + yOffsetMode0, targetPosition.z + zOffsetMode0);
@@ -104,13 +114,23 @@ public class CameraController : MonoBehaviour
             case EInputType.CAMERAMODE_KEYDOWN:
                 ToggleCameraMode();
                 break;
-            case EInputType.CAMRAMODE_KEYUP:
+            case EInputType.ROTATECAMERACLOCKWISE_KEYDOWN:
+                rotatingCameraClockwise = true;
+                break;
+            case EInputType.ROTATECAMERACLOCKWISE_KEYUP:
+                rotatingCameraClockwise = false;
+                break;
+            case EInputType.ROTATECAMERACOUNTERCLOCKWISE_KEYDOWN:
+                rotatingCameraCounterClockwise = true;
+                break;
+            case EInputType.ROTATECAMERACOUNTERCLOCKWISE_KEYUP:
+                rotatingCameraCounterClockwise = false;
                 break;
             default:
                 break;
         }
     }
-
+    
     private void ToggleCameraMode()
     {
         if (cameraMode == 0)
@@ -131,61 +151,78 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    //private void FixedUpdate()
-    //{
+    private void FixedUpdate()
+    {
+        //TODO: Finish implementing camera rotation
+        //if (!isRotatingToDesiredRotation)
+        //{
+        //    rotationOffset = Vector3.zero;
+        //    if (rotatingCameraClockwise)
+        //    {
+        //        rotationOffset.y += rotationSpeed * Time.fixedDeltaTime;
+        //    }
+        //    if (rotatingCameraCounterClockwise)
+        //    {
+        //        rotationOffset.y -= rotationSpeed * Time.fixedDeltaTime;
+        //    }
 
-    //    //TODO: Instead of trying to find objects with "HideableObject" component, add the component to all hit objects
-    //    //TODO: Find out why this isn't working (hideable object found, but it will not turn transparent)
-    //    obscuringObjectsCheckTimer -= Time.fixedDeltaTime;
+        //    rotatorTransform.eulerAngles += rotationOffset;
+        //}
 
-    //    if(obscuringObjectsCheckTimer <= 0)
-    //    {
-    //        Debug.Log("obscuringObjectsCheck tick");
-    //        obscuringObjectsCheckTimer = obscuringObjectsCheckTickInterval;
+        #region Hideable object detection
+        ////TODO: Instead of trying to find objects with "HideableObject" component, add the component to all hit objects
+        ////TODO: Find out why this isn't working (hideable object found, but it will not turn transparent)
+        //obscuringObjectsCheckTimer -= Time.fixedDeltaTime;
 
-    //        RaycastHit[] hits;
-    //        Vector3 spherecastDirection = target.position - transform.position;
-    //        hits = Physics.SphereCastAll(transform.position, obscuringObjectsCheckSpherecastRadius,
-    //            spherecastDirection, spherecastDirection.magnitude, obscuringObjectsCheckMask);
-            
-    //        if(hits.Length > 0)
-    //        {
-    //            for (int i = 0; i < hits.Length; i++)
-    //            {
-    //                if (hits[i].collider.GetComponent<HideableObject>())
-    //                {
-    //                    Debug.Log("Hideable object found, hiding with timer");
-    //                    HideableObject hitHideable = hits[i].collider.GetComponent<HideableObject>();
-    //                    hitHideable.HideObjectWithTimer();
-    //                }
-    //            }
-    //        }
+        //if (obscuringObjectsCheckTimer <= 0)
+        //{
+        //    Debug.Log("obscuringObjectsCheck tick");
+        //    obscuringObjectsCheckTimer = obscuringObjectsCheckTickInterval;
 
-    //    }
-    //}
+        //    RaycastHit[] hits;
+        //    Vector3 spherecastDirection = target.position - transform.position;
+        //    hits = Physics.SphereCastAll(transform.position, obscuringObjectsCheckSpherecastRadius,
+        //        spherecastDirection, spherecastDirection.magnitude, obscuringObjectsCheckMask);
+
+        //    if (hits.Length > 0)
+        //    {
+        //        for (int i = 0; i < hits.Length; i++)
+        //        {
+        //            if (hits[i].collider.GetComponent<HideableObject>())
+        //            {
+        //                Debug.Log("Hideable object found, hiding with timer");
+        //                HideableObject hitHideable = hits[i].collider.GetComponent<HideableObject>();
+        //                hitHideable.HideObjectWithTimer();
+        //            }
+        //        }
+        //    }
+
+        //}
+        #endregion
+    }
 
     private void LateUpdate()
     {
         if (isFollowing)
         {
             Vector3 desiredPosition = Vector3.zero;
+            Vector3 targetPosition = target.position;
+
             if (cameraMode == 0)
             {
                 //Calculate desired position with camera mode 0
-                Vector3 targetPosition = target.position;
                 desiredPosition = new Vector3(targetPosition.x + xOffsetMode0,
                    targetPosition.y + yOffsetMode0, targetPosition.z + zOffsetMode0);
             }
             else if (cameraMode == 1)
             {
                 //Calculate desired position with camera mode 1
-                Vector3 targetPosition = target.position;
                 desiredPosition = new Vector3(targetPosition.x + xOffsetMode1,
                    targetPosition.y + yOffsetMode1, targetPosition.z + zOffsetMode1);
             }
 
             //Smoothly move to the desired position
-            transform.position = Vector3.SmoothDamp(transform.position,
+            transform.position = Vector3.SmoothDamp(transform.localPosition,
                 desiredPosition, ref velocity, smoothTime);
 
             //transform.LookAt(target);
@@ -197,7 +234,7 @@ public class CameraController : MonoBehaviour
             float timeSinceStarted = Time.time - rotationSlerpStartTime;
             float percentageCompleted = timeSinceStarted / rotationSlerpDuration;
 
-            transform.rotation = Quaternion.Slerp(startingRotation, desiredRotation, percentageCompleted);
+            transform.localRotation = Quaternion.Slerp(startingRotation, desiredRotation, percentageCompleted);
 
             if (percentageCompleted >= 1)
             {

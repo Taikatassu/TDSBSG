@@ -107,10 +107,10 @@ DONE - Rotate the possessable possessed by the player in the direction of moveme
 DONE - Update scene indices if neccessary (ApplicationManager, UIManager, GameManager)
 DONE - PaperMario-like multi-sided sprite animation controller
 - Implement slight smooth on the possessed possessable rotation
-- Implement rotatable camera
+WIP - Implement rotatable camera
 - Redo Poss_Worker & Interactable_Liftable
 - Implement the rest of the sprites on enemies and possessables (spriteAnimationController)
-- Screen To GIF (make a GIF of the sprite enemy walking around in the scene (pull populated scene from git))
+DONE - Screen To GIF (make a GIF of the sprite enemy walking around in the scene (pull populated scene from git))
 
 
 

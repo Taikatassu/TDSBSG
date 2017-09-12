@@ -41,34 +41,6 @@ public class Poss_Worker : Poss_Mobile {
     public override void GiveInput(EInputType newInput) {
         base.GiveInput(newInput);
         switch (newInput) {
-            case EInputType.MOVEUP_KEYDOWN:
-            break;
-            case EInputType.MOVEDOWN_KEYDOWN:
-            break;
-            case EInputType.MOVERIGHT_KEYDOWN:
-            break;
-            case EInputType.MOVELEFT_KEYDOWN:
-            break;
-            case EInputType.POSSESS_KEYDOWN:
-            break;
-            case EInputType.MOVEUP_KEYUP:
-            break;
-            case EInputType.MOVEDOWN_KEYUP:
-            break;
-            case EInputType.MOVERIGHT_KEYUP:
-            break;
-            case EInputType.MOVELEFT_KEYUP:
-            break;
-            case EInputType.POSSESS_KEYUP:
-            break;
-            case EInputType.PAUSE_KEYDOWN:
-            break;
-            case EInputType.PAUSE_KEYUP:
-            break;
-            case EInputType.CAMERAMODE_KEYDOWN:
-            break;
-            case EInputType.CAMRAMODE_KEYUP:
-            break;
             case EInputType.USE_KEYDOWN:
             Debug.Log("press Space");
             Debug.Log(liftableCandidate);
