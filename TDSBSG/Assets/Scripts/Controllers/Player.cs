@@ -13,7 +13,6 @@ public class Player : MonoBehaviour
     Transform primaryPossessionTransform;
     public LayerMask selectionMask;
     public LayerMask possessBlockinMask;
-    private Interactable currentInteractableObject;
 
     bool controllable = false; //Set to false during cutscenes etc., true while player is supposed to be able to move around
     float possessionRange = 5;
@@ -174,20 +173,24 @@ public class Player : MonoBehaviour
                     {
                         ////Try to interact
                         Debug.Log("Hit InteractableObject");
-                        currentInteractableObject = hit.collider.GetComponent<Interactable>();
+
+                        Interactable currentInteractableObject = hit.collider.GetComponent<Interactable>();
 
                         if (currentInteractableObject.ContainPermissionList(primaryPossession.GetRobotType()))
                         {
-                            currentInteractableObject.StartInteraction();
+                            primaryPossession.SetInteractableObject(currentInteractableObject);
+                            currentInteractableObject.StartInteraction(primaryPossession);
                         }
                     }
                 }
             }
             else if (button == 1 && down)
             {
+                Interactable currentInteractableObject = primaryPossession.GetInteractableObject();
                 if (currentInteractableObject)
                 {
-                    currentInteractableObject.EndInteraction();
+                    currentInteractableObject.EndInteraction(primaryPossession);
+                    primaryPossession.SetInteractableObject(null);
                 }
             }
         }
