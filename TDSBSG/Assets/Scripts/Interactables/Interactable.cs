@@ -23,15 +23,14 @@ public class Interactable : MonoBehaviour {
         return 0.0f;
     }
 
-    public virtual float StartInteraction()
+    public virtual float StartInteraction(IPossessable user)
     {
         if (isInUse) { return -1.0f; }
-
         isInUse = true;
         return startDurationTime;
     }
 
-    public virtual float EndInteraction()
+    public virtual float EndInteraction(IPossessable user)
     {
         if (!isInUse) { return -1.0f; }
         isInUse = false;

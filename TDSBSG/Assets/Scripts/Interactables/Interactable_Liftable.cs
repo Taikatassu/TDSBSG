@@ -12,25 +12,17 @@ public class Interactable_Liftable : Interactable {
     Vector3 endPosition;      // Position after movement
 
     // Use this for initialization
-    void Start () {
-        permissionList = new List<ERobotType>();
-        permissionList.Add(ERobotType.DEFAULT);
+        void Start() {
+            permissionList = new List<ERobotType>();
+            permissionList.Add(ERobotType.DEFAULT);
 
-        startPosition = transform.position;
-        endPosition = transform.position;
-        endPosition.y += 1.0f;
-    }
-	
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetKey(KeyCode.Z))
-        {
-            StartInteraction();
+            startPosition = transform.position;
+            endPosition = transform.position;
+            endPosition.y += 1.0f;
         }
-        if (Input.GetKey(KeyCode.X))
-        {
-            EndInteraction();
-        }
+
+    // Update is called once per frame
+    void Update() { 
 
         // Use Lerp function for moving
         if (GetIsInUse())
@@ -67,17 +59,17 @@ public class Interactable_Liftable : Interactable {
         return endDurationTime;
     }
 
-    public override float StartInteraction()
+    public override float StartInteraction(IPossessable user)
     {
-        if (base.StartInteraction() == -1.0f) { return -1.0f; }
+        if (base.StartInteraction(user) == -1.0f) { return -1.0f; }
 
         //transform.Translate(0, 1.0f, 0);
         return startDurationTime;
     }
 
-    public override float EndInteraction()
+    public override float EndInteraction(IPossessable user)
     {
-        if (base.EndInteraction() == -1.0f) { return -1.0f; }
+        if (base.EndInteraction(user) == -1.0f) { return -1.0f; }
         
 
         return endDurationTime;
