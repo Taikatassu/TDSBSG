@@ -8,6 +8,7 @@ public class Interactable : MonoBehaviour {
     protected bool stationaryInteractable;
     protected float startDurationTime = 0.0f;
     protected float endDurationTime = 0.0f;
+    [SerializeField]
     protected List<ERobotType> permissionList;
 
 
