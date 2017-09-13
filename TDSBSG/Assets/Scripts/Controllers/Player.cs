@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
 
     bool controllable = false; //Set to false during cutscenes etc., true while player is supposed to be able to move around
     float possessionRange = 5;
+
+    float maxAngle = 30.0f;
     #endregion
 
     private void Awake()
@@ -181,6 +183,27 @@ public class Player : MonoBehaviour
                             primaryPossession.SetInteractableObject(currentInteractableObject);
                             currentInteractableObject.StartInteraction(primaryPossession);
                         }
+                    }
+
+                }
+                else if (Physics.Raycast(ray, out hit, 1000f))
+                {
+                    IPossessable temporaryPossessable = null;
+                    float previousAngle = 180.0f;
+                    foreach (IPossessable i in primaryPossession.GetConnectedPossessablesList())
+                    {
+                        float angle = Vector3.Angle(hit.point - transform.position, i.GetGameObject().transform.position - transform.position);
+                        Debug.Log("Angle = " + angle.ToString("f2") + "f");
+
+                        if ((angle <= maxAngle) && (angle < previousAngle))
+                        {
+                            temporaryPossessable = i;
+                            previousAngle = angle;
+                        }
+                    }
+                    if (temporaryPossessable != null)
+                    {
+                        PossessPossessable(temporaryPossessable);
                     }
                 }
             }
