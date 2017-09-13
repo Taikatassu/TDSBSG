@@ -370,6 +370,7 @@ MonoBehaviour:
   endTrigger: {fileID: 1051439559}
   levelEndingPosition: {fileID: 1051439560}
   playerStart: {fileID: 378450478}
+  endingCutscenWalkSpeed: 1.5
 --- !u!4 &43403414
 Transform:
   m_ObjectHideFlags: 0
@@ -713,6 +714,81 @@ Prefab:
     - target: {fileID: 4946122980832804, guid: 663349144de885b429b7214c5545b8cd, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114066890989869068, guid: 663349144de885b429b7214c5545b8cd,
+        type: 2}
+      propertyPath: posOffsetMode0.y
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 114066890989869068, guid: 663349144de885b429b7214c5545b8cd,
+        type: 2}
+      propertyPath: posOffsetMode0.z
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114066890989869068, guid: 663349144de885b429b7214c5545b8cd,
+        type: 2}
+      propertyPath: rotOffsetMode0.x
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 114066890989869068, guid: 663349144de885b429b7214c5545b8cd,
+        type: 2}
+      propertyPath: posOffsetMode1.y
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 114066890989869068, guid: 663349144de885b429b7214c5545b8cd,
+        type: 2}
+      propertyPath: posOffsetMode1.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114066890989869068, guid: 663349144de885b429b7214c5545b8cd,
+        type: 2}
+      propertyPath: rotOffsetMode1.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4996477430759730, guid: 663349144de885b429b7214c5545b8cd, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4996477430759730, guid: 663349144de885b429b7214c5545b8cd, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4996477430759730, guid: 663349144de885b429b7214c5545b8cd, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4996477430759730, guid: 663349144de885b429b7214c5545b8cd, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0.8660254
+      objectReference: {fileID: 0}
+    - target: {fileID: 4996477430759730, guid: 663349144de885b429b7214c5545b8cd, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187822497970002, guid: 663349144de885b429b7214c5545b8cd, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187822497970002, guid: 663349144de885b429b7214c5545b8cd, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187822497970002, guid: 663349144de885b429b7214c5545b8cd, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187822497970002, guid: 663349144de885b429b7214c5545b8cd, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187822497970002, guid: 663349144de885b429b7214c5545b8cd, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114066890989869068, guid: 663349144de885b429b7214c5545b8cd,
+        type: 2}
+      propertyPath: rotOffsetMode0.y
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 663349144de885b429b7214c5545b8cd, type: 2}
