@@ -30,11 +30,12 @@ public class SpriteAnimationController : MonoBehaviour
     [SerializeField]
     GameObject knockedOutSpritePlayer;
 
+    List<GameObject> spritePlayers = new List<GameObject>();
     //[SerializeField]
     //float takeDamageDuration = 0.5f;
     //float takeDamageTimer = 0f;
 
-    EAnimationState currentAnimState = EAnimationState.DEFAULT;
+    EAnimationState currentAnimState = EAnimationState.IDLE;
     EViewDirection currentViewDirection = EViewDirection.DEFAULT;
 
     public void Awake()
@@ -45,17 +46,21 @@ public class SpriteAnimationController : MonoBehaviour
 
     private void OnEnable()
     {
-        em.OnInitializeGame += OnInitializeGame;
-    }
-
-    private void OnDisable()
-    {
-        em.OnInitializeGame -= OnInitializeGame;
-    }
-
-    private void OnInitializeGame()
-    {
+        Debug.Log("OnInitializeGame");
         cameraTransform = em.BroadcastRequestCameraReference().transform;
+        spritePlayers = new List<GameObject>();
+        spritePlayers.Add(frontIdleSpritePlayer);
+        spritePlayers.Add(frontWalkSpritePlayer);
+        spritePlayers.Add(backIdleSpritePlayer);
+        spritePlayers.Add(backWalkSpritePlayer);
+
+        spritePlayers.Add(rightIdleSpritePlayer);
+        spritePlayers.Add(rightWalkSpritePlayer);
+        spritePlayers.Add(leftIdleSpritePlayer);
+        spritePlayers.Add(leftWalkSpritePlayer);
+
+        spritePlayers.Add(takeDamageSpritePlayer);
+        spritePlayers.Add(knockedOutSpritePlayer);
     }
 
     public void SetAnimationState(EAnimationState newState)
@@ -80,103 +85,122 @@ public class SpriteAnimationController : MonoBehaviour
 
     private void SetEnabledSpritePlayer(GameObject newSpritePlayer)
     {
+        Debug.Log("SetEnabledSpritePlayer");
+
         enabledSpritePlayer = newSpritePlayer;
-
-        //Front
-        if (enabledSpritePlayer == frontIdleSpritePlayer)
+        int count = spritePlayers.Count;
+        for (int i = 0; i < count; i++)
         {
-            frontIdleSpritePlayer.SetActive(true);
-        }
-        else
-        {
-            frontIdleSpritePlayer.SetActive(false);
-        }
-
-        if (enabledSpritePlayer == frontWalkSpritePlayer)
-        {
-            frontWalkSpritePlayer.SetActive(true);
-        }
-        else
-        {
-            frontWalkSpritePlayer.SetActive(false);
+            if(spritePlayers[i] != null)
+            {
+                if (enabledSpritePlayer == spritePlayers[i])
+                {
+                    spritePlayers[i].SetActive(true);
+                }
+                else
+                {
+                    spritePlayers[i].SetActive(false);
+                }
+            }
         }
 
-        //Back
-        if (enabledSpritePlayer == backIdleSpritePlayer)
-        {
-            backIdleSpritePlayer.SetActive(true);
-        }
-        else
-        {
-            backIdleSpritePlayer.SetActive(false);
-        }
+        #region Old implementation
+        ////Front
+        //if (enabledSpritePlayer == frontIdleSpritePlayer)
+        //{
+        //    frontIdleSpritePlayer.SetActive(true);
+        //}
+        //else
+        //{
+        //    frontIdleSpritePlayer.SetActive(false);
+        //}
 
-        if (enabledSpritePlayer == backWalkSpritePlayer)
-        {
-            backWalkSpritePlayer.SetActive(true);
-        }
-        else
-        {
-            backWalkSpritePlayer.SetActive(false);
-        }
+        //if (enabledSpritePlayer == frontWalkSpritePlayer)
+        //{
+        //    frontWalkSpritePlayer.SetActive(true);
+        //}
+        //else
+        //{
+        //    frontWalkSpritePlayer.SetActive(false);
+        //}
 
-        //Right
-        if (enabledSpritePlayer == rightIdleSpritePlayer)
-        {
-            rightIdleSpritePlayer.SetActive(true);
-        }
-        else
-        {
-            rightIdleSpritePlayer.SetActive(false);
-        }
+        ////Back
+        //if (enabledSpritePlayer == backIdleSpritePlayer)
+        //{
+        //    backIdleSpritePlayer.SetActive(true);
+        //}
+        //else
+        //{
+        //    backIdleSpritePlayer.SetActive(false);
+        //}
 
-        if (enabledSpritePlayer == rightWalkSpritePlayer)
-        {
-            rightWalkSpritePlayer.SetActive(true);
-        }
-        else
-        {
-            rightWalkSpritePlayer.SetActive(false);
-        }
+        //if (enabledSpritePlayer == backWalkSpritePlayer)
+        //{
+        //    backWalkSpritePlayer.SetActive(true);
+        //}
+        //else
+        //{
+        //    backWalkSpritePlayer.SetActive(false);
+        //}
 
-        //Left
-        if (enabledSpritePlayer == leftIdleSpritePlayer)
-        {
-            leftIdleSpritePlayer.SetActive(true);
-        }
-        else
-        {
-            leftIdleSpritePlayer.SetActive(false);
-        }
+        ////Right
+        //if (enabledSpritePlayer == rightIdleSpritePlayer)
+        //{
+        //    rightIdleSpritePlayer.SetActive(true);
+        //}
+        //else
+        //{
+        //    rightIdleSpritePlayer.SetActive(false);
+        //}
 
-        if (enabledSpritePlayer == leftWalkSpritePlayer)
-        {
-            leftWalkSpritePlayer.SetActive(true);
-        }
-        else
-        {
-            leftWalkSpritePlayer.SetActive(false);
-        }
+        //if (enabledSpritePlayer == rightWalkSpritePlayer)
+        //{
+        //    rightWalkSpritePlayer.SetActive(true);
+        //}
+        //else
+        //{
+        //    rightWalkSpritePlayer.SetActive(false);
+        //}
 
-        //Take damage
-        if (enabledSpritePlayer == takeDamageSpritePlayer)
-        {
-            takeDamageSpritePlayer.SetActive(true);
-        }
-        else
-        {
-            takeDamageSpritePlayer.SetActive(false);
-        }
+        ////Left
+        //if (enabledSpritePlayer == leftIdleSpritePlayer)
+        //{
+        //    leftIdleSpritePlayer.SetActive(true);
+        //}
+        //else
+        //{
+        //    leftIdleSpritePlayer.SetActive(false);
+        //}
 
-        //Knockedout
-        if (enabledSpritePlayer == knockedOutSpritePlayer)
-        {
-            knockedOutSpritePlayer.SetActive(true);
-        }
-        else
-        {
-            knockedOutSpritePlayer.SetActive(false);
-        }
+        //if (enabledSpritePlayer == leftWalkSpritePlayer)
+        //{
+        //    leftWalkSpritePlayer.SetActive(true);
+        //}
+        //else
+        //{
+        //    leftWalkSpritePlayer.SetActive(false);
+        //}
+
+        ////Take damage
+        //if (enabledSpritePlayer == takeDamageSpritePlayer)
+        //{
+        //    takeDamageSpritePlayer.SetActive(true);
+        //}
+        //else
+        //{
+        //    takeDamageSpritePlayer.SetActive(false);
+        //}
+
+        ////Knockedout
+        //if (enabledSpritePlayer == knockedOutSpritePlayer)
+        //{
+        //    knockedOutSpritePlayer.SetActive(true);
+        //}
+        //else
+        //{
+        //    knockedOutSpritePlayer.SetActive(false);
+        //}
+        #endregion
     }
 
     private void UpdateSpriteState()
