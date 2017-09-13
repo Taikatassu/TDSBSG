@@ -13,13 +13,13 @@ public class Poss_Worker : Poss_Mobile {
     [SerializeField]
     BoxCollider liftableDetector;
     [SerializeField]
-    Vector3 originalPos = new Vector3(0.0f, 0.0f, 0.625f);
+    Vector3 triggerOriginalPos = new Vector3(0.0f, 0.6f, 1.6f);
     [SerializeField]
-    Vector3 originalScale = new Vector3(1.0f, 0.9f, 0.25f);
+    Vector3 triggerOriginalScale = new Vector3(1.5f, 1.1f, 0.75f);
     [SerializeField]
-    Vector3 liftPos = new Vector3(0.0f, 0.0f, 1.0f);
+    Vector3 triggerLiftPos = new Vector3(0.0f, 0.6f, 1.75f);
     [SerializeField]
-    Vector3 liftScale = new Vector3(1.0f, 0.9f, 1.0f);
+    Vector3 triggerLiftScale = new Vector3(1.5f, 1.1f, 1.5f);
 
     [SerializeField]
     private float animationTime = 1.0f;
@@ -145,11 +145,11 @@ public class Poss_Worker : Poss_Mobile {
             isLerping = false;
             interactionPause = false;
             if (isLerpUp) {
-                ChangeColliderParameters(liftPos, liftScale);
+                ChangeColliderParameters(triggerLiftPos, triggerLiftScale);
                 liftableCandidates.Clear();
                 lifter.GetComponent<Collider>().enabled = true;
             } else {
-                ChangeColliderParameters(originalPos, originalScale);
+                ChangeColliderParameters(triggerOriginalPos, triggerOriginalScale);
                 overlappingObjects.Clear();
                 lifter.GetComponent<Collider>().enabled = false;
                 currentLiftable.EndInteraction(this);

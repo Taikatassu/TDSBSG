@@ -113,11 +113,22 @@ DONE - Redo Poss_Worker & Interactable_Liftable
 - Implement the rest of the sprites on enemies and possessables (spriteAnimationController)
 DONE - Screen To GIF (make a GIF of the sprite enemy walking around in the scene (pull populated scene from git))
 DONE - Check if all sprites exist (defaut robot, roomba, forklift, vending machine, radio?, enemies)
-- Rotate possessed possessable controls with camera
-- Finish alert system 
-	- Game over when player get's caught in the enemy's vision cone
-	- Player can't move once spotted
-	- Guard runs to player
-	- Game over once guard gets to the player
-- Forklift prefab
+DONE - Rotate possessed possessable controls with camera
+DONE - Forklift prefab
+DONE - Vending Machine prefab
+DONE - Door lerp moves the doors too far away?
+- Guards cannot open doors?
+- Implement game over when seen / Finish alert system 
+ - Guards send an event when they see a disobeying possessable (also start alarm)
+ - The spotted possessed cannot move while the guards run to it
+ - If it was the player, game over
+ - If it was not the player, guards return to patrolling
+
+
+
+
+
+
+
+
 

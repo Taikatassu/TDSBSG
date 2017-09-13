@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 54306895502859206}
   - component: {fileID: 114235104585437244}
   m_Layer: 0
-  m_Name: Projectile
+  m_Name: DefaultProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -138,6 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48c0ab2a91dded542bc9a9e35596fb64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reusable: 0
 --- !u!136 &136716788286606676
 CapsuleCollider:
   m_ObjectHideFlags: 1
