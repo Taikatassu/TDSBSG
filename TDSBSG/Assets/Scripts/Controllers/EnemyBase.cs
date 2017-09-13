@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(FieldOfView))]
-public class EnemyBase : MonoBehaviour
-{
+public class EnemyBase : MonoBehaviour {
     #region References & variables
     protected Toolbox toolbox;
     protected EventManager em;
@@ -28,7 +27,7 @@ public class EnemyBase : MonoBehaviour
     protected float currentVisionRange = 0f;
     [SerializeField]
     protected float defaultVisionAngle = 30f;
-        protected float currentVisionAngle = 0f;
+    protected float currentVisionAngle = 0f;
     protected float visionRangeMultiplier = 1f;
     protected float visionAngleMultiplier = 1f;
     protected float defaultVisionRangeMultiplier = 1f;
@@ -41,6 +40,10 @@ public class EnemyBase : MonoBehaviour
     protected int currentSecurityTier = 0;
     int visionAngleIncreasePerSecurityTier = 15;
     protected bool isPaused = false; //Separate from full game pause. Used for example during cutscenes if necessary to pause all movement
+    [SerializeField]
+    float knockOutDuration;
+    float knockOutTimer;
+    protected bool isKnockedOut;
     #endregion
 
     private void Awake()
@@ -210,6 +213,15 @@ public class EnemyBase : MonoBehaviour
         return false;
     }
 
+    public void KnockOut() {
+        isKnockedOut = true;
+        knockOutTimer = knockOutDuration;
+    }
+
+    protected void EndKnockOut() {
+        isKnockedOut = false;
+    }
+
     #region FixedUpdate & LateUpdate
     protected virtual void FixedUpdate()
     {
@@ -223,8 +235,15 @@ public class EnemyBase : MonoBehaviour
             myFoV.SetViewRange(currentVisionRange);
             myFoV.SetViewAngle(currentVisionAngle);
 
+            if(isKnockedOut) {
+                knockOutTimer -= Time.fixedDeltaTime;
+                if(knockOutTimer <= 0.0f) {
+                    EndKnockOut();
+                }
+            }
+
             //If we are not chasing a target
-            if (chaseState == 0)
+            else if (chaseState == 0)
             {
                 visionTickTimer += Time.fixedDeltaTime;
                 //If we should check and update our vision
