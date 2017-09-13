@@ -1,0 +1,219 @@
+fileFormatVersion: 2
+guid: 95d13c27224bfff4f8dc347b56dd3cdc
+timeCreated: 1505185073
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Cube.083_Cube.086_Forklift
+    100002: Cube.084_Cube.087_Forklift
+    100004: Cube.086_Cube.089_Forklift
+    100006: Cube.088_Cube.091_Forklift
+    100008: Cube.089_Cube.092_RED
+    100010: Cube.092_Cube.098_Forklift
+    100012: Cube.093_Cube.099_RED
+    100014: Cube.094_Cube.100_FaceEmission
+    100016: Cube.094_Cube.100_Forklift
+    100018: Cube.095_Cube.101_FaceEmission
+    100020: Cube.095_Cube.101_Forklift
+    100022: Cube.096_Cube.103_Forklift
+    100024: Cube.097_Cube.104_Forklift
+    100026: Cube.098_Cube.105_FaceEmission
+    100028: Cube.098_Cube.105_Forklift
+    100030: Cylinder.014_Cylinder.003_Forklift
+    100032: Cylinder.015_Cylinder.006_Roomba01
+    100034: Cylinder.016_Cylinder.008_Black
+    100036: Cylinder.017_Cylinder.026_Black
+    100038: Cylinder.018_Cylinder.027_Roomba01
+    100040: Cylinder.019_Cylinder.028_Forklift
+    100042: Cylinder.020_Cylinder.029_Forklift
+    100044: Cylinder.021_Cylinder.030_Roomba01
+    100046: Cylinder.022_Cylinder.031_Black
+    100048: Cylinder.023_Cylinder.032_Black
+    100050: Cylinder.024_Cylinder.033_Roomba01
+    100052: Cylinder.025_Cylinder.034_Forklift
+    100054: //RootNode
+    400000: Cube.083_Cube.086_Forklift
+    400002: Cube.084_Cube.087_Forklift
+    400004: Cube.086_Cube.089_Forklift
+    400006: Cube.088_Cube.091_Forklift
+    400008: Cube.089_Cube.092_RED
+    400010: Cube.092_Cube.098_Forklift
+    400012: Cube.093_Cube.099_RED
+    400014: Cube.094_Cube.100_FaceEmission
+    400016: Cube.094_Cube.100_Forklift
+    400018: Cube.095_Cube.101_FaceEmission
+    400020: Cube.095_Cube.101_Forklift
+    400022: Cube.096_Cube.103_Forklift
+    400024: Cube.097_Cube.104_Forklift
+    400026: Cube.098_Cube.105_FaceEmission
+    400028: Cube.098_Cube.105_Forklift
+    400030: Cylinder.014_Cylinder.003_Forklift
+    400032: Cylinder.015_Cylinder.006_Roomba01
+    400034: Cylinder.016_Cylinder.008_Black
+    400036: Cylinder.017_Cylinder.026_Black
+    400038: Cylinder.018_Cylinder.027_Roomba01
+    400040: Cylinder.019_Cylinder.028_Forklift
+    400042: Cylinder.020_Cylinder.029_Forklift
+    400044: Cylinder.021_Cylinder.030_Roomba01
+    400046: Cylinder.022_Cylinder.031_Black
+    400048: Cylinder.023_Cylinder.032_Black
+    400050: Cylinder.024_Cylinder.033_Roomba01
+    400052: Cylinder.025_Cylinder.034_Forklift
+    400054: //RootNode
+    2300000: Cube.083_Cube.086_Forklift
+    2300002: Cube.084_Cube.087_Forklift
+    2300004: Cube.086_Cube.089_Forklift
+    2300006: Cube.088_Cube.091_Forklift
+    2300008: Cube.089_Cube.092_RED
+    2300010: Cube.092_Cube.098_Forklift
+    2300012: Cube.093_Cube.099_RED
+    2300014: Cube.094_Cube.100_FaceEmission
+    2300016: Cube.094_Cube.100_Forklift
+    2300018: Cube.095_Cube.101_FaceEmission
+    2300020: Cube.095_Cube.101_Forklift
+    2300022: Cube.096_Cube.103_Forklift
+    2300024: Cube.097_Cube.104_Forklift
+    2300026: Cube.098_Cube.105_FaceEmission
+    2300028: Cube.098_Cube.105_Forklift
+    2300030: Cylinder.014_Cylinder.003_Forklift
+    2300032: Cylinder.015_Cylinder.006_Roomba01
+    2300034: Cylinder.016_Cylinder.008_Black
+    2300036: Cylinder.017_Cylinder.026_Black
+    2300038: Cylinder.018_Cylinder.027_Roomba01
+    2300040: Cylinder.019_Cylinder.028_Forklift
+    2300042: Cylinder.020_Cylinder.029_Forklift
+    2300044: Cylinder.021_Cylinder.030_Roomba01
+    2300046: Cylinder.022_Cylinder.031_Black
+    2300048: Cylinder.023_Cylinder.032_Black
+    2300050: Cylinder.024_Cylinder.033_Roomba01
+    2300052: Cylinder.025_Cylinder.034_Forklift
+    3300000: Cube.083_Cube.086_Forklift
+    3300002: Cube.084_Cube.087_Forklift
+    3300004: Cube.086_Cube.089_Forklift
+    3300006: Cube.088_Cube.091_Forklift
+    3300008: Cube.089_Cube.092_RED
+    3300010: Cube.092_Cube.098_Forklift
+    3300012: Cube.093_Cube.099_RED
+    3300014: Cube.094_Cube.100_FaceEmission
+    3300016: Cube.094_Cube.100_Forklift
+    3300018: Cube.095_Cube.101_FaceEmission
+    3300020: Cube.095_Cube.101_Forklift
+    3300022: Cube.096_Cube.103_Forklift
+    3300024: Cube.097_Cube.104_Forklift
+    3300026: Cube.098_Cube.105_FaceEmission
+    3300028: Cube.098_Cube.105_Forklift
+    3300030: Cylinder.014_Cylinder.003_Forklift
+    3300032: Cylinder.015_Cylinder.006_Roomba01
+    3300034: Cylinder.016_Cylinder.008_Black
+    3300036: Cylinder.017_Cylinder.026_Black
+    3300038: Cylinder.018_Cylinder.027_Roomba01
+    3300040: Cylinder.019_Cylinder.028_Forklift
+    3300042: Cylinder.020_Cylinder.029_Forklift
+    3300044: Cylinder.021_Cylinder.030_Roomba01
+    3300046: Cylinder.022_Cylinder.031_Black
+    3300048: Cylinder.023_Cylinder.032_Black
+    3300050: Cylinder.024_Cylinder.033_Roomba01
+    3300052: Cylinder.025_Cylinder.034_Forklift
+    4300000: Cube.083_Cube.086_Forklift
+    4300002: Cube.084_Cube.087_Forklift
+    4300004: Cube.086_Cube.089_Forklift
+    4300006: Cube.088_Cube.091_Forklift
+    4300008: Cube.089_Cube.092_RED
+    4300010: Cube.092_Cube.098_Forklift
+    4300012: Cube.093_Cube.099_RED
+    4300014: Cube.094_Cube.100_FaceEmission
+    4300016: Cube.094_Cube.100_Forklift
+    4300018: Cube.095_Cube.101_FaceEmission
+    4300020: Cube.095_Cube.101_Forklift
+    4300022: Cube.096_Cube.103_Forklift
+    4300024: Cube.097_Cube.104_Forklift
+    4300026: Cube.098_Cube.105_FaceEmission
+    4300028: Cube.098_Cube.105_Forklift
+    4300030: Cylinder.014_Cylinder.003_Forklift
+    4300032: Cylinder.015_Cylinder.006_Roomba01
+    4300034: Cylinder.016_Cylinder.008_Black
+    4300036: Cylinder.017_Cylinder.026_Black
+    4300038: Cylinder.018_Cylinder.027_Roomba01
+    4300040: Cylinder.019_Cylinder.028_Forklift
+    4300042: Cylinder.020_Cylinder.029_Forklift
+    4300044: Cylinder.021_Cylinder.030_Roomba01
+    4300046: Cylinder.022_Cylinder.031_Black
+    4300048: Cylinder.023_Cylinder.032_Black
+    4300050: Cylinder.024_Cylinder.033_Roomba01
+    4300052: Cylinder.025_Cylinder.034_Forklift
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

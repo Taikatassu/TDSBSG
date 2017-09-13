@@ -1,0 +1,194 @@
+fileFormatVersion: 2
+guid: 8ff9ad6882e06f34ea96a61bf79aa67b
+timeCreated: 1505190616
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Cube.041_Cube.042_Warm3
+    100004: Cube.045_Cube.046_Roomba03
+    100006: Cube.046_Cube.047_Warm3
+    100008: Cube.047_Cube.048_Warm3
+    100010: Cube.048_Cube.049_Warm3
+    100012: Cube.049_Cube.050_Roomba03
+    100014: Cube.050_Cube.051_Roomba03
+    100016: Cube.051_Cube.052_Roomba03
+    100018: Cube.052_Cube.053_Roomba01
+    100020: Cube.053_Cube.054_Roomba01
+    100022: Cube.054_Cube.055_Roomba01
+    100024: Cube.055_Cube.056_Roomba01
+    100026: Cube.056_Cube.057_Roomba01
+    100028: Cube.057_Cube.058_Roomba01
+    100030: Cube.058_Cube.059_Roomba01
+    100032: Cube.059_Cube.060_Roomba01
+    100034: Cube.060_Cube.061_Roomba03
+    100036: Cube.061_Cube.062_Roomba03
+    100038: Cube.062_Cube.063_Roomba03
+    100040: Cube.064_Cube.065_Warm3
+    100042: Cube.065_Cube.066_Warm3
+    100044: Cube.066_Cube.067_Roomba03
+    400000: //RootNode
+    400002: Cube.041_Cube.042_Warm3
+    400004: Cube.045_Cube.046_Roomba03
+    400006: Cube.046_Cube.047_Warm3
+    400008: Cube.047_Cube.048_Warm3
+    400010: Cube.048_Cube.049_Warm3
+    400012: Cube.049_Cube.050_Roomba03
+    400014: Cube.050_Cube.051_Roomba03
+    400016: Cube.051_Cube.052_Roomba03
+    400018: Cube.052_Cube.053_Roomba01
+    400020: Cube.053_Cube.054_Roomba01
+    400022: Cube.054_Cube.055_Roomba01
+    400024: Cube.055_Cube.056_Roomba01
+    400026: Cube.056_Cube.057_Roomba01
+    400028: Cube.057_Cube.058_Roomba01
+    400030: Cube.058_Cube.059_Roomba01
+    400032: Cube.059_Cube.060_Roomba01
+    400034: Cube.060_Cube.061_Roomba03
+    400036: Cube.061_Cube.062_Roomba03
+    400038: Cube.062_Cube.063_Roomba03
+    400040: Cube.064_Cube.065_Warm3
+    400042: Cube.065_Cube.066_Warm3
+    400044: Cube.066_Cube.067_Roomba03
+    2300000: Cube.041_Cube.042_Warm3
+    2300002: Cube.045_Cube.046_Roomba03
+    2300004: Cube.046_Cube.047_Warm3
+    2300006: Cube.047_Cube.048_Warm3
+    2300008: Cube.048_Cube.049_Warm3
+    2300010: Cube.049_Cube.050_Roomba03
+    2300012: Cube.050_Cube.051_Roomba03
+    2300014: Cube.051_Cube.052_Roomba03
+    2300016: Cube.052_Cube.053_Roomba01
+    2300018: Cube.053_Cube.054_Roomba01
+    2300020: Cube.054_Cube.055_Roomba01
+    2300022: Cube.055_Cube.056_Roomba01
+    2300024: Cube.056_Cube.057_Roomba01
+    2300026: Cube.057_Cube.058_Roomba01
+    2300028: Cube.058_Cube.059_Roomba01
+    2300030: Cube.059_Cube.060_Roomba01
+    2300032: Cube.060_Cube.061_Roomba03
+    2300034: Cube.061_Cube.062_Roomba03
+    2300036: Cube.062_Cube.063_Roomba03
+    2300038: Cube.064_Cube.065_Warm3
+    2300040: Cube.065_Cube.066_Warm3
+    2300042: Cube.066_Cube.067_Roomba03
+    3300000: Cube.041_Cube.042_Warm3
+    3300002: Cube.045_Cube.046_Roomba03
+    3300004: Cube.046_Cube.047_Warm3
+    3300006: Cube.047_Cube.048_Warm3
+    3300008: Cube.048_Cube.049_Warm3
+    3300010: Cube.049_Cube.050_Roomba03
+    3300012: Cube.050_Cube.051_Roomba03
+    3300014: Cube.051_Cube.052_Roomba03
+    3300016: Cube.052_Cube.053_Roomba01
+    3300018: Cube.053_Cube.054_Roomba01
+    3300020: Cube.054_Cube.055_Roomba01
+    3300022: Cube.055_Cube.056_Roomba01
+    3300024: Cube.056_Cube.057_Roomba01
+    3300026: Cube.057_Cube.058_Roomba01
+    3300028: Cube.058_Cube.059_Roomba01
+    3300030: Cube.059_Cube.060_Roomba01
+    3300032: Cube.060_Cube.061_Roomba03
+    3300034: Cube.061_Cube.062_Roomba03
+    3300036: Cube.062_Cube.063_Roomba03
+    3300038: Cube.064_Cube.065_Warm3
+    3300040: Cube.065_Cube.066_Warm3
+    3300042: Cube.066_Cube.067_Roomba03
+    4300000: Cube.041_Cube.042_Warm3
+    4300002: Cube.045_Cube.046_Roomba03
+    4300004: Cube.046_Cube.047_Warm3
+    4300006: Cube.047_Cube.048_Warm3
+    4300008: Cube.048_Cube.049_Warm3
+    4300010: Cube.049_Cube.050_Roomba03
+    4300012: Cube.050_Cube.051_Roomba03
+    4300014: Cube.051_Cube.052_Roomba03
+    4300016: Cube.052_Cube.053_Roomba01
+    4300018: Cube.053_Cube.054_Roomba01
+    4300020: Cube.054_Cube.055_Roomba01
+    4300022: Cube.055_Cube.056_Roomba01
+    4300024: Cube.056_Cube.057_Roomba01
+    4300026: Cube.057_Cube.058_Roomba01
+    4300028: Cube.058_Cube.059_Roomba01
+    4300030: Cube.059_Cube.060_Roomba01
+    4300032: Cube.060_Cube.061_Roomba03
+    4300034: Cube.061_Cube.062_Roomba03
+    4300036: Cube.062_Cube.063_Roomba03
+    4300038: Cube.064_Cube.065_Warm3
+    4300040: Cube.065_Cube.066_Warm3
+    4300042: Cube.066_Cube.067_Roomba03
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,139 @@
+fileFormatVersion: 2
+guid: b72d238dbda76d84aa78f25574150448
+timeCreated: 1505191911
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Cube.114_Cube.121_OfficeDoors
+    100002: Cube.116_Cube.123_Compy
+    100004: Cube.117_Cube.124_Glass
+    100006: Cube.134_Cube.152_OfficeDoors
+    100008: Cube.135_Cube.153_Compy
+    100010: Cube.136_Cube.154_OfficeDoors
+    100012: Cube.137_Cube.155_Roomba01
+    100014: Cube.138_Cube.156_FaceEmission
+    100016: Cube.139_Cube.157_FaceEmission
+    100018: Cube.140_Cube.158_Roomba01
+    100020: Cube.141_Cube.159_Glass
+    100022: //RootNode
+    400000: Cube.114_Cube.121_OfficeDoors
+    400002: Cube.116_Cube.123_Compy
+    400004: Cube.117_Cube.124_Glass
+    400006: Cube.134_Cube.152_OfficeDoors
+    400008: Cube.135_Cube.153_Compy
+    400010: Cube.136_Cube.154_OfficeDoors
+    400012: Cube.137_Cube.155_Roomba01
+    400014: Cube.138_Cube.156_FaceEmission
+    400016: Cube.139_Cube.157_FaceEmission
+    400018: Cube.140_Cube.158_Roomba01
+    400020: Cube.141_Cube.159_Glass
+    400022: //RootNode
+    2300000: Cube.114_Cube.121_OfficeDoors
+    2300002: Cube.116_Cube.123_Compy
+    2300004: Cube.117_Cube.124_Glass
+    2300006: Cube.134_Cube.152_OfficeDoors
+    2300008: Cube.135_Cube.153_Compy
+    2300010: Cube.136_Cube.154_OfficeDoors
+    2300012: Cube.137_Cube.155_Roomba01
+    2300014: Cube.138_Cube.156_FaceEmission
+    2300016: Cube.139_Cube.157_FaceEmission
+    2300018: Cube.140_Cube.158_Roomba01
+    2300020: Cube.141_Cube.159_Glass
+    3300000: Cube.114_Cube.121_OfficeDoors
+    3300002: Cube.116_Cube.123_Compy
+    3300004: Cube.117_Cube.124_Glass
+    3300006: Cube.134_Cube.152_OfficeDoors
+    3300008: Cube.135_Cube.153_Compy
+    3300010: Cube.136_Cube.154_OfficeDoors
+    3300012: Cube.137_Cube.155_Roomba01
+    3300014: Cube.138_Cube.156_FaceEmission
+    3300016: Cube.139_Cube.157_FaceEmission
+    3300018: Cube.140_Cube.158_Roomba01
+    3300020: Cube.141_Cube.159_Glass
+    4300000: Cube.114_Cube.121_OfficeDoors
+    4300002: Cube.116_Cube.123_Compy
+    4300004: Cube.117_Cube.124_Glass
+    4300006: Cube.134_Cube.152_OfficeDoors
+    4300008: Cube.135_Cube.153_Compy
+    4300010: Cube.136_Cube.154_OfficeDoors
+    4300012: Cube.137_Cube.155_Roomba01
+    4300014: Cube.138_Cube.156_FaceEmission
+    4300016: Cube.139_Cube.157_FaceEmission
+    4300018: Cube.140_Cube.158_Roomba01
+    4300020: Cube.141_Cube.159_Glass
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

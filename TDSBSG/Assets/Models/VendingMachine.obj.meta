@@ -1,0 +1,139 @@
+fileFormatVersion: 2
+guid: 6ff2b6469afd3804ab08e62b09823963
+timeCreated: 1505185819
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Cube.019_Cube.027_Warm3'
+    100002: Cube.075_Cube.079_Compy
+    100004: Cube.075_Cube.079_FaceEmission
+    100006: Cube.077_Cube.082_Floor
+    100008: Cube.078_Cube.083_Glass
+    100010: Cylinder.004_Cylinder.007_Soda
+    100012: Cylinder.008_Cylinder.018_Soda
+    100014: Cylinder.009_Cylinder.019_Soda
+    100016: Cylinder.010_Cylinder.020_Soda
+    100018: Cylinder.011_Cylinder.021_Soda
+    100020: Cylinder.012_Cylinder.022_Soda
+    100022: //RootNode
+    400000: Cube.019_Cube.027_Warm3'
+    400002: Cube.075_Cube.079_Compy
+    400004: Cube.075_Cube.079_FaceEmission
+    400006: Cube.077_Cube.082_Floor
+    400008: Cube.078_Cube.083_Glass
+    400010: Cylinder.004_Cylinder.007_Soda
+    400012: Cylinder.008_Cylinder.018_Soda
+    400014: Cylinder.009_Cylinder.019_Soda
+    400016: Cylinder.010_Cylinder.020_Soda
+    400018: Cylinder.011_Cylinder.021_Soda
+    400020: Cylinder.012_Cylinder.022_Soda
+    400022: //RootNode
+    2300000: Cube.019_Cube.027_Warm3'
+    2300002: Cube.075_Cube.079_Compy
+    2300004: Cube.075_Cube.079_FaceEmission
+    2300006: Cube.077_Cube.082_Floor
+    2300008: Cube.078_Cube.083_Glass
+    2300010: Cylinder.004_Cylinder.007_Soda
+    2300012: Cylinder.008_Cylinder.018_Soda
+    2300014: Cylinder.009_Cylinder.019_Soda
+    2300016: Cylinder.010_Cylinder.020_Soda
+    2300018: Cylinder.011_Cylinder.021_Soda
+    2300020: Cylinder.012_Cylinder.022_Soda
+    3300000: Cube.019_Cube.027_Warm3'
+    3300002: Cube.075_Cube.079_Compy
+    3300004: Cube.075_Cube.079_FaceEmission
+    3300006: Cube.077_Cube.082_Floor
+    3300008: Cube.078_Cube.083_Glass
+    3300010: Cylinder.004_Cylinder.007_Soda
+    3300012: Cylinder.008_Cylinder.018_Soda
+    3300014: Cylinder.009_Cylinder.019_Soda
+    3300016: Cylinder.010_Cylinder.020_Soda
+    3300018: Cylinder.011_Cylinder.021_Soda
+    3300020: Cylinder.012_Cylinder.022_Soda
+    4300000: Cube.019_Cube.027_Warm3'
+    4300002: Cube.075_Cube.079_Compy
+    4300004: Cube.075_Cube.079_FaceEmission
+    4300006: Cube.077_Cube.082_Floor
+    4300008: Cube.078_Cube.083_Glass
+    4300010: Cylinder.004_Cylinder.007_Soda
+    4300012: Cylinder.008_Cylinder.018_Soda
+    4300014: Cylinder.009_Cylinder.019_Soda
+    4300016: Cylinder.010_Cylinder.020_Soda
+    4300018: Cylinder.011_Cylinder.021_Soda
+    4300020: Cylinder.012_Cylinder.022_Soda
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
