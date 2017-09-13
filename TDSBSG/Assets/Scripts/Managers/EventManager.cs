@@ -249,4 +249,11 @@ public class EventManager : MonoBehaviour
             OnHideEnvironmentStateChange(newState);
         }
     }
+
+    public event EmptyVoid OnPlayerCatched;
+    public void BroadcastPlayerCatched() {
+        if (OnPlayerCatched != null) {
+            OnPlayerCatched();
+        }
+    }
 }

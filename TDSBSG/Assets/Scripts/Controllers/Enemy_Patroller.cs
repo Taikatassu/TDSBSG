@@ -396,6 +396,7 @@ public class Enemy_Patroller : EnemyBase
                             if (distanceToTarget < catchDistance)
                             {
                                 Debug.Log("Target catched");
+                                em.BroadcastPlayerCatched();
                                 EndChase();
                                 ResumePatrolling();
                                 //TODO: Check if player

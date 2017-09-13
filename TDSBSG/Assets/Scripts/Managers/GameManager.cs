@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
         em.OnRequestPauseStateChange += OnRequestPauseStateChange;
         em.OnLevelCompleted += OnLevelCompleted;
+        em.OnPlayerCatched += OnPlayerCatched;
     }
 
     private void OnDisable()
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnLevelFinishedLoading;
         em.OnRequestPauseStateChange -= OnRequestPauseStateChange;
         em.OnLevelCompleted -= OnLevelCompleted;
+        em.OnPlayerCatched -= OnPlayerCatched;
     }
 
     //void Start()
@@ -177,5 +179,10 @@ public class GameManager : MonoBehaviour
             Debug.Log("Scene index not found!");
         }
 
+    }
+
+    private void OnPlayerCatched() {
+        int currentSceneIndex = em.BroadcastRequestCurrentSceneIndex();
+        em.BroadcastRequestLoadLevel(currentSceneIndex);
     }
 }
