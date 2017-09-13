@@ -117,7 +117,7 @@ public class Poss_Stationary : MonoBehaviour, IPossessable {
         return robotType;
     }
 
-    public void GiveInput(EInputType newInput)
+    public virtual void GiveInput(EInputType newInput)
     {
         switch (newInput)
         {
