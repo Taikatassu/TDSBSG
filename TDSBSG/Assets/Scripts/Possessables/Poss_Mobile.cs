@@ -55,7 +55,7 @@ public class Poss_Mobile : MonoBehaviour, IPossessable {
         em.OnPauseActorsStateChange -= OnPauseActorsStateChange;
     }
 
-    private void OnInitializeGame() {
+    protected virtual void OnInitializeGame() {
         toolbox = FindObjectOfType<Toolbox>();
         em = toolbox.GetComponent<EventManager>();
         possInfo = toolbox.GetComponent<PossessableInfo>();
@@ -191,6 +191,8 @@ public class Poss_Mobile : MonoBehaviour, IPossessable {
     #endregion
 
     protected virtual void FixedUpdate() {
+        rb.velocity = Vector3.zero;
+
         if (disobeyingList.Count > 0) {
             isDisobeying = true;
         } else {
