@@ -46,7 +46,6 @@ public class SpriteAnimationController : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("OnInitializeGame");
         cameraTransform = em.BroadcastRequestCameraReference().transform;
         spritePlayers = new List<GameObject>();
         spritePlayers.Add(frontIdleSpritePlayer);
@@ -85,8 +84,6 @@ public class SpriteAnimationController : MonoBehaviour
 
     private void SetEnabledSpritePlayer(GameObject newSpritePlayer)
     {
-        Debug.Log("SetEnabledSpritePlayer");
-
         enabledSpritePlayer = newSpritePlayer;
         int count = spritePlayers.Count;
         for (int i = 0; i < count; i++)
@@ -103,104 +100,6 @@ public class SpriteAnimationController : MonoBehaviour
                 }
             }
         }
-
-        #region Old implementation
-        ////Front
-        //if (enabledSpritePlayer == frontIdleSpritePlayer)
-        //{
-        //    frontIdleSpritePlayer.SetActive(true);
-        //}
-        //else
-        //{
-        //    frontIdleSpritePlayer.SetActive(false);
-        //}
-
-        //if (enabledSpritePlayer == frontWalkSpritePlayer)
-        //{
-        //    frontWalkSpritePlayer.SetActive(true);
-        //}
-        //else
-        //{
-        //    frontWalkSpritePlayer.SetActive(false);
-        //}
-
-        ////Back
-        //if (enabledSpritePlayer == backIdleSpritePlayer)
-        //{
-        //    backIdleSpritePlayer.SetActive(true);
-        //}
-        //else
-        //{
-        //    backIdleSpritePlayer.SetActive(false);
-        //}
-
-        //if (enabledSpritePlayer == backWalkSpritePlayer)
-        //{
-        //    backWalkSpritePlayer.SetActive(true);
-        //}
-        //else
-        //{
-        //    backWalkSpritePlayer.SetActive(false);
-        //}
-
-        ////Right
-        //if (enabledSpritePlayer == rightIdleSpritePlayer)
-        //{
-        //    rightIdleSpritePlayer.SetActive(true);
-        //}
-        //else
-        //{
-        //    rightIdleSpritePlayer.SetActive(false);
-        //}
-
-        //if (enabledSpritePlayer == rightWalkSpritePlayer)
-        //{
-        //    rightWalkSpritePlayer.SetActive(true);
-        //}
-        //else
-        //{
-        //    rightWalkSpritePlayer.SetActive(false);
-        //}
-
-        ////Left
-        //if (enabledSpritePlayer == leftIdleSpritePlayer)
-        //{
-        //    leftIdleSpritePlayer.SetActive(true);
-        //}
-        //else
-        //{
-        //    leftIdleSpritePlayer.SetActive(false);
-        //}
-
-        //if (enabledSpritePlayer == leftWalkSpritePlayer)
-        //{
-        //    leftWalkSpritePlayer.SetActive(true);
-        //}
-        //else
-        //{
-        //    leftWalkSpritePlayer.SetActive(false);
-        //}
-
-        ////Take damage
-        //if (enabledSpritePlayer == takeDamageSpritePlayer)
-        //{
-        //    takeDamageSpritePlayer.SetActive(true);
-        //}
-        //else
-        //{
-        //    takeDamageSpritePlayer.SetActive(false);
-        //}
-
-        ////Knockedout
-        //if (enabledSpritePlayer == knockedOutSpritePlayer)
-        //{
-        //    knockedOutSpritePlayer.SetActive(true);
-        //}
-        //else
-        //{
-        //    knockedOutSpritePlayer.SetActive(false);
-        //}
-        #endregion
     }
 
     private void UpdateSpriteState()

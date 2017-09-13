@@ -15,50 +15,21 @@ public class CameraController : MonoBehaviour
     EventManager em;
     Transform rotatorTransform;
     Transform target;
-
-    //TODO: Change these to vector3s
+    
     [SerializeField]
-    float xOffsetMode0 = 0;
+    Vector3 posOffsetMode0 = Vector3.zero;
     [SerializeField]
-    float yOffsetMode0 = 0;
-    [SerializeField]
-    float zOffsetMode0 = 0;
-    [SerializeField]
-    float xRotMode0 = 0;
-    [SerializeField]
-    float yRotMode0 = 0;
-    [SerializeField]
-    float zRotMode0 = 0;
-    [SerializeField]
-    float xOffsetMode1 = 0;
-    [SerializeField]
-    float yOffsetMode1 = 0;
-    [SerializeField]
-    float zOffsetMode1 = 0;
-    [SerializeField]
-    float xRotMode1 = 0;
-    [SerializeField]
-    float yRotMode1 = 0;
-    [SerializeField]
-    float zRotMode1 = 0;
+    Vector3 posOffsetMode1 = Vector3.zero;
     float smoothTime = 0.25f;
-    Vector3 velocity = Vector3.zero;
+    Vector3 rotatorRefVelocity = Vector3.zero;
+    Vector3 cameraRefVeloity = Vector3.zero;
     bool isFollowing = false;
     int cameraMode = 0; //0 = tilted & close, 1 = top down & high up (strategic / map view)
-    bool isRotatingToDesiredRotation = false;
-    Quaternion desiredRotation = Quaternion.identity;
-    Quaternion startingRotation = Quaternion.identity;
-    float rotationSlerpDuration = 0.75f;
-    float rotationSlerpStartTime = 0f;
     Vector3 rotationOffset = Vector3.zero;
-    //float obscuringObjectsCheckTickInterval = 0.25f;
-    //float obscuringObjectsCheckTimer = 0f;
-    //float obscuringObjectsCheckSpherecastRadius = 3f;
-    //[SerializeField]
-    //LayerMask obscuringObjectsCheckMask;
     bool rotatingCameraClockwise = false;
     bool rotatingCameraCounterClockwise = false;
-    float rotationSpeed = 50f;
+    float rotationSpeed = 10f;
+    Vector3 lastMousePosition = Vector3.zero;
     #endregion
 
     private void Awake()
@@ -72,6 +43,7 @@ public class CameraController : MonoBehaviour
         em.OnInitializeGame += OnInitializeGame;
         em.OnInputEvent += OnInputEvent;
         em.OnRequestCameraReference += OnRequestCameraReference;
+        em.OnMouseInputEvent += OnMouseInputEvent;
     }
 
     private void OnDisable()
@@ -79,6 +51,7 @@ public class CameraController : MonoBehaviour
         em.OnInitializeGame -= OnInitializeGame;
         em.OnInputEvent -= OnInputEvent;
         em.OnRequestCameraReference -= OnRequestCameraReference;
+        em.OnMouseInputEvent -= OnMouseInputEvent;
     }
 
     void OnInitializeGame()
@@ -89,13 +62,10 @@ public class CameraController : MonoBehaviour
         cameraMode = 0;
         rotatingCameraClockwise = false;
         rotatingCameraCounterClockwise = false;
-        rotationOffset = Vector3.zero;
         Vector3 targetPosition = target.position;
-        Vector3 desiredPosition = new Vector3(targetPosition.x + xOffsetMode0,
-            targetPosition.y + yOffsetMode0, targetPosition.z + zOffsetMode0);
-        transform.position = desiredPosition;
-        desiredRotation = Quaternion.Euler(new Vector3(xRotMode0, yRotMode0, zRotMode0));
-        transform.rotation = desiredRotation;
+        rotatorTransform.position = target.position;
+        rotatorTransform.eulerAngles = Vector3.zero;
+        transform.localPosition = posOffsetMode0;
         isFollowing = true;
     }
 
@@ -106,9 +76,6 @@ public class CameraController : MonoBehaviour
 
     private void OnInputEvent(EInputType newInput)
     {
-        //TODO: Implement input detection and event broadcasting for new button input, "toggle cameraMode"
-        //TODO: Toggle cameraMode when cameraMode button is pressed
-
         switch (newInput)
         {
             case EInputType.CAMERAMODE_KEYDOWN:
@@ -130,116 +97,77 @@ public class CameraController : MonoBehaviour
                 break;
         }
     }
-    
+
+    private void OnMouseInputEvent(int button, bool down, Vector3 mousePosition)
+    {
+        if(button == 2)
+        {
+            lastMousePosition = mousePosition;
+            if (down)
+            {
+                em.OnMousePositionChange += OnMousePositionChange;
+            }
+            else
+            {
+                em.OnMousePositionChange -= OnMousePositionChange;
+            }
+        }
+    }
+
+    private void OnMousePositionChange(Vector3 newPosition)
+    {
+        float mouseMoveDistance = lastMousePosition.x - newPosition.x;
+        lastMousePosition = newPosition;
+
+        rotationOffset.y = mouseMoveDistance * rotationSpeed * Time.fixedDeltaTime;
+
+        rotatorTransform.eulerAngles += rotationOffset;
+    }
+
     private void ToggleCameraMode()
     {
         if (cameraMode == 0)
         {
             cameraMode = 1;
-            startingRotation = transform.rotation;
-            desiredRotation = Quaternion.Euler(new Vector3(xRotMode1, yRotMode1, zRotMode1));
-            rotationSlerpStartTime = Time.time;
-            isRotatingToDesiredRotation = true;
         }
         else if (cameraMode == 1)
         {
             cameraMode = 0;
-            startingRotation = transform.rotation;
-            desiredRotation = Quaternion.Euler(new Vector3(xRotMode0, yRotMode0, zRotMode0));
-            rotationSlerpStartTime = Time.time;
-            isRotatingToDesiredRotation = true;
         }
     }
 
     private void FixedUpdate()
     {
-        //TODO: Finish implementing camera rotation
-        //if (!isRotatingToDesiredRotation)
-        //{
-        //    rotationOffset = Vector3.zero;
-        //    if (rotatingCameraClockwise)
-        //    {
-        //        rotationOffset.y += rotationSpeed * Time.fixedDeltaTime;
-        //    }
-        //    if (rotatingCameraCounterClockwise)
-        //    {
-        //        rotationOffset.y -= rotationSpeed * Time.fixedDeltaTime;
-        //    }
+        Vector3 targetPosition = target.position;
+        Vector3 rotatorDesiredPosition = targetPosition;
 
-        //    rotatorTransform.eulerAngles += rotationOffset;
-        //}
-
-        #region Hideable object detection
-        ////TODO: Instead of trying to find objects with "HideableObject" component, add the component to all hit objects
-        ////TODO: Find out why this isn't working (hideable object found, but it will not turn transparent)
-        //obscuringObjectsCheckTimer -= Time.fixedDeltaTime;
-
-        //if (obscuringObjectsCheckTimer <= 0)
-        //{
-        //    Debug.Log("obscuringObjectsCheck tick");
-        //    obscuringObjectsCheckTimer = obscuringObjectsCheckTickInterval;
-
-        //    RaycastHit[] hits;
-        //    Vector3 spherecastDirection = target.position - transform.position;
-        //    hits = Physics.SphereCastAll(transform.position, obscuringObjectsCheckSpherecastRadius,
-        //        spherecastDirection, spherecastDirection.magnitude, obscuringObjectsCheckMask);
-
-        //    if (hits.Length > 0)
-        //    {
-        //        for (int i = 0; i < hits.Length; i++)
-        //        {
-        //            if (hits[i].collider.GetComponent<HideableObject>())
-        //            {
-        //                Debug.Log("Hideable object found, hiding with timer");
-        //                HideableObject hitHideable = hits[i].collider.GetComponent<HideableObject>();
-        //                hitHideable.HideObjectWithTimer();
-        //            }
-        //        }
-        //    }
-
-        //}
-        #endregion
+        rotatorTransform.position = Vector3.SmoothDamp(rotatorTransform.position,
+            rotatorDesiredPosition, ref rotatorRefVelocity, smoothTime);       
     }
-
+    
     private void LateUpdate()
     {
         if (isFollowing)
         {
-            Vector3 desiredPosition = Vector3.zero;
-            Vector3 targetPosition = target.position;
-
+            Vector3 desiredCameraPosition = Vector3.zero;
             if (cameraMode == 0)
             {
                 //Calculate desired position with camera mode 0
-                desiredPosition = new Vector3(targetPosition.x + xOffsetMode0,
-                   targetPosition.y + yOffsetMode0, targetPosition.z + zOffsetMode0);
+                desiredCameraPosition = posOffsetMode0;
             }
             else if (cameraMode == 1)
             {
                 //Calculate desired position with camera mode 1
-                desiredPosition = new Vector3(targetPosition.x + xOffsetMode1,
-                   targetPosition.y + yOffsetMode1, targetPosition.z + zOffsetMode1);
+                desiredCameraPosition = posOffsetMode1;
             }
-
+            
             //Smoothly move to the desired position
-            transform.position = Vector3.SmoothDamp(transform.localPosition,
-                desiredPosition, ref velocity, smoothTime);
+            transform.localPosition = Vector3.SmoothDamp(transform.localPosition,
+                desiredCameraPosition, ref cameraRefVeloity, smoothTime);
 
-            //transform.LookAt(target);
-            //transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, 0);
-        }
-
-        if (isRotatingToDesiredRotation)
-        {
-            float timeSinceStarted = Time.time - rotationSlerpStartTime;
-            float percentageCompleted = timeSinceStarted / rotationSlerpDuration;
-
-            transform.localRotation = Quaternion.Slerp(startingRotation, desiredRotation, percentageCompleted);
-
-            if (percentageCompleted >= 1)
-            {
-                isRotatingToDesiredRotation = false;
-            }
+            Vector3 lookAtPos = rotatorTransform.position;
+            lookAtPos.y += 2;
+            transform.LookAt(lookAtPos);
         }
     }
 

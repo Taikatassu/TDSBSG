@@ -37,9 +37,8 @@ DONE - Interact with a restricted object
 	- Interactable-class
 		- Object restrictions
 		- Level of security?
- - Harm humans (by shooting cans from vending machine)
-	- Instant high level disobedience increase!
- - ?
+DONE - Harm humans (by shooting cans from vending machine)
+!!!	- Instant high level disobedience increase!
 
 Enemies
 DONE - Patrol
@@ -54,8 +53,8 @@ DONE - PatrolPoint temporary guarding (enemy stops at a patrol point for a certa
 - If AI (player) swaps body within enemy vision cone while being chased, enemy target changes to the newly possessed unit
 
 UI
-- Main menu?
-- HUD?
+WIP - Main menu?
+NOPE - HUD?
 
 Varying possessables
 DONE - Change possession button from Q-key to mouse left click (on top of possessable)
@@ -67,20 +66,22 @@ WIP - Implement networked possessables
 	DONE - Switching between nodes by clicking another connected node, regardless of range
 	- Switching between nodes is done by choosing the direction with mouse click
 	DONE - "Manager" has info on all the connected nodes (an list of ints which signify paired nodes)
-	- Draw indicator lines between nodes
+	DONE - Draw indicator lines between nodes
 
 Interactable objects
 	DONE - Base
-	- Implement interactableObject interaction to mouse left click (on top of object)
+	DONE - Implement interactableObject interaction to mouse left click (on top of object)
 	- Various different functionalities
-	- bool stationaryInteractable (if true, user cannon move when interacting)
-	- float interactionStartDuration (how long it takes for the user to start interacting with the object)
+	DONE - bool stationaryInteractable (if true, user cannon move when interacting)
+	DONE (changed to the user side) - float interactionStartDuration (how long it takes for the user to 
+					  start interacting with the object)
 		- User cannot move while starting interaction with the object
-	- float interactionEndDuration (how long it takes for the user to end interaction with the object)
+	DONE (changed to the user side) - float interactionEndDuration (how long it takes for the user to end 
+					  interaction with the object)
 		- User cannot move while ending interaction with the object
-	- float StartInteraction() (return -1 if cannot interact. return interactionStartDuration if can interact)
-	- float EndInteraction() (return -1 if cannot interact. return interactionEndDuration if can interact)
-	- permissionList (contains robotTypes that can interact with the object)
+	DONE - float StartInteraction() (return -1 if cannot interact. return interactionStartDuration if can interact)
+	DONE - float EndInteraction() (return -1 if cannot interact. return interactionEndDuration if can interact)
+	DONE - permissionList (contains robotTypes that can interact with the object)
 
 
 Input
@@ -108,9 +109,15 @@ DONE - Update scene indices if neccessary (ApplicationManager, UIManager, GameMa
 DONE - PaperMario-like multi-sided sprite animation controller
 - Implement slight smooth on the possessed possessable rotation
 WIP - Implement rotatable camera
-- Redo Poss_Worker & Interactable_Liftable
+DONE - Redo Poss_Worker & Interactable_Liftable
 - Implement the rest of the sprites on enemies and possessables (spriteAnimationController)
 DONE - Screen To GIF (make a GIF of the sprite enemy walking around in the scene (pull populated scene from git))
-
-
+DONE - Check if all sprites exist (defaut robot, roomba, forklift, vending machine, radio?, enemies)
+- Rotate possessed possessable controls with camera
+- Finish alert system 
+	- Game over when player get's caught in the enemy's vision cone
+	- Player can't move once spotted
+	- Guard runs to player
+	- Game over once guard gets to the player
+- Forklift prefab
 

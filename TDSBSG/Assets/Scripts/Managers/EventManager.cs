@@ -34,6 +34,7 @@ public class EventManager : MonoBehaviour
     public delegate void RobotTypeVoid(ERobotType eRobotType);
     public delegate int EmptyInt();
     public delegate Vector3 EmptyVector3();
+    public delegate void Vector3Void(Vector3 vec3);
 
     public event EmptyVoid OnInitializeGame;
     public void BroadcastInitializeGame()
@@ -59,6 +60,15 @@ public class EventManager : MonoBehaviour
         if (OnMouseInputEvent != null)
         {
             OnMouseInputEvent(button, down, mousePosition);
+        }
+    }
+
+    public event Vector3Void OnMousePositionChange;
+    public void BroadcastMousePositionChange(Vector3 newPosition)
+    {
+        if(OnMousePositionChange != null)
+        {
+            OnMousePositionChange(newPosition);
         }
     }
 

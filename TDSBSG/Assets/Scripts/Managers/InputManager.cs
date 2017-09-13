@@ -144,6 +144,18 @@ public class InputManager : MonoBehaviour
             em.BroadcastMouseInputEvent(1, false, Input.mousePosition);
         }
 
+        if (Input.GetMouseButtonDown(2))
+        {
+            em.BroadcastMouseInputEvent(2, true, Input.mousePosition);
+        }
+        if (Input.GetMouseButtonUp(2))
+        {
+            em.BroadcastMouseInputEvent(2, false, Input.mousePosition);
+        }
+
+        //Broadcast mouse position
+        em.BroadcastMousePositionChange(Input.mousePosition);
+
         //Rotate camera
         if (Input.GetKeyDown(rotateCameraClockwise))
         {
