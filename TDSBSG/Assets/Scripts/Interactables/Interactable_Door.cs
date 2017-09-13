@@ -8,21 +8,21 @@ public class Interactable_Door : Interactable {
     Collider interactionTrigger;
     [SerializeField]
     GameObject doorObject;
-	[SerializeField]
-	GameObject doorObject_2;
+    [SerializeField]
+    GameObject doorObject_2;
     [SerializeField]
     Vector3 openPos;
     [SerializeField]
     Vector3 openRot;
-	[SerializeField]
-	Vector3 openPos_2;
-	[SerializeField]
-	Vector3 openRot_2;
+    [SerializeField]
+    Vector3 openPos_2;
+    [SerializeField]
+    Vector3 openRot_2;
 
     Vector3 closedPos;
     Vector3 closedRot;
-	Vector3 closedPos_2;
-	Vector3 closedRot_2;
+    Vector3 closedPos_2;
+    Vector3 closedRot_2;
     [SerializeField]
     float animationDuration = 1.0f;
 
@@ -38,13 +38,13 @@ public class Interactable_Door : Interactable {
 
     private void Start() {
         //permissionList = new List<ERobotType>();
-        
+
 
         closedPos = doorObject.transform.localPosition;
         closedRot = doorObject.transform.eulerAngles;
 
-		closedPos_2 = doorObject_2.transform.localPosition;
-		closedRot_2 = doorObject_2.transform.eulerAngles;
+        closedPos_2 = doorObject_2.transform.localPosition;
+        closedRot_2 = doorObject_2.transform.eulerAngles;
 
         lightEffect = null;
     }
@@ -84,14 +84,14 @@ public class Interactable_Door : Interactable {
     private void Open() {
 
         startDurationTime += Time.deltaTime;
-        if(startDurationTime >= animationDuration) {
+        if (startDurationTime >= animationDuration) {
             startDurationTime = animationDuration;
         }
         endDurationTime = animationDuration - startDurationTime;
         doorObject.transform.localPosition = Vector3.Lerp(closedPos, openPos, startDurationTime);
         doorObject.transform.eulerAngles = Vector3.Lerp(closedRot, openRot, startDurationTime);
-		doorObject_2.transform.localPosition = Vector3.Lerp(closedPos_2, openPos_2, startDurationTime);
-		doorObject_2.transform.eulerAngles = Vector3.Lerp(closedRot_2, openRot_2, startDurationTime);
+        doorObject_2.transform.localPosition = Vector3.Lerp(closedPos_2, openPos_2, startDurationTime);
+        doorObject_2.transform.eulerAngles = Vector3.Lerp(closedRot_2, openRot_2, startDurationTime);
     }
 
     private void Close() {
@@ -102,27 +102,38 @@ public class Interactable_Door : Interactable {
         startDurationTime = animationDuration - endDurationTime;
         doorObject.transform.localPosition = Vector3.Lerp(openPos, closedPos, endDurationTime);
         doorObject.transform.eulerAngles = Vector3.Lerp(openRot, closedRot, endDurationTime);
-		doorObject_2.transform.localPosition = Vector3.Lerp(openPos_2, closedPos_2, endDurationTime);
-		doorObject_2.transform.eulerAngles = Vector3.Lerp(openRot_2, closedRot_2, endDurationTime);
+        doorObject_2.transform.localPosition = Vector3.Lerp(openPos_2, closedPos_2, endDurationTime);
+        doorObject_2.transform.eulerAngles = Vector3.Lerp(openRot_2, closedRot_2, endDurationTime);
     }
 
     private void OnTriggerEnter(Collider other) {
         Debug.Log("enter door");
-        if (!other.GetComponent(typeof(IPossessable))) {
-            return;
+        if (other.GetComponent(typeof(IPossessable))) {
+            IPossessable hitIposs = other.GetComponent<IPossessable>();
+            if (hitIposs.GetIsPossessed()) {
+                if (ContainPermissionList(hitIposs.GetRobotType())) {
+                    state = EDoorState.IS_OPENING;
+                    CreateGreanLightEffect();
+                    return;
+                } else {
+                    CreateRedLightEffect();
+                    return;
+                }
+            }
         }
-        IPossessable user = other.GetComponent<IPossessable>();
-        if(!user.GetIsPossessed()) {
-            return;
+        EnemyBase hitEnemy = other.GetComponent<EnemyBase>();
+        if (hitEnemy) {
+            // TODO : Create enemy permission list
+            // if(enemyPermissionList == true) {
+            //state = EDoorState.IS_OPENING;
+            //CreateGreanLightEffect();
+            //return;
+            //} else {
+            //CreateRedLightEffect();
+            //return;
+            //}
         }
-        if (ContainPermissionList(user.GetRobotType())) {
-            state = EDoorState.IS_OPENING;
-            CreateGreanLightEffect();
-        }
-        else
-        {
-            CreateRedLightEffect();
-        }
+
     }
 
     private void OnTriggerExit(Collider other) {
@@ -140,22 +151,19 @@ public class Interactable_Door : Interactable {
         OffLightEffect();
     }
 
-    void CreateGreanLightEffect()
-    {
-        if(lightEffect != null) { OffLightEffect(); }
+    void CreateGreanLightEffect() {
+        if (lightEffect != null) { OffLightEffect(); }
         lightEffect = Instantiate(Resources.Load<ParticleSystem>("ParticleEffect/GreanLight"),
             gameObject.transform.position + new Vector3(0, 3, 0), Quaternion.identity);
         lightEffect.Play();
     }
-    void CreateRedLightEffect()
-    {
+    void CreateRedLightEffect() {
         if (lightEffect != null) { OffLightEffect(); }
         lightEffect = Instantiate(Resources.Load<ParticleSystem>("ParticleEffect/RedLight"),
             gameObject.transform.position + new Vector3(0, 3, 0), Quaternion.identity);
         lightEffect.Play();
     }
-    void OffLightEffect()
-    {
+    void OffLightEffect() {
         Destroy(lightEffect.gameObject);
     }
 }
