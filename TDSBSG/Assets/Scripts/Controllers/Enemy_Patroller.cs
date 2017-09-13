@@ -32,6 +32,7 @@ public class Enemy_Patroller : EnemyBase
     float lookAroundAngle = 30f;
     float lookAroundDuration = 1f;
     float lookAroundTime = 0f;
+    Vector3 lastKnownTargetPos = Vector3.zero;
     #endregion
 
     public override void InitializeEnemy()
@@ -176,7 +177,8 @@ public class Enemy_Patroller : EnemyBase
         base.StartChase();
         StopPatrolling();
         movementSpeedMultiplier = 1.5f;
-        navAgent.SetDestination(currentTarget.position);
+        lastKnownTargetPos = currentTarget.position;
+        navAgent.SetDestination(lastKnownTargetPos);
     }
 
     protected override void EndChase()
@@ -190,6 +192,7 @@ public class Enemy_Patroller : EnemyBase
     #region Start & EndLookAround
     private void StartLookAround()
     {
+        navAgent.ResetPath();
         lookAroundAngle = patrolPoints[currentPatrolPointIndex].GetLookAroundAngle();
         lookAroundDuration = patrolPoints[currentPatrolPointIndex].GetLookAroundDuration();
         lookAroundCenterRotation = patrolPoints[currentPatrolPointIndex].transform.eulerAngles;
@@ -201,6 +204,7 @@ public class Enemy_Patroller : EnemyBase
 
     private void EndLookAround()
     {
+        navAgent.ResetPath();
         lookingAround = false;
     }
     #endregion
@@ -385,33 +389,70 @@ public class Enemy_Patroller : EnemyBase
                     {
                         navTickTimer = 0;
 
+                        Debug.Log("ChaseState == 1, navTick");
                         float distanceToTarget = navAgent.remainingDistance;
-                        //If the target is in sight and we are not yet close enough to catch the target
-                        if (TargetInSight() && distanceToTarget > catchDistance)
+                        //If we are not yet close enough to catch the target
+                        if (distanceToTarget > catchDistance)
                         {
-                            //Set the target's current position as our destination
-                            navAgent.SetDestination(currentTarget.position);
-
-                            //If the target is within catching distance
-                            if (distanceToTarget < catchDistance)
+                            Debug.Log("distanceToTarget > catchDistance");
+                            //If the target is in sight
+                            if (TargetInSight())
                             {
-                                Debug.Log("Target catched");
-                                em.BroadcastPlayerCatched();
-                                EndChase();
-                                ResumePatrolling();
-                                //TODO: Check if player
-                                //If yes, game over
-                                //If not, look around
-                                //If another robot of the wanted type sighted, start chasing it
-                                //If not, restart patrolling
+                                Debug.Log("Target is in sight, updating position");
+                                //Set the target's current position as our destination
+                                lastKnownTargetPos = currentTarget.position;
+                                navAgent.SetDestination(lastKnownTargetPos);
                             }
+                            else
+                            {
+                                navAgent.SetDestination(lastKnownTargetPos);
+                            }
+
+                            ////If the target is within catching distance
+                            //if (distanceToTarget < catchDistance)
+                            //{
+                            //    if (TargetInSight())
+                            //    {
+                            //        Debug.Log("Target catched");
+                            //        if (currentTarget.GetComponent(typeof(IPossessable)))
+                            //        {
+                            //            if (currentTarget.GetComponent<IPossessable>().GetIsPossessed())
+                            //            {
+                            //                Debug.Log("Catched target was player, broadcasting PlayerCatched");
+                            //                em.BroadcastPlayerCatched();
+                            //            }
+                            //        }
+                            //    }
+
+                            //    EndChase();
+                            //    ResumePatrolling();
+                            //    //TODO: Check if player
+                            //    //If yes, game over
+                            //    //If not, look around
+                            //    //If another robot of the wanted type sighted, start chasing it
+                            //    //If not, restart patrolling
+                            //}
 
                         }
                         //If the target is within catching distance
-                        else if (distanceToTarget < catchDistance)
+                        else if (distanceToTarget <= catchDistance)
                         {
-                            Debug.Log("Last known target location reached, ending chase and returning to patrolling");
+                            Debug.Log("distanceToTarget <= catchDistance");
                             //TODO: Implement a "LookAround" method, and call it here, before returning to patrolling
+                            if (TargetInSight())
+                            {
+                                Debug.Log("Target catched");
+                                if (currentTarget.GetComponent(typeof(IPossessable)))
+                                {
+                                    if (currentTarget.GetComponent<IPossessable>().GetIsPossessed())
+                                    {
+                                        Debug.Log("Catched target was player, broadcasting PlayerCatched");
+                                        em.BroadcastPlayerCatched();
+                                    }
+                                }
+                            }
+
+                            Debug.Log("Ending chase, resuming patrolling");
                             EndChase();
                             ResumePatrolling();
                         }

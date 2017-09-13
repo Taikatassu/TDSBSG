@@ -17,7 +17,10 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
     protected Interactable interactableObject;
     protected Vector3 lookDirection = Vector3.zero;
     protected Transform cameraRotatorTransform;
+    [SerializeField]
+    protected SpriteAnimationController spriteController;
 
+    bool canMove = false;
     bool isPossessed = false;
     bool isDisobeying = false;
     bool movingUp = false;
@@ -75,6 +78,12 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
         connectedPossessables = new List<IPossessable>();
         cameraRotatorTransform = em.BroadcastRequestCameraReference().transform.parent;
 
+        if (spriteController)
+        {
+            spriteController.SetAnimationState(EAnimationState.IDLE);
+        }
+
+        canMove = true;
         ResetAll();
     }
 
@@ -226,6 +235,12 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
     {
         this.interactableObject = interactableObject;
     }
+
+    public void ChangeCanMoveState(bool newState)
+    {
+        canMove = newState;
+        rb.velocity = Vector3.zero;
+    }
     #endregion
 
     protected virtual void FixedUpdate()
@@ -240,43 +255,60 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
         }
         if (!interactionPause)
         {
-
-            if (isPossessed)
+            if (canMove)
             {
-                //Movement by player
-                float moveZValue = 0;
-                float moveXValue = 0;
-
-                if (movingUp)
+                if (isPossessed)
                 {
-                    moveZValue++;
-                }
-                if (movingDown)
-                {
-                    moveZValue--;
-                }
+                    //Movement by player
+                    float moveZValue = 0;
+                    float moveXValue = 0;
 
-                if (movingRight)
-                {
-                    moveXValue++;
-                }
-                if (movingLeft)
-                {
-                    moveXValue--;
-                }
+                    if (movingUp)
+                    {
+                        moveZValue++;
+                    }
+                    if (movingDown)
+                    {
+                        moveZValue--;
+                    }
 
-                Vector3 movementVelocity; // = new Vector3(moveXValue, 0, moveZValue).normalized;
-                movementVelocity = (cameraRotatorTransform.forward * moveZValue
-                    + cameraRotatorTransform.right * moveXValue).normalized;
+                    if (movingRight)
+                    {
+                        moveXValue++;
+                    }
+                    if (movingLeft)
+                    {
+                        moveXValue--;
+                    }
 
-                movementVelocity *= defaultMovementSpeed * currentMovementSpeedMultiplier
-                    * Time.fixedDeltaTime;
+                    Vector3 movementVelocity; // = new Vector3(moveXValue, 0, moveZValue).normalized;
+                    movementVelocity = (cameraRotatorTransform.forward * moveZValue
+                        + cameraRotatorTransform.right * moveXValue).normalized;
 
-                rb.velocity = movementVelocity;
-                if (rb.velocity != Vector3.zero)
-                {
-                    lookDirection = Quaternion.LookRotation(rb.velocity, Vector3.up).eulerAngles;
+                    movementVelocity *= defaultMovementSpeed * currentMovementSpeedMultiplier
+                        * Time.fixedDeltaTime;
+
+                    rb.velocity = movementVelocity;
+                    if (rb.velocity != Vector3.zero)
+                    {
+                        lookDirection = Quaternion.LookRotation(rb.velocity, Vector3.up).eulerAngles;
+                    }
                 }
+            }
+        }
+
+        if (rb.velocity != Vector3.zero)
+        {
+            if (spriteController)
+            {
+                spriteController.SetAnimationState(EAnimationState.WALK);
+            }
+        }
+        else
+        {
+            if (spriteController)
+            {
+                spriteController.SetAnimationState(EAnimationState.IDLE);
             }
         }
 

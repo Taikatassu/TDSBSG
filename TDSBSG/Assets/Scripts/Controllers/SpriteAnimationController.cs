@@ -10,6 +10,15 @@ public class SpriteAnimationController : MonoBehaviour
     GameObject enabledSpritePlayer = null;
 
     [SerializeField]
+    Vector2 frontAngleMinMax = new Vector2(-45, 45);
+    [SerializeField]
+    Vector2 backAngleMinMax = new Vector2(-135, 135);
+    [SerializeField]
+    Vector2 rightAngleMinMax = new Vector2(45, 135);
+    [SerializeField]
+    Vector2 leftAngleMinMax = new Vector2(-135, -45);
+
+    [SerializeField]
     GameObject frontIdleSpritePlayer;
     [SerializeField]
     GameObject frontWalkSpritePlayer;
@@ -46,7 +55,18 @@ public class SpriteAnimationController : MonoBehaviour
 
     private void OnEnable()
     {
+        em.OnStartGame += OnStartGame;
+    }
+
+    private void OnDisable()
+    {
+        em.OnStartGame -= OnStartGame;
+    }
+
+    private void OnStartGame()
+    {
         cameraTransform = em.BroadcastRequestCameraReference().transform;
+
         spritePlayers = new List<GameObject>();
         spritePlayers.Add(frontIdleSpritePlayer);
         spritePlayers.Add(frontWalkSpritePlayer);
@@ -84,18 +104,22 @@ public class SpriteAnimationController : MonoBehaviour
 
     private void SetEnabledSpritePlayer(GameObject newSpritePlayer)
     {
+        //Debug.Log("SetEnabledSpritePlayer, newSpritePlayer: " + newSpritePlayer);
         enabledSpritePlayer = newSpritePlayer;
         int count = spritePlayers.Count;
+        Debug.Log(gameObject.name + ", SetEnabledSpritePlayer, count: " + count);
         for (int i = 0; i < count; i++)
         {
             if(spritePlayers[i] != null)
             {
                 if (enabledSpritePlayer == spritePlayers[i])
                 {
+                    Debug.Log(gameObject.name + ", spritePlayers[i].SetActive(true), spritePlayers[i].name: " + spritePlayers[i]);
                     spritePlayers[i].SetActive(true);
                 }
                 else
                 {
+                    Debug.Log(gameObject.name + ", spritePlayers[i].SetActive(false), spritePlayers[i].name: " + spritePlayers[i]);
                     spritePlayers[i].SetActive(false);
                 }
             }
@@ -104,6 +128,8 @@ public class SpriteAnimationController : MonoBehaviour
 
     private void UpdateSpriteState()
     {
+        //Debug.Log(gameObject.name + ", UpdateSpriteState, currentAnimState: " 
+        //    + currentAnimState + ", currentViewDirection: " + currentViewDirection);
         if (currentAnimState == EAnimationState.TAKEDAMAGE)
         {
             SetEnabledSpritePlayer(takeDamageSpritePlayer);
@@ -185,28 +211,28 @@ public class SpriteAnimationController : MonoBehaviour
             //Debug.DrawRay(rayOrigin, transform.forward * 10, Color.blue, 1f);
 
             //Front
-            if (cameraAngle >= -45 && cameraAngle < 45)
+            if (cameraAngle >= frontAngleMinMax.x && cameraAngle < frontAngleMinMax.y)
             {
                 SetViewDirection(EViewDirection.FRONT);
             }
-            //Right
-            else if (cameraAngle >= 45 && cameraAngle < 135)
-            {
-                SetViewDirection(EViewDirection.RIGHT);
-            }
             //Back
-            else if (cameraAngle >= 135 || cameraAngle < -135)
+            else if (cameraAngle >= backAngleMinMax.y || cameraAngle < backAngleMinMax.x)
             {
                 SetViewDirection(EViewDirection.BACK);
             }
+            //Right
+            else if (cameraAngle >= rightAngleMinMax.x && cameraAngle < rightAngleMinMax.y)
+            {
+                SetViewDirection(EViewDirection.RIGHT);
+            }
             //Left
-            else if (cameraAngle >= -135 && cameraAngle < -45)
+            else if (cameraAngle >= leftAngleMinMax.x && cameraAngle < leftAngleMinMax.y)
             {
                 SetViewDirection(EViewDirection.LEFT);
             }
             else
             {
-                Debug.LogWarning("This should not be happening (cameraAngle: " + cameraAngle + ")");
+                Debug.LogWarning(gameObject.name + "This should not be happening (cameraAngle: " + cameraAngle + ")");
             }
         }
     }

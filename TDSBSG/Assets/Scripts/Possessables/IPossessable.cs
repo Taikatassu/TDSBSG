@@ -31,6 +31,8 @@ public interface IPossessable
     Interactable GetInteractableObject();
 
     void SetInteractableObject(Interactable interactableObject);
+
+    void ChangeCanMoveState(bool newState);
 }
 
 public enum EPossessableType

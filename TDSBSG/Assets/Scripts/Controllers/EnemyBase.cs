@@ -13,6 +13,7 @@ public class EnemyBase : MonoBehaviour {
     [SerializeField]
     protected SpriteAnimationController spriteController;
 
+    IPossessable stoppedPossessable = null;
     protected bool initialized = false;
     protected bool isAlerted = false;
     protected int chaseState = 0; //0 = not chasing, 1 = target acquired, 2 = searching for target (target just got away)
@@ -106,6 +107,17 @@ public class EnemyBase : MonoBehaviour {
         }
     }
 
+    protected void StopPossessable(IPossessable newStoppedPossessable)
+    {
+        if(stoppedPossessable != null)
+        {
+            stoppedPossessable.ChangeCanMoveState(true);
+        }
+
+        stoppedPossessable = newStoppedPossessable;
+        stoppedPossessable.ChangeCanMoveState(false);
+    }
+
     private void OnSecurityTierChange(int newTier)
     {
         currentSecurityTier = newTier;
@@ -182,6 +194,7 @@ public class EnemyBase : MonoBehaviour {
     {
         Debug.Log("EndChase");
         chaseState = 0;
+        stoppedPossessable.ChangeCanMoveState(true);
     }
 
     protected bool TargetInSight()
@@ -274,6 +287,7 @@ public class EnemyBase : MonoBehaviour {
                                     {
                                         //Send an event about detecting the target and start chasing it
                                         em.BroadcastDisobeyingDetected(detectedRobot.GetRobotType(), detectedRobot);
+                                        StopPossessable(detectedRobot);
                                         currentTarget = detectedRobot.GetGameObject().transform;
                                         StartChase();
                                     }
@@ -282,11 +296,11 @@ public class EnemyBase : MonoBehaviour {
                                     {
                                         //Send an event about detecting the target and start chasing it
                                         em.BroadcastDisobeyingDetected(detectedRobot.GetRobotType(), detectedRobot);
+                                        StopPossessable(detectedRobot);
                                         currentTarget = detectedRobot.GetGameObject().transform;
                                         wantedRobot = detectedRobot.GetRobotType();
                                         StartChase();
                                     }
-
                                 }
                             }
                         }

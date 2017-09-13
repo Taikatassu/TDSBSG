@@ -91,10 +91,10 @@ public class LevelManager : MonoBehaviour
                 //Instantiate(Resources.Load("Prefabs/Mobile") as GameObject, playerStart.position, playerStart.rotation);
                 break;
             case ERobotType.DEFAULT:
-                Instantiate(Resources.Load("Prefabs/Poss_Mobile") as GameObject, playerStart.position, playerStart.rotation);
+                Instantiate(Resources.Load("Prefabs/Poss_CleanerBot") as GameObject, playerStart.position, playerStart.rotation);
                 break;
             case ERobotType.WORKER:
-                //Instantiate(Resources.Load("Prefabs/Worker") as GameObject, playerStart.position, playerStart.rotation);
+                Instantiate(Resources.Load("Prefabs/Poss_Forklift") as GameObject, playerStart.position, playerStart.rotation);
                 break;
             case ERobotType.SMALL:
                 Instantiate(Resources.Load("Prefabs/Poss_Small") as GameObject, playerStart.position, playerStart.rotation);

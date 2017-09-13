@@ -26,10 +26,11 @@ public class CameraController : MonoBehaviour
     bool isFollowing = false;
     int cameraMode = 0; //0 = tilted & close, 1 = top down & high up (strategic / map view)
     Vector3 rotationOffset = Vector3.zero;
-    bool rotatingCameraClockwise = false;
-    bool rotatingCameraCounterClockwise = false;
-    float rotationSpeed = 10f;
+    float rotationSpeed = 12f;
     Vector3 lastMousePosition = Vector3.zero;
+    float cameraZoom = 0;
+    [SerializeField]
+    float initialCameraZoom = 0.25f;
     #endregion
 
     private void Awake()
@@ -59,13 +60,12 @@ public class CameraController : MonoBehaviour
         rotatorTransform = transform.parent;
         target = em.BroadcastRequestPlayerReference().transform;
 
+        cameraZoom = initialCameraZoom;
         cameraMode = 0;
-        rotatingCameraClockwise = false;
-        rotatingCameraCounterClockwise = false;
         Vector3 targetPosition = target.position;
         rotatorTransform.position = target.position;
         rotatorTransform.eulerAngles = Vector3.zero;
-        transform.localPosition = posOffsetMode0;
+        transform.localPosition = Vector3.Lerp(posOffsetMode0, posOffsetMode1, cameraZoom);//posOffsetMode0;
         isFollowing = true;
     }
 
@@ -80,18 +80,6 @@ public class CameraController : MonoBehaviour
         {
             case EInputType.CAMERAMODE_KEYDOWN:
                 ToggleCameraMode();
-                break;
-            case EInputType.ROTATECAMERACLOCKWISE_KEYDOWN:
-                rotatingCameraClockwise = true;
-                break;
-            case EInputType.ROTATECAMERACLOCKWISE_KEYUP:
-                rotatingCameraClockwise = false;
-                break;
-            case EInputType.ROTATECAMERACOUNTERCLOCKWISE_KEYDOWN:
-                rotatingCameraCounterClockwise = true;
-                break;
-            case EInputType.ROTATECAMERACOUNTERCLOCKWISE_KEYUP:
-                rotatingCameraCounterClockwise = false;
                 break;
             default:
                 break;
@@ -144,22 +132,28 @@ public class CameraController : MonoBehaviour
         rotatorTransform.position = Vector3.SmoothDamp(rotatorTransform.position,
             rotatorDesiredPosition, ref rotatorRefVelocity, smoothTime);       
     }
-    
+
     private void LateUpdate()
     {
         if (isFollowing)
         {
             Vector3 desiredCameraPosition = Vector3.zero;
-            if (cameraMode == 0)
-            {
-                //Calculate desired position with camera mode 0
-                desiredCameraPosition = posOffsetMode0;
-            }
-            else if (cameraMode == 1)
-            {
-                //Calculate desired position with camera mode 1
-                desiredCameraPosition = posOffsetMode1;
-            }
+            //if (cameraMode == 0)
+            //{
+            //    //Calculate desired position with camera mode 0
+            //    desiredCameraPosition = posOffsetMode0;
+            //}
+            //else if (cameraMode == 1)
+            //{
+            //    //Calculate desired position with camera mode 1
+            //    desiredCameraPosition = posOffsetMode1;
+            //}
+
+            //TODO: Move this to input manager?
+            cameraZoom -= Input.GetAxis("Mouse ScrollWheel") * 0.2f;
+            cameraZoom = Mathf.Clamp(cameraZoom, 0.0f, 1.0f);
+
+            desiredCameraPosition = Vector3.Lerp(posOffsetMode0, posOffsetMode1, cameraZoom);
             
             //Smoothly move to the desired position
             transform.localPosition = Vector3.SmoothDamp(transform.localPosition,

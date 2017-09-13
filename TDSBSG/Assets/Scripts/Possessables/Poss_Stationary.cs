@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Poss_Stationary : MonoBehaviour, IPossessable {
+public class Poss_Stationary : MonoBehaviour, IPossessable
+{
     #region References & variables
     Toolbox toolbox;
     EventManager em;
@@ -12,6 +13,7 @@ public class Poss_Stationary : MonoBehaviour, IPossessable {
     List<IPossessable> connectedPossessables = new List<IPossessable>();
     protected Interactable interactableObject;
 
+    bool canMove = false;
     bool isPossessed = false;
     bool isDisobeying = false;
     readonly EPossessableType possessableType = EPossessableType.PRIMARY;
@@ -56,14 +58,14 @@ public class Poss_Stationary : MonoBehaviour, IPossessable {
         rb = GetComponent<Rigidbody>();
         tag = "Possessable"; //Add this to all possessables
         disobeyingList = new List<GameObject>();
+        canMove = true;
 
-        //ResetAll();
+        ResetAll();
     }
 
     private void ResetAll()
     {
         UnPossess();
-        connectedPossessables = new List<IPossessable>();
     }
 
     #region IPossessable implementation
@@ -146,14 +148,21 @@ public class Poss_Stationary : MonoBehaviour, IPossessable {
         }
     }
 
-    public Interactable GetInteractableObject() {
+    public Interactable GetInteractableObject()
+    {
         return interactableObject;
     }
 
-    public void SetInteractableObject(Interactable interactableObject) {
+    public void SetInteractableObject(Interactable interactableObject)
+    {
         this.interactableObject = interactableObject;
     }
 
+    public void ChangeCanMoveState(bool newState)
+    {
+        canMove = newState;
+        rb.velocity = Vector3.zero;
+    }
     #endregion
 
     private void FixedUpdate()
@@ -168,8 +177,10 @@ public class Poss_Stationary : MonoBehaviour, IPossessable {
         }
     }
 
-    private void OnDisobeyingDetected(ERobotType detectedRobotType, IPossessable detectedRobot) {
-        if (this == (UnityEngine.Object) detectedRobot) {
+    private void OnDisobeyingDetected(ERobotType detectedRobotType, IPossessable detectedRobot)
+    {
+        if (this == (UnityEngine.Object)detectedRobot)
+        {
             // cant move
         }
     }
