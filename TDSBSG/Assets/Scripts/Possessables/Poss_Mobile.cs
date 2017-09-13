@@ -61,7 +61,7 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
         em.OnPauseActorsStateChange -= OnPauseActorsStateChange;
     }
 
-    private void OnInitializeGame()
+    protected virtual void OnInitializeGame()
     {
         toolbox = FindObjectOfType<Toolbox>();
         em = toolbox.GetComponent<EventManager>();
