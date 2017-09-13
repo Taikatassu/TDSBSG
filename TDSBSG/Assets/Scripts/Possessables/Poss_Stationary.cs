@@ -37,6 +37,7 @@ public class Poss_Stationary : MonoBehaviour, IPossessable {
         possInfo.possessables.Add(this);
 
         em.OnInitializeGame += OnInitializeGame;
+        em.OnDisobeyingDetected += OnDisobeyingDetected;
     }
 
     private void OnDisable()
@@ -44,6 +45,7 @@ public class Poss_Stationary : MonoBehaviour, IPossessable {
         possInfo.possessables.Remove(this);
 
         em.OnInitializeGame -= OnInitializeGame;
+        em.OnDisobeyingDetected -= OnDisobeyingDetected;
     }
 
     protected virtual void OnInitializeGame()
@@ -163,6 +165,12 @@ public class Poss_Stationary : MonoBehaviour, IPossessable {
         else
         {
             isDisobeying = false;
+        }
+    }
+
+    private void OnDisobeyingDetected(ERobotType detectedRobotType, IPossessable detectedRobot) {
+        if (this == (UnityEngine.Object) detectedRobot) {
+            // cant move
         }
     }
 }

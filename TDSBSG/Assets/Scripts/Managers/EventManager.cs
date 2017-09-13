@@ -32,6 +32,7 @@ public class EventManager : MonoBehaviour
     public delegate void GameObjectVoid(GameObject go);
     public delegate GameObject EmptyGameObject();
     public delegate void RobotTypeVoid(ERobotType eRobotType);
+    public delegate void RobotTypeIPossessableVoid(ERobotType eRobotType, IPossessable detectedRobot);
     public delegate int EmptyInt();
     public delegate Vector3 EmptyVector3();
     public delegate void Vector3Void(Vector3 vec3);
@@ -120,12 +121,12 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public event RobotTypeVoid OnDisobeyingDetected;
-    public void BroadcastDisobeyingDetected(ERobotType detectedRobotType)
+    public event RobotTypeIPossessableVoid OnDisobeyingDetected;
+    public void BroadcastDisobeyingDetected(ERobotType detectedRobotType, IPossessable detectedRobot)
     {
         if (OnDisobeyingDetected != null)
         {
-            OnDisobeyingDetected(detectedRobotType);
+            OnDisobeyingDetected(detectedRobotType, detectedRobot);
         }
     }
 

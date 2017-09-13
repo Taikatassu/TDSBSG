@@ -51,6 +51,8 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
 
         em.OnInitializeGame += OnInitializeGame;
         em.OnPauseActorsStateChange += OnPauseActorsStateChange;
+        em.OnDisobeyingDetected += OnDisobeyingDetected;
+
     }
 
     private void OnDisable()
@@ -59,6 +61,7 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
 
         em.OnInitializeGame -= OnInitializeGame;
         em.OnPauseActorsStateChange -= OnPauseActorsStateChange;
+        em.OnDisobeyingDetected -= OnDisobeyingDetected;
     }
 
     protected virtual void OnInitializeGame()
@@ -283,5 +286,11 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
     public void SetDestination(Vector3 newDest)
     {
         navMeshAgent.SetDestination(newDest);
+    }
+
+    private void OnDisobeyingDetected(ERobotType detectedRobotType, IPossessable detectedRobot) {
+        if(this == (UnityEngine.Object)detectedRobot) {
+            // cant move
+        }
     }
 }

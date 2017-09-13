@@ -273,7 +273,7 @@ public class EnemyBase : MonoBehaviour {
                                     if (isAlerted && detectedRobot.GetRobotType() == wantedRobot)
                                     {
                                         //Send an event about detecting the target and start chasing it
-                                        em.BroadcastDisobeyingDetected(detectedRobot.GetRobotType());
+                                        em.BroadcastDisobeyingDetected(detectedRobot.GetRobotType(), detectedRobot);
                                         currentTarget = detectedRobot.GetGameObject().transform;
                                         StartChase();
                                     }
@@ -281,7 +281,7 @@ public class EnemyBase : MonoBehaviour {
                                     else if (detectedRobot.GetIsDisobeying())
                                     {
                                         //Send an event about detecting the target and start chasing it
-                                        em.BroadcastDisobeyingDetected(detectedRobot.GetRobotType());
+                                        em.BroadcastDisobeyingDetected(detectedRobot.GetRobotType(), detectedRobot);
                                         currentTarget = detectedRobot.GetGameObject().transform;
                                         wantedRobot = detectedRobot.GetRobotType();
                                         StartChase();

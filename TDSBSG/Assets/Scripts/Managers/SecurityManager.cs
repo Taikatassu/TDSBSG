@@ -61,7 +61,7 @@ public class SecurityManager : MonoBehaviour
         em.OnDisobeyingDetected -= OnDisobeyingDetected;
     }
 
-    private void OnDisobeyingDetected(ERobotType disobeyingRobotType)
+    private void OnDisobeyingDetected(ERobotType disobeyingRobotType,IPossessable disobeyingRobot)
     {
         wantedRobot = disobeyingRobotType;
         StartAlarm();
