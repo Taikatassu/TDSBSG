@@ -128,11 +128,12 @@ DONE - Opening pausemenu does not prevent mouse interaction with the scene
 DONE - Main menu background
 DONE - KnockedOut enemies continue to their navMesh destination
 DONE - Reset lastPossessedRobotType when restarting first level
+DONE - If switching out of and back to a forklift possessable while an interactable is lifted, the forklift is 
+       unable to lower the object
+	    - The problem seems to persist without the elevator as well (just cannon lower a lifted object)
+DONE - Game over screen
 - Implement slight smooth on the possessed possessable rotation
 - Some sprites on the office workers jump during animation (office workers. Possibly different pivot point?)
-- If switching out of and back to a forklift possessable while an interactable is lifted, the forklift is 
-  unable to lower the object
-- Game over screen
 
 
 

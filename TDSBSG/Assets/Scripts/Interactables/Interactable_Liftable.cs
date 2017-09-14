@@ -8,8 +8,17 @@ public class Interactable_Liftable : Interactable {
 
     private void FixedUpdate() {
         if (isInUse) {
-            transform.position = currentLifter.position;
-            transform.eulerAngles = currentLifter.eulerAngles;
+            if (stationaryInteractable)
+            {
+                Vector3 newPos = transform.position;
+                newPos.y = currentLifter.position.y;
+                transform.position = newPos;
+            }
+            else
+            {
+                transform.position = currentLifter.position;
+                transform.eulerAngles = currentLifter.eulerAngles;
+            }
         }
     }
 

@@ -30,6 +30,7 @@ public class Poss_Worker : Poss_Mobile
     private float timeStartedLerping;
     bool isLerpUp = true;
     bool liftingObject = false;
+    bool liftingStationaryObject = false;
     List<Interactable_Liftable> liftableCandidates = new List<Interactable_Liftable>();
     List<GameObject> overlappingObjects = new List<GameObject>();
     Vector3 lifterDownPos = Vector3.zero;
@@ -45,7 +46,7 @@ public class Poss_Worker : Poss_Mobile
     protected override void OnInitializeGame()
     {
         base.OnInitializeGame();
-
+        
         lifter.GetComponent<Collider>().enabled = false;
 
         lifterDownPos = lifter.localPosition;
@@ -55,30 +56,92 @@ public class Poss_Worker : Poss_Mobile
 
     protected override void FixedUpdate()
     {
-        base.FixedUpdate();
+        rb.velocity = Vector3.zero;
+
         if (isLerping)
         {
             LerpInteractableObject();
         }
+        
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            currentMovementSpeedMultiplier = 3;
+        }
+        else
+        {
+            currentMovementSpeedMultiplier = 1.5f;
+        }
 
-        //if (!liftableCandidate) {
-        //    liftableDetector.center = originalPos;
-        //    liftableDetector.size = originalScale;
-        //    return;
-        //}
+        if (disobeyingList.Count > 0)
+        {
+            isDisobeying = true;
+        }
+        else
+        {
+            isDisobeying = false;
+        }
+        if (!interactionPause)
+        {
+            if (canMove && !liftingStationaryObject)
+            {
+                if (isPossessed)
+                {
+                    //Movement by player
+                    float moveZValue = 0;
+                    float moveXValue = 0;
 
-        //liftableDetector.center = liftPos;
-        //liftableDetector.size = liftScale;
+                    if (movingUp)
+                    {
+                        moveZValue++;
+                    }
+                    if (movingDown)
+                    {
+                        moveZValue--;
+                    }
 
-        // end liftdown
-        //if (!isLerpUp) {
-        //    if (!isLerping) {
-        //        currentLiftable.EndInteraction(this);
-        //        currentLiftable = null;
-        //        isLerpUp = true;
-        //    }
-        //}
+                    if (movingRight)
+                    {
+                        moveXValue++;
+                    }
+                    if (movingLeft)
+                    {
+                        moveXValue--;
+                    }
+
+                    Vector3 movementVelocity; // = new Vector3(moveXValue, 0, moveZValue).normalized;
+                    movementVelocity = (cameraRotatorTransform.forward * moveZValue
+                        + cameraRotatorTransform.right * moveXValue).normalized;
+
+                    movementVelocity *= defaultMovementSpeed * currentMovementSpeedMultiplier
+                        * Time.fixedDeltaTime;
+
+                    rb.velocity = movementVelocity;
+                    if (rb.velocity != Vector3.zero)
+                    {
+                        lookDirection = Quaternion.LookRotation(rb.velocity, Vector3.up).eulerAngles;
+                    }
+                }
+            }
+        }
+
+        if (rb.velocity != Vector3.zero)
+        {
+            if (spriteController)
+            {
+                spriteController.SetAnimationState(EAnimationState.WALK);
+            }
+        }
+        else
+        {
+            if (spriteController)
+            {
+                spriteController.SetAnimationState(EAnimationState.IDLE);
+            }
+        }
+
+        transform.rotation = Quaternion.Euler(lookDirection);
     }
+
     public override void GiveInput(EInputType newInput)
     {
         base.GiveInput(newInput);
@@ -89,8 +152,17 @@ public class Poss_Worker : Poss_Mobile
                 if (liftingObject)
                 {
                     Debug.Log("Worker.GiveInput: USE_KEYDOWN, liftingObject = true, overlappingObjects.Count: " + overlappingObjects.Count);
+                    if (overlappingObjects.Count > 0)
+                    {
+                        Debug.Log(overlappingObjects[0].name);
+                    }
                     if (overlappingObjects.Count == 0)
                     {
+                        if (liftingStationaryObject)
+                        {
+                            liftingStationaryObject = false;
+                        }
+
                         StartLerp(false);
                     }
                 }
@@ -104,6 +176,10 @@ public class Poss_Worker : Poss_Mobile
                         float result = closestLiftable.StartInteraction(lifter);
                         if (result >= 0)
                         {
+                            if (closestLiftable.GetIsStationaryInteractable())
+                            {
+                                liftingStationaryObject = true;
+                            }
                             Debug.Log("Worker.GiveInput: USE_KEYDOWN, liftingObject = false, closestLiftable != null, result >= 0 (started interaction successfully)");
 
                             StartLerp(true);
@@ -187,34 +263,22 @@ public class Poss_Worker : Poss_Mobile
         }
     }
 
-    //private void OnTriggerEnter(Collider other) {
-    //    if (liftableCandidate == null) {
-    //        if (other.GetComponent<Interactable_Liftable>())
-    //            Debug.Log("Collide liftableObject");
-    //        liftableCandidate = other.GetComponent<Interactable_Liftable>();
-    //    }
-    //}
-
     private void OnTriggerExit(Collider other)
     {
-        //if (other != liftableCandidate) {
-        //    Debug.Log("Exit liftableObject");
-        //    liftableCandidate = null;
-        //}
-
         if (liftingObject)
         {
-            if (overlappingObjects.Contains(other.gameObject))
+            if(other.gameObject.layer != LayerMask.NameToLayer("Ignore Raycast"))
             {
-                //Debug.Log("removing from overlapping list");
-                overlappingObjects.Remove(other.gameObject);
+                if (overlappingObjects.Contains(other.gameObject))
+                {
+                    overlappingObjects.Remove(other.gameObject);
+                }
             }
         }
         else
         {
             if (liftableCandidates.Contains(other.GetComponent<Interactable_Liftable>()))
             {
-                //Debug.Log("removing from liftable list");
                 liftableCandidates.Remove(other.GetComponent<Interactable_Liftable>());
             }
         }
@@ -230,19 +294,20 @@ public class Poss_Worker : Poss_Mobile
 
                 if (!liftableCandidates.Contains(hitLiftable))
                 {
-                    //Debug.Log("adding to liftable list");
                     liftableCandidates.Add(hitLiftable);
                 }
             }
         }
         else
         {
-            GameObject overlapper = other.gameObject;
-
-            if (!overlappingObjects.Contains(overlapper))
+            if (other.gameObject.layer != LayerMask.NameToLayer("Ignore Raycast"))
             {
-                //Debug.Log("adding to overlapping list");
-                overlappingObjects.Add(overlapper);
+                GameObject overlapper = other.gameObject;
+
+                if (!overlappingObjects.Contains(overlapper))
+                {
+                    overlappingObjects.Add(overlapper);
+                }
             }
         }
     }

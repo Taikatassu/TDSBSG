@@ -5,12 +5,18 @@ using UnityEngine;
 public class Interactable : MonoBehaviour {
 
     protected bool isInUse = false;
-    protected bool stationaryInteractable;
+    [SerializeField]
+    protected bool stationaryInteractable = false;
     protected float startDurationTime = 0.0f;
     protected float endDurationTime = 0.0f;
     [SerializeField]
     protected List<ERobotType> permissionList;
 
+
+    public bool GetIsStationaryInteractable()
+    {
+        return stationaryInteractable;
+    }
 
     public bool GetIsInUse() { return isInUse; }
 

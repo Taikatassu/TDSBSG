@@ -6579,6 +6579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e84a14e1549eef34fae8cfe5f2ad8dc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stationaryInteractable: 0
   permissionList: 020000000300000004000000
   interactionTrigger: {fileID: 379054836}
   doorObject: {fileID: 1928369578}
@@ -12450,6 +12451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4431749791d0cc549ac83202308859c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stationaryInteractable: 0
   permissionList: 03000000
 --- !u!1 &643876721
 GameObject:
@@ -14118,6 +14120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4431749791d0cc549ac83202308859c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stationaryInteractable: 0
   permissionList: 03000000
 --- !u!1 &703204807
 GameObject:
@@ -15055,6 +15058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4431749791d0cc549ac83202308859c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stationaryInteractable: 0
   permissionList: 03000000
 --- !u!1001 &732246506
 Prefab:
@@ -15428,6 +15432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e84a14e1549eef34fae8cfe5f2ad8dc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stationaryInteractable: 0
   permissionList: 04000000
   interactionTrigger: {fileID: 751858686}
   doorObject: {fileID: 732246508}
@@ -15964,6 +15969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4431749791d0cc549ac83202308859c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stationaryInteractable: 0
   permissionList: 03000000
 --- !u!1001 &769796177
 Prefab:
@@ -16476,6 +16482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4431749791d0cc549ac83202308859c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stationaryInteractable: 0
   permissionList: 03000000
 --- !u!1001 &781911463
 Prefab:
@@ -17302,6 +17309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4431749791d0cc549ac83202308859c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stationaryInteractable: 0
   permissionList: 03000000
 --- !u!1 &822496524
 GameObject:
@@ -20548,6 +20556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e84a14e1549eef34fae8cfe5f2ad8dc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stationaryInteractable: 0
   permissionList: 04000000
   interactionTrigger: {fileID: 966904739}
   doorObject: {fileID: 534982636}
@@ -25516,7 +25525,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4444806030190482, guid: 3ae69f20debb26e4abfac108997b84f6, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4049438947990014, guid: 3ae69f20debb26e4abfac108997b84f6, type: 2}
       propertyPath: m_LocalRotation.x
@@ -27132,6 +27141,10 @@ Prefab:
     - target: {fileID: 4713062917179722, guid: 96477d8013832ac41b4e3a480f87059e, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 270
+      objectReference: {fileID: 0}
+    - target: {fileID: 1459225647101464, guid: 96477d8013832ac41b4e3a480f87059e, type: 2}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 96477d8013832ac41b4e3a480f87059e, type: 2}
@@ -30979,12 +30992,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4879382307753510, guid: 56f6d9f681dc48544bf5cd5f9c988e9c, type: 2}
       propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114231733847801834, guid: 56f6d9f681dc48544bf5cd5f9c988e9c,
-        type: 2}
-      propertyPath: listOfAllowedRobotType.Array.data[0]
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 56f6d9f681dc48544bf5cd5f9c988e9c, type: 2}
@@ -36349,6 +36357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e84a14e1549eef34fae8cfe5f2ad8dc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stationaryInteractable: 0
   permissionList: 04000000
   interactionTrigger: {fileID: 1570593044}
   doorObject: {fileID: 728514418}
@@ -37116,6 +37125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4431749791d0cc549ac83202308859c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stationaryInteractable: 0
   permissionList: 03000000
 --- !u!1001 &1622710752
 Prefab:
@@ -42993,7 +43003,6 @@ GameObject:
   - component: {fileID: 1872454673}
   - component: {fileID: 1872454675}
   - component: {fileID: 1872454674}
-  - component: {fileID: 1872454676}
   m_Layer: 0
   m_Name: Cube.156_Cube.181_OfficeDoors
   m_TagString: Untagged
@@ -43055,18 +43064,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1872454672}
   m_Mesh: {fileID: 4300004, guid: 5ae7e7d8cc98b0f4fb254cfe3e0dc154, type: 3}
---- !u!65 &1872454676
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1872454672}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.886248, y: 4.110504, z: 0.28769305}
-  m_Center: {x: -0.0035410523, y: 2.091555, z: 0.012406597}
 --- !u!1 &1877521225
 GameObject:
   m_ObjectHideFlags: 0
@@ -44496,6 +44493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4431749791d0cc549ac83202308859c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stationaryInteractable: 0
   permissionList: 03000000
 --- !u!1 &1944372366
 GameObject:
@@ -44539,6 +44537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e84a14e1549eef34fae8cfe5f2ad8dc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stationaryInteractable: 0
   permissionList: 04000000
   interactionTrigger: {fileID: 1944372370}
   doorObject: {fileID: 728514418}
@@ -46816,6 +46815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4431749791d0cc549ac83202308859c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stationaryInteractable: 0
   permissionList: 03000000
 --- !u!1001 &2044884587
 Prefab:
@@ -48629,6 +48629,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2130357102}
   - component: {fileID: 2130357103}
+  - component: {fileID: 2130357104}
   m_Layer: 0
   m_Name: Liftable
   m_TagString: Untagged
@@ -48663,7 +48664,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4431749791d0cc549ac83202308859c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stationaryInteractable: 1
   permissionList: 03000000
+--- !u!65 &2130357104
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2130357101}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.886248, y: 4.110504, z: 0.28769305}
+  m_Center: {x: -0.0035410523, y: 2.091555, z: 0.012406597}
 --- !u!1 &2133470153
 GameObject:
   m_ObjectHideFlags: 0

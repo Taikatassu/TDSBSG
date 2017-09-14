@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4879382307753510}
   - component: {fileID: 114231733847801834}
   - component: {fileID: 65431868199025418}
-  m_Layer: 9
+  m_Layer: 2
   m_Name: Restricted_Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35,7 +35,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1034549271991836}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5, y: 0, z: 5}
+  m_LocalPosition: {x: 77.07, y: 0.00000047683716, z: -83.1}
   m_LocalScale: {x: 19, y: 1, z: 19}
   m_Children: []
   m_Father: {fileID: 0}
@@ -65,4 +65,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelOfSecurity: 5
-  listOfAllowedRobotType: 00000000
+  listOfAllowedRobotType: 01000000

@@ -10,8 +10,8 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
     Toolbox toolbox;
     EventManager em;
     PossessableInfo possInfo;
-    Rigidbody rb;
-    List<GameObject> disobeyingList = new List<GameObject>();
+    protected Rigidbody rb;
+    protected List<GameObject> disobeyingList = new List<GameObject>();
     List<IPossessable> connectedPossessables = new List<IPossessable>();
     NavMeshAgent navMeshAgent;
     protected Interactable interactableObject;
@@ -20,19 +20,19 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
     [SerializeField]
     protected SpriteAnimationController spriteController;
 
-    bool canMove = false;
-    bool isPossessed = false;
-    bool isDisobeying = false;
-    bool movingUp = false;
-    bool movingDown = false;
-    bool movingRight = false;
-    bool movingLeft = false;
+    protected bool canMove = false;
+    protected bool isPossessed = false;
+    protected bool isDisobeying = false;
+    protected bool movingUp = false;
+    protected bool movingDown = false;
+    protected bool movingRight = false;
+    protected bool movingLeft = false;
     protected bool interactionPause = false;
     readonly EPossessableType possessableType = EPossessableType.PRIMARY;
     [SerializeField]
     ERobotType robotType = ERobotType.DEFAULT;
-    float defaultMovementSpeed = 150f;
-    float currentMovementSpeedMultiplier = 1.5f;
+    protected float defaultMovementSpeed = 150f;
+    protected float currentMovementSpeedMultiplier = 1.5f;
     #endregion
 
     private void Awake()
@@ -49,7 +49,7 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
         gameObject.layer = LayerMask.NameToLayer("Possessable");
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         possInfo.possessables.Add(this);
 
@@ -59,7 +59,7 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
 
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         possInfo.possessables.Remove(this);
 
@@ -133,7 +133,10 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
 
     public void AddDisobeyingToList(GameObject go)
     {
-        disobeyingList.Add(go);
+        if (!disobeyingList.Contains(go))
+        {
+            disobeyingList.Add(go);
+        }
     }
 
     public void RemoveDisobeyingFromList(GameObject go)
@@ -246,8 +249,8 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
 
     protected virtual void FixedUpdate()
     {
+        rb.velocity = Vector3.zero;
 
-        //Debug.Log("interactionPause: " + interactionPause + ", canMove: " + canMove);
         if (Input.GetKey(KeyCode.LeftShift))
 		{
 			currentMovementSpeedMultiplier = 3;
