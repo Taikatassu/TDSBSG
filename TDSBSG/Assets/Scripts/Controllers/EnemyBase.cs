@@ -207,13 +207,11 @@ public class EnemyBase : MonoBehaviour {
 
     protected virtual void StartChase()
     {
-        Debug.Log("StartChase");
         chaseState = 1;
     }
 
     protected virtual void EndChase()
     {
-        Debug.Log("EndChase");
         chaseState = 0;
         stoppedPossessable.ChangeCanMoveState(true);
     }

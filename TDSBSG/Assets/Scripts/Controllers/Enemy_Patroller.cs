@@ -61,15 +61,6 @@ public class Enemy_Patroller : EnemyBase
     protected override void SetIsAlerted(bool newState)
     {
         base.SetIsAlerted(newState);
-
-        //if (isAlerted)
-        //{
-        //    movementSpeedMultiplier = 1.5f;
-        //}
-        //else
-        //{
-        //    movementSpeedMultiplier = 1f;
-        //}
     }
 
     protected override void OnAlartStateChange(int newState, ERobotType newWantedRobot)
@@ -121,13 +112,11 @@ public class Enemy_Patroller : EnemyBase
 
     private void StopPatrolling()
     {
-        Debug.Log("StopPatrolling");
         isPatrolling = false;
     }
 
     private void ResumePatrolling()
     {
-        Debug.Log("ResumePatrolling");
         isPatrolling = true;
 
         //If there are any patrol points

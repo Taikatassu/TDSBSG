@@ -201,7 +201,7 @@ public class Player : MonoBehaviour
                     foreach (IPossessable i in primaryPossession.GetConnectedPossessablesList())
                     {
                         float angle = Vector3.Angle(hit.point - transform.position, i.GetGameObject().transform.position - transform.position);
-                        Debug.Log("Angle = " + angle.ToString("f2") + "f");
+                        //Debug.Log("Angle = " + angle.ToString("f2") + "f");
 
                         if ((angle <= maxAngle) && (angle < previousAngle))
                         {

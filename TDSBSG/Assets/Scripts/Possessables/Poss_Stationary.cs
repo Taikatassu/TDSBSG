@@ -12,6 +12,7 @@ public class Poss_Stationary : MonoBehaviour, IPossessable
     List<GameObject> disobeyingList = new List<GameObject>();
     List<IPossessable> connectedPossessables = new List<IPossessable>();
     protected Interactable interactableObject;
+    protected Poss_ConnectedMaster connectionMaster = null;
 
     bool canMove = false;
     bool isPossessed = false;
@@ -66,6 +67,11 @@ public class Poss_Stationary : MonoBehaviour, IPossessable
     private void ResetAll()
     {
         UnPossess();
+    }
+
+    public void SetConnectionMaster(Poss_ConnectedMaster newConnectionMaster)
+    {
+        connectionMaster = newConnectionMaster;
     }
 
     #region IPossessable implementation
@@ -137,6 +143,11 @@ public class Poss_Stationary : MonoBehaviour, IPossessable
         {
             rb.isKinematic = false;
         }
+
+        if(connectionMaster != null)
+        {
+            connectionMaster.SetConnectionIndicatorState(true);
+        }
     }
 
     public void UnPossess()
@@ -145,6 +156,11 @@ public class Poss_Stationary : MonoBehaviour, IPossessable
         if (rb != null)
         {
             rb.isKinematic = true;
+        }
+
+        if (connectionMaster != null)
+        {
+            connectionMaster.SetConnectionIndicatorState(false);
         }
     }
 

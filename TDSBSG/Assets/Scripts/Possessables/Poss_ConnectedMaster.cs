@@ -31,6 +31,14 @@ public class Poss_ConnectedMaster : Poss_Stationary
                 IPossessable connectedSecond = connectedPossessablesMasterList[connectedPossessablePairs[i * 2 + 1]].GetComponent<IPossessable>();
                 connectedFirst.AddToConnectedPossessablesList(connectedSecond);
                 connectedSecond.AddToConnectedPossessablesList(connectedFirst);
+                if (connectedFirst.GetGameObject().GetComponent<Poss_Stationary>())
+                {
+                    connectedFirst.GetGameObject().GetComponent<Poss_Stationary>().SetConnectionMaster(this);
+                }
+                if (connectedSecond.GetGameObject().GetComponent<Poss_Stationary>())
+                {
+                    connectedSecond.GetGameObject().GetComponent<Poss_Stationary>().SetConnectionMaster(this);
+                }
 
                 //Vector3 rayStart = connectedFirst.GetGameObject().transform.position;
                 //Vector3 rayDir = connectedSecond.GetGameObject().transform.position
@@ -54,15 +62,14 @@ public class Poss_ConnectedMaster : Poss_Stationary
             }
         }
 
-        SetConnectionIndicatorState(true);
+        SetConnectionIndicatorState(false);
     }
-
-    private void SetConnectionIndicatorState(bool newState)
+    
+    public void SetConnectionIndicatorState(bool newState)
     {
-        connectionIndicatorsEnabled = newState;
-
-        if (connectionIndicatorsEnabled)
+        if(connectionIndicatorsEnabled != newState)
         {
+            connectionIndicatorsEnabled = newState;
             float count = connectionInfoList.Count;
             for (int i = 0; i < count; i++)
             {
@@ -70,14 +77,6 @@ public class Poss_ConnectedMaster : Poss_Stationary
             }
 
             UpdateConnectionIndicators();
-        }
-        else
-        {
-            float count = connectionInfoList.Count;
-            for (int i = 0; i < count; i++)
-            {
-                connectionInfoList[i].indicator.enabled = connectionIndicatorsEnabled;
-            }
         }
     }
 

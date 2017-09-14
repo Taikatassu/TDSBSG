@@ -64,7 +64,7 @@ public class CameraController : MonoBehaviour
         cameraMode = 0;
         Vector3 targetPosition = target.position;
         rotatorTransform.position = target.position;
-        rotatorTransform.eulerAngles = Vector3.zero;
+        rotatorTransform.eulerAngles = target.eulerAngles;
         transform.localPosition = Vector3.Lerp(posOffsetMode0, posOffsetMode1, cameraZoom);//posOffsetMode0;
         isFollowing = true;
     }

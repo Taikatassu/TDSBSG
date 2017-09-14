@@ -24,7 +24,6 @@ public class UIManager : MonoBehaviour
 
     //GameOver screen
     public GameObject gameOverScreen;
-    //TODO: Implement this
 
     // BlackPanel
     [SerializeField]

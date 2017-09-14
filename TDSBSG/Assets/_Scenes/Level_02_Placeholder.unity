@@ -106,8 +106,8 @@ NavMeshSettings:
     cellSize: 0.1
     manualTileSize: 0
     tileSize: 256
-    accuratePlacement: 0
-  m_NavMeshData: {fileID: 23800000, guid: f5580e6004d10794d94b1b5ebf44cc62, type: 2}
+    accuratePlacement: 1
+  m_NavMeshData: {fileID: 23800000, guid: 56410f2c65a74d84297801802fd6e4f7, type: 2}
 --- !u!1 &2856384
 GameObject:
   m_ObjectHideFlags: 0
@@ -12167,7 +12167,7 @@ Prefab:
     - target: {fileID: 114318628391247550, guid: 610c1d02d68894e44aea2898712b9185,
         type: 2}
       propertyPath: patrolPoints.Array.size
-      value: 7
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4375980578244586, guid: 610c1d02d68894e44aea2898712b9185, type: 2}
       propertyPath: m_LocalPosition.x
@@ -12213,7 +12213,7 @@ Prefab:
         type: 2}
       propertyPath: patrolPoints.Array.data[0]
       value: 
-      objectReference: {fileID: 1233345336}
+      objectReference: {fileID: 1026814889}
     - target: {fileID: 114318628391247550, guid: 610c1d02d68894e44aea2898712b9185,
         type: 2}
       propertyPath: patrolPoints.Array.data[1]
@@ -21683,7 +21683,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4866996995221560, guid: c2b8285b094dfeb4bab1a682ae393c4e, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -8.02
+      value: -10.2
       objectReference: {fileID: 0}
     - target: {fileID: 4866996995221560, guid: c2b8285b094dfeb4bab1a682ae393c4e, type: 2}
       propertyPath: m_LocalPosition.y
@@ -21691,7 +21691,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4866996995221560, guid: c2b8285b094dfeb4bab1a682ae393c4e, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 2.51
+      value: -1.09
       objectReference: {fileID: 0}
     - target: {fileID: 4866996995221560, guid: c2b8285b094dfeb4bab1a682ae393c4e, type: 2}
       propertyPath: m_LocalRotation.x
@@ -25482,12 +25482,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c2b8285b094dfeb4bab1a682ae393c4e, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &1233345336 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114837506184473666, guid: c2b8285b094dfeb4bab1a682ae393c4e,
-    type: 2}
-  m_PrefabInternal: {fileID: 1233345335}
-  m_Script: {fileID: 11500000, guid: 241c7a6ec89438e4f97f4b17d3c0c3d1, type: 3}
 --- !u!1001 &1235284945
 Prefab:
   m_ObjectHideFlags: 0

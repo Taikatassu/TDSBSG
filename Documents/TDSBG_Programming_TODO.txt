@@ -132,8 +132,17 @@ DONE - If switching out of and back to a forklift possessable while an interacta
        unable to lower the object
 	    - The problem seems to persist without the elevator as well (just cannon lower a lifted object)
 DONE - Game over screen
+DONE - Remove roomba from the beginning of level_02
 - Implement slight smooth on the possessed possessable rotation
 - Some sprites on the office workers jump during animation (office workers. Possibly different pivot point?)
+- Enemies can travel through vents?
+- Simple AI for the possessables (they should have tasks to complete to keep them occuped until the player possesses them)
+- Game completed screen
+
+
+
+
+
 
 
 
