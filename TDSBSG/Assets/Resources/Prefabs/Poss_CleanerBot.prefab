@@ -224,6 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteController: {fileID: 114802300120298652}
+  robotType: 2
 --- !u!114 &114802300120298652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -249,6 +250,8 @@ MonoBehaviour:
   leftWalkSpritePlayer: {fileID: 0}
   takeDamageSpritePlayer: {fileID: 0}
   knockedOutSpritePlayer: {fileID: 0}
+  topSpritePlayer: {fileID: 0}
+  takeDamageDuration: 0.5
 --- !u!136 &136514562574849130
 CapsuleCollider:
   m_ObjectHideFlags: 1

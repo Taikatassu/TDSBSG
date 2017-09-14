@@ -29,7 +29,8 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
     bool movingLeft = false;
     protected bool interactionPause = false;
     readonly EPossessableType possessableType = EPossessableType.PRIMARY;
-    readonly ERobotType robotType = ERobotType.DEFAULT;
+    [SerializeField]
+    ERobotType robotType = ERobotType.DEFAULT;
     float defaultMovementSpeed = 150f;
     float currentMovementSpeedMultiplier = 1.5f;
     #endregion

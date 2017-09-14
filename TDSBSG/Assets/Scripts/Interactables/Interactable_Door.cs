@@ -41,12 +41,17 @@ public class Interactable_Door : Interactable {
 	private void Start() {
 		//permissionList = new List<ERobotType>();
 
+        if(doorObject != null)
+        {
+            closedPos = doorObject.transform.localPosition;
+            closedRot = doorObject.transform.eulerAngles;
+        }
 
-		closedPos = doorObject.transform.localPosition;
-		closedRot = doorObject.transform.eulerAngles;
-
-		closedPos_2 = doorObject_2.transform.localPosition;
-		closedRot_2 = doorObject_2.transform.eulerAngles;
+        if (doorObject_2 != null)
+        {
+            closedPos_2 = doorObject_2.transform.localPosition;
+            closedRot_2 = doorObject_2.transform.eulerAngles;
+        }
 
 		lightEffect = null;
 	}
@@ -90,10 +95,17 @@ public class Interactable_Door : Interactable {
 			startDurationTime = animationDuration;
 		}
 		endDurationTime = animationDuration - startDurationTime;
-		doorObject.transform.localPosition = Vector3.Lerp(closedPos, openPos, startDurationTime);
-		doorObject.transform.eulerAngles = Vector3.Lerp(closedRot, openRot, startDurationTime);
-		doorObject_2.transform.localPosition = Vector3.Lerp(closedPos_2, openPos_2, startDurationTime);
-		doorObject_2.transform.eulerAngles = Vector3.Lerp(closedRot_2, openRot_2, startDurationTime);
+        if(doorObject != null)
+        {
+            doorObject.transform.localPosition = Vector3.Lerp(closedPos, openPos, startDurationTime);
+            doorObject.transform.eulerAngles = Vector3.Lerp(closedRot, openRot, startDurationTime);
+        }
+
+        if (doorObject_2 != null)
+        {
+            doorObject_2.transform.localPosition = Vector3.Lerp(closedPos_2, openPos_2, startDurationTime);
+            doorObject_2.transform.eulerAngles = Vector3.Lerp(closedRot_2, openRot_2, startDurationTime);
+        }
 	}
 
 	private void Close() {
@@ -102,10 +114,17 @@ public class Interactable_Door : Interactable {
 			endDurationTime = animationDuration;
 		}
 		startDurationTime = animationDuration - endDurationTime;
-		doorObject.transform.localPosition = Vector3.Lerp(openPos, closedPos, endDurationTime);
-		doorObject.transform.eulerAngles = Vector3.Lerp(openRot, closedRot, endDurationTime);
-		doorObject_2.transform.localPosition = Vector3.Lerp(openPos_2, closedPos_2, endDurationTime);
-		doorObject_2.transform.eulerAngles = Vector3.Lerp(openRot_2, closedRot_2, endDurationTime);
+        if(doorObject != null)
+        {
+            doorObject.transform.localPosition = Vector3.Lerp(openPos, closedPos, endDurationTime);
+            doorObject.transform.eulerAngles = Vector3.Lerp(openRot, closedRot, endDurationTime);
+        }
+
+        if(doorObject_2 != null)
+        {
+            doorObject_2.transform.localPosition = Vector3.Lerp(openPos_2, closedPos_2, endDurationTime);
+            doorObject_2.transform.eulerAngles = Vector3.Lerp(openRot_2, closedRot_2, endDurationTime);
+        }
 	}
 
 	private void OnTriggerEnter(Collider other) {

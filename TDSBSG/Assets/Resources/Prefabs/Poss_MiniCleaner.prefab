@@ -235,7 +235,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10111a68b891cf449a26151376739b49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteController: {fileID: 0}
+  spriteController: {fileID: 114726651460567400}
+  robotType: 4
 --- !u!114 &114726651460567400
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -261,6 +262,8 @@ MonoBehaviour:
   leftWalkSpritePlayer: {fileID: 0}
   takeDamageSpritePlayer: {fileID: 0}
   knockedOutSpritePlayer: {fileID: 0}
+  topSpritePlayer: {fileID: 0}
+  takeDamageDuration: 0.5
 --- !u!195 &195582669330339246
 NavMeshAgent:
   m_ObjectHideFlags: 1

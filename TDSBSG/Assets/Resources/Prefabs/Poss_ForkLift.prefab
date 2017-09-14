@@ -2199,6 +2199,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 641ae16043617ce4ca4b203b3b851886, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteController: {fileID: 0}
+  robotType: 3
   lifter: {fileID: 4608845157543704}
   heightOfLifter: 2
   liftableDetector: {fileID: 65625188248482848}

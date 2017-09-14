@@ -333,11 +333,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 641ae16043617ce4ca4b203b3b851886, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteController: {fileID: 0}
+  robotType: 3
   lifter: {fileID: 4664235127985118}
   heightOfLifter: 2
   liftableDetector: {fileID: 65855187210546264}
-  originalPos: {x: 0, y: 0, z: 0.625}
-  originalScale: {x: 1, y: 0.9, z: 0.25}
-  liftPos: {x: 0, y: 0, z: 1}
-  liftScale: {x: 1, y: 0.9, z: 1}
+  triggerOriginalPos: {x: 0, y: 0.6, z: 1.6}
+  triggerOriginalScale: {x: 1.5, y: 1.1, z: 0.75}
+  triggerLiftPos: {x: 0, y: 0.6, z: 1.75}
+  triggerLiftScale: {x: 1.5, y: 1.1, z: 1.5}
   animationTime: 1
