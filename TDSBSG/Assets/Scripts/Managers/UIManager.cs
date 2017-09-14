@@ -22,11 +22,15 @@ public class UIManager : MonoBehaviour
     Button restartButton;
     Button exitGameButton;
 
+    //GameOver screen
+    public GameObject gameOverScreen;
+    //TODO: Implement this
+
     // BlackPanel
     [SerializeField]
     Image blackPanel;
     [SerializeField]
-    float fadeSpeed = 0.02f;
+    float fadeSpeed = 0.05f;
     bool isFading = false;
 
     bool pauseMenuAvailable = false;
@@ -67,12 +71,10 @@ public class UIManager : MonoBehaviour
         firstLevelIndex = (int)sceneIndices.y;
         lastLevelIndex = (int)sceneIndices.z;
     }
-    private void Update() {
+    private void FixedUpdate() {
         if (isFading) {
-            Debug.Log("Fading");
             Color panelColor = blackPanel.color;
             panelColor.a -= fadeSpeed;
-            Debug.Log("Alpha = " + panelColor.a);
             if (panelColor.a <= 0.0f) {
                 isFading = false;
             }
@@ -86,7 +88,10 @@ public class UIManager : MonoBehaviour
         em.OnPauseStateChange += OnPauseStateChange;
 		em.OnRequestLoadLevel += OnRequestLoadLevel;
 
-	}
+        blackPanel.gameObject.SetActive(true);
+
+
+    }
 
     private void OnDisable()
     {
@@ -161,22 +166,22 @@ public class UIManager : MonoBehaviour
 
     private void EnableMainMenu()
     {
-        mainMenuHolder.gameObject.SetActive(true);
+        mainMenuHolder.parent.gameObject.SetActive(true);
     }
 
     private void DisableMainMenu()
     {
-        mainMenuHolder.gameObject.SetActive(false);
+        mainMenuHolder.parent.gameObject.SetActive(false);
     }
 
     private void EnablePauseMenu()
     {
-        pauseMenuHolder.gameObject.SetActive(true);
+        pauseMenuHolder.parent.gameObject.SetActive(true);
     }
 
     private void DisablePauseMenu()
     {
-        pauseMenuHolder.gameObject.SetActive(false);
+        pauseMenuHolder.parent.gameObject.SetActive(false);
     }
 
     void OnPauseStateChange(bool newPauseState)

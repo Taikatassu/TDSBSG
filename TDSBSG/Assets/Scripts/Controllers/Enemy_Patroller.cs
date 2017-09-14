@@ -388,15 +388,6 @@ public class Enemy_Patroller : EnemyBase
                         #endregion
                         #endregion
                     }
-                    //TODO: DONE While target is visible and outside of catching distance, chase target
-                    //If AI (player) swaps body within enemy vision cone while being chased, enemy target 
-                    //changes to the newly possessed unit
-                    //If target gets within catching distance, check if player
-                    //If catched target was player, game over
-                    //If not, return to your original task
-                    //DONE If target gets outside of the enemy's vision, go to the last known location
-                    //DONE If target (or any other robot of the same type) re-enters enemys vision, restart chase
-                    //DONE If target is still not visible, (look around and then) return to your original duties
 
                     //If we are currently chasing a target
                     else if (chaseState == 1)
@@ -408,17 +399,14 @@ public class Enemy_Patroller : EnemyBase
                         if (navTickTimer >= navTickInterval)
                         {
                             navTickTimer = 0;
-
-                            Debug.Log("ChaseState == 1, navTick");
+                            
                             float distanceToTarget = navAgent.remainingDistance;
                             //If we are not yet close enough to catch the target
                             if (distanceToTarget > catchDistance)
                             {
-                                Debug.Log("distanceToTarget > catchDistance");
                                 //If the target is in sight
                                 if (TargetInSight())
                                 {
-                                    Debug.Log("Target is in sight, updating position");
                                     //Set the target's current position as our destination
                                     lastKnownTargetPos = currentTarget.position;
                                     navAgent.SetDestination(lastKnownTargetPos);
@@ -428,51 +416,21 @@ public class Enemy_Patroller : EnemyBase
                                     navAgent.SetDestination(lastKnownTargetPos);
                                 }
 
-                                ////If the target is within catching distance
-                                //if (distanceToTarget < catchDistance)
-                                //{
-                                //    if (TargetInSight())
-                                //    {
-                                //        Debug.Log("Target catched");
-                                //        if (currentTarget.GetComponent(typeof(IPossessable)))
-                                //        {
-                                //            if (currentTarget.GetComponent<IPossessable>().GetIsPossessed())
-                                //            {
-                                //                Debug.Log("Catched target was player, broadcasting PlayerCatched");
-                                //                em.BroadcastPlayerCatched();
-                                //            }
-                                //        }
-                                //    }
-
-                                //    EndChase();
-                                //    ResumePatrolling();
-                                //    //TODO: Check if player
-                                //    //If yes, game over
-                                //    //If not, look around
-                                //    //If another robot of the wanted type sighted, start chasing it
-                                //    //If not, restart patrolling
-                                //}
-
                             }
                             //If the target is within catching distance
                             else if (distanceToTarget <= catchDistance)
                             {
-                                Debug.Log("distanceToTarget <= catchDistance");
-                                //TODO: Implement a "LookAround" method, and call it here, before returning to patrolling
                                 if (TargetInSight())
                                 {
-                                    Debug.Log("Target catched");
                                     if (currentTarget.GetComponent(typeof(IPossessable)))
                                     {
                                         if (currentTarget.GetComponent<IPossessable>().GetIsPossessed())
                                         {
-                                            Debug.Log("Catched target was player, broadcasting PlayerCatched");
                                             em.BroadcastPlayerCatched();
                                         }
                                     }
                                 }
-
-                                Debug.Log("Ending chase, resuming patrolling");
+                                
                                 EndChase();
                                 ResumePatrolling();
                             }

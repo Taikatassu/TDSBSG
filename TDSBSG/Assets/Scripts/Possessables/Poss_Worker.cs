@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Poss_Worker : Poss_Mobile {
+public class Poss_Worker : Poss_Mobile
+{
 
     private Interactable_Liftable currentLiftable = null;
     [SerializeField]
@@ -35,12 +36,14 @@ public class Poss_Worker : Poss_Mobile {
     Vector3 lifterUpPos = Vector3.zero;
 
 
-    protected void ChangeColliderParameters(Vector3 pos, Vector3 scale) {
+    protected void ChangeColliderParameters(Vector3 pos, Vector3 scale)
+    {
         liftableDetector.center = pos;
         liftableDetector.size = scale;
     }
 
-    protected override void OnInitializeGame() {
+    protected override void OnInitializeGame()
+    {
         base.OnInitializeGame();
 
         lifter.GetComponent<Collider>().enabled = false;
@@ -50,9 +53,11 @@ public class Poss_Worker : Poss_Mobile {
         lifterUpPos.y += heightOfLifter;
     }
 
-    protected override void FixedUpdate() {
+    protected override void FixedUpdate()
+    {
         base.FixedUpdate();
-        if (isLerping) {
+        if (isLerping)
+        {
             LerpInteractableObject();
         }
 
@@ -74,45 +79,59 @@ public class Poss_Worker : Poss_Mobile {
         //    }
         //}
     }
-    public override void GiveInput(EInputType newInput) {
+    public override void GiveInput(EInputType newInput)
+    {
         base.GiveInput(newInput);
-        switch (newInput) {
+        switch (newInput)
+        {
             case EInputType.USE_KEYDOWN:
-            //Debug.Log("press Space");
-            //Debug.Log(liftableCandidate);
-            if (liftingObject) {
-                if(overlappingObjects.Count == 0) {
-                    StartLerp(false);
-                }
-            } else {
-                //Debug.Log("Start Interaction Liftable");
-                Interactable_Liftable closestLiftable = GetClosestLiftable();
-                if(closestLiftable != null) {
-                    float result = closestLiftable.StartInteraction(lifter);
-                    if (result >= 0) {
-                        StartLerp(true);
-                        currentLiftable = closestLiftable;
-                        liftingObject = true;
+                Debug.Log("Worker.GiveInput: USE_KEYDOWN");
+                if (liftingObject)
+                {
+                    Debug.Log("Worker.GiveInput: USE_KEYDOWN, liftingObject = true, overlappingObjects.Count: " + overlappingObjects.Count);
+                    if (overlappingObjects.Count == 0)
+                    {
+                        StartLerp(false);
                     }
                 }
-            }
-            break;
+                else
+                {
+                    //Debug.Log("Start Interaction Liftable");
+                    Interactable_Liftable closestLiftable = GetClosestLiftable();
+                    Debug.Log("Worker.GiveInput: USE_KEYDOWN, liftingObject = false, closestLiftable: " + closestLiftable);
+                    if (closestLiftable != null)
+                    {
+                        float result = closestLiftable.StartInteraction(lifter);
+                        if (result >= 0)
+                        {
+                            Debug.Log("Worker.GiveInput: USE_KEYDOWN, liftingObject = false, closestLiftable != null, result >= 0 (started interaction successfully)");
+
+                            StartLerp(true);
+                            currentLiftable = closestLiftable;
+                            liftingObject = true;
+                        }
+                    }
+                }
+                break;
             case EInputType.USE_KEYUP:
-            break;
+                break;
             default:
-            break;
+                break;
         }
     }
 
-    private Interactable_Liftable GetClosestLiftable() {
+    private Interactable_Liftable GetClosestLiftable()
+    {
         Interactable_Liftable lc = null;
         bool first = true;
-        for (int i = 0; i < liftableCandidates.Count; i++) {
-             float distance = (liftableCandidates[i].transform.position 
-                - liftableDetector.transform.position).magnitude;
+        for (int i = 0; i < liftableCandidates.Count; i++)
+        {
+            float distance = (liftableCandidates[i].transform.position
+               - liftableDetector.transform.position).magnitude;
             float closestDistance = 0;
 
-            if (first || distance < closestDistance) {
+            if (first || distance < closestDistance)
+            {
                 closestDistance = distance;
                 lc = liftableCandidates[i];
             }
@@ -121,34 +140,43 @@ public class Poss_Worker : Poss_Mobile {
         return lc;
     }
 
-    private void StartLerp(bool up) {
+    private void StartLerp(bool up)
+    {
         isLerping = true;
         interactionPause = true;
         timeStartedLerping = Time.time;
-        if (up) {
+        if (up)
+        {
             startPosOfLerp = lifter.localPosition;
             EndPosOfLerp = lifterUpPos;
             isLerpUp = true;
-        } else {
+        }
+        else
+        {
             startPosOfLerp = lifter.localPosition;
             EndPosOfLerp = lifterDownPos;
             isLerpUp = false;
         }
     }
 
-    private void LerpInteractableObject() {
+    private void LerpInteractableObject()
+    {
         float timeSinceStarted = Time.time - timeStartedLerping;
         float percentageComplete = timeSinceStarted / animationTime;
 
         lifter.localPosition = Vector3.Lerp(startPosOfLerp, EndPosOfLerp, percentageComplete);
-        if (percentageComplete >= 1.0f) {
+        if (percentageComplete >= 1.0f)
+        {
             isLerping = false;
             interactionPause = false;
-            if (isLerpUp) {
+            if (isLerpUp)
+            {
                 ChangeColliderParameters(triggerLiftPos, triggerLiftScale);
                 liftableCandidates.Clear();
                 lifter.GetComponent<Collider>().enabled = true;
-            } else {
+            }
+            else
+            {
                 ChangeColliderParameters(triggerOriginalPos, triggerOriginalScale);
                 overlappingObjects.Clear();
                 lifter.GetComponent<Collider>().enabled = false;
@@ -167,40 +195,52 @@ public class Poss_Worker : Poss_Mobile {
     //    }
     //}
 
-    private void OnTriggerExit(Collider other) {
+    private void OnTriggerExit(Collider other)
+    {
         //if (other != liftableCandidate) {
         //    Debug.Log("Exit liftableObject");
         //    liftableCandidate = null;
         //}
 
-        if (liftingObject) {
-            if (overlappingObjects.Contains(other.gameObject)) {
+        if (liftingObject)
+        {
+            if (overlappingObjects.Contains(other.gameObject))
+            {
                 //Debug.Log("removing from overlapping list");
                 overlappingObjects.Remove(other.gameObject);
             }
         }
-        else {
-            if (liftableCandidates.Contains(other.GetComponent<Interactable_Liftable>())) {
+        else
+        {
+            if (liftableCandidates.Contains(other.GetComponent<Interactable_Liftable>()))
+            {
                 //Debug.Log("removing from liftable list");
                 liftableCandidates.Remove(other.GetComponent<Interactable_Liftable>());
             }
         }
     }
 
-    private void OnTriggerStay(Collider other) {
-        if (!liftingObject) {
-            if (other.GetComponent<Interactable_Liftable>()) {
+    private void OnTriggerStay(Collider other)
+    {
+        if (!liftingObject)
+        {
+            if (other.GetComponent<Interactable_Liftable>())
+            {
                 Interactable_Liftable hitLiftable = other.GetComponent<Interactable_Liftable>();
 
-                if (!liftableCandidates.Contains(hitLiftable)) {
+                if (!liftableCandidates.Contains(hitLiftable))
+                {
                     //Debug.Log("adding to liftable list");
                     liftableCandidates.Add(hitLiftable);
                 }
             }
-        } else {
+        }
+        else
+        {
             GameObject overlapper = other.gameObject;
 
-            if (!overlappingObjects.Contains(overlapper)) {
+            if (!overlappingObjects.Contains(overlapper))
+            {
                 //Debug.Log("adding to overlapping list");
                 overlappingObjects.Add(overlapper);
             }

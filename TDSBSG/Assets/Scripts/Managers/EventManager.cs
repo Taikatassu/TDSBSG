@@ -151,7 +151,6 @@ public class EventManager : MonoBehaviour
     public event IntRobotTypeVoid OnAlertStateChange;
     public void BroadcastAlertStateChange(int newState, ERobotType wantedRobot)
     {
-        Debug.Log("BroadcastAlertStateChange,  newState: " + newState);
         if (OnAlertStateChange != null)
         {
             OnAlertStateChange(newState, wantedRobot);

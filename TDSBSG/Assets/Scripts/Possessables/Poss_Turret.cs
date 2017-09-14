@@ -23,7 +23,6 @@ public class Poss_Turret : Poss_Stationary
 
     private void OnEnable()
     {
-        Debug.Log("OnEnable");
         shooting = false;
 
         if (!useDefaultProjectiles)

@@ -31,14 +31,14 @@ public class LevelManager : MonoBehaviour
     private void OnEnable()
     {
         endTrigger.OnTriggerEntered += OnEndTriggerEntered;
-        em.OnStartGame += OnStartGame;
+        //em.OnStartGame += OnStartGame;
         em.OnSpawnPlayer += OnSpawnPlayer;
     }
 
     private void OnDisable()
     {
         endTrigger.OnTriggerEntered -= OnEndTriggerEntered;
-        em.OnStartGame -= OnStartGame;
+        //em.OnStartGame -= OnStartGame;
         em.OnSpawnPlayer -= OnSpawnPlayer;
     }
 
@@ -102,9 +102,9 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void OnStartGame()
-    {
-        //TODO: Play the starting animation
-        Debug.Log("LevelManager: OnStartGame");
-    }
+    //private void OnStartGame()
+    //{
+    //    //TODO: Play the starting animation
+    //    Debug.Log("LevelManager: OnStartGame");
+    //}
 }

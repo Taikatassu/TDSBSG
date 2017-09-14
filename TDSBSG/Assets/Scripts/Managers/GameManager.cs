@@ -119,7 +119,16 @@ public class GameManager : MonoBehaviour
             pausingAvailable = false;
             ResumeGame();
         }
-        if (scene.buildIndex >= firstLevelIndex/* && scene.buildIndex <= lastLevelIndex*/)
+        else if(scene.buildIndex == firstLevelIndex)
+        {
+            robotTypeToSpawnPlayerAs = ERobotType.DEFAULT;
+            em.BroadcastSpawnPlayer(robotTypeToSpawnPlayerAs);
+            em.BroadcastInitializeGame();
+            em.BroadcastStartGame();
+            pausingAvailable = true;
+            ResumeGame();
+        }
+        else if (scene.buildIndex > firstLevelIndex/* && scene.buildIndex <= lastLevelIndex*/)
         {
             //TODO: Spawn player
             //em.BroadcastSpawnPlayer(robotTypeToSpawnPlayerWith)

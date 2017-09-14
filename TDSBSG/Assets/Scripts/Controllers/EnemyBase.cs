@@ -154,10 +154,10 @@ public class EnemyBase : MonoBehaviour {
             myFoV = GetComponent<FieldOfView>();
         }
 
-        if (patrolPoints.Count <= 1)
-        {
-            Debug.LogWarning("Patroller has only one patrol point, so it will remain stationary!");
-        }
+        //if (patrolPoints.Count <= 1)
+        //{
+        //    Debug.LogWarning("Patroller has only one patrol point, so it will remain stationary!");
+        //}
 
         if (spriteController)
         {

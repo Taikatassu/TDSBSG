@@ -124,14 +124,15 @@ DONE - If it was the player, game over
 DONE - If it was not the player, guards return to patrolling
 DONE - Implement the pause menu restart functionality
 DONE - Top sprites
+DONE - Opening pausemenu does not prevent mouse interaction with the scene
+DONE - Main menu background
+DONE - KnockedOut enemies continue to their navMesh destination
+DONE - Reset lastPossessedRobotType when restarting first level
 - Implement slight smooth on the possessed possessable rotation
-- Opening pausemenu does not prevent mouse interaction with the scene
 - Some sprites on the office workers jump during animation (office workers. Possibly different pivot point?)
-- Main menu background
-- KnockedOut enemies continue to their navMesh destination
 - If switching out of and back to a forklift possessable while an interactable is lifted, the forklift is 
   unable to lower the object
-
+- Game over screen
 
 
 

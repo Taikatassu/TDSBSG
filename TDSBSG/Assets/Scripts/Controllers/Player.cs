@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     public LayerMask selectionMask;
     public LayerMask possessBlockinMask;
 
+    bool isPaused = false;
     bool controllable = false; //Set to false during cutscenes etc., true while player is supposed to be able to move around
     float possessionRange = 5;
 
@@ -35,6 +36,7 @@ public class Player : MonoBehaviour
         em.OnRequestPlayerReference += OnRequestPlayerReference;
         em.OnMouseInputEvent += OnMouseInputEvent;
         em.OnPauseActorsStateChange += OnPauseActorsStateChange;
+        em.OnPauseStateChange += OnPauseStateChange;
     }
 
     private void OnDisable()
@@ -45,6 +47,7 @@ public class Player : MonoBehaviour
         em.OnRequestPlayerReference -= OnRequestPlayerReference;
         em.OnMouseInputEvent -= OnMouseInputEvent;
         em.OnPauseActorsStateChange -= OnPauseActorsStateChange;
+        em.OnPauseStateChange -= OnPauseStateChange;
     }
 
     private void OnInitializeGame()
@@ -56,6 +59,11 @@ public class Player : MonoBehaviour
     {
         TryPossessClosestPossessable();
         controllable = true;
+    }
+
+    private void OnPauseStateChange(bool newState)
+    {
+        isPaused = newState;
     }
 
     private void OnPauseActorsStateChange(bool newState)
@@ -141,7 +149,7 @@ public class Player : MonoBehaviour
 
     private void OnMouseInputEvent(int button, bool down, Vector3 mousePosition)
     {
-        if (controllable)
+        if (controllable && !isPaused)
         {
             if (button == 0 && down)
             {
@@ -227,7 +235,7 @@ public class Player : MonoBehaviour
         //}
 
         /*else */
-        if (controllable)
+        if (controllable && !isPaused)
         {
             if (primaryPossession != null)
             {
