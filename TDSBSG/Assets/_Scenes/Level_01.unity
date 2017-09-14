@@ -18379,6 +18379,11 @@ Prefab:
       propertyPath: guardingDuration
       value: 60
       objectReference: {fileID: 0}
+    - target: {fileID: 114318628391247550, guid: 610c1d02d68894e44aea2898712b9185,
+        type: 2}
+      propertyPath: isHostile
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 610c1d02d68894e44aea2898712b9185, type: 2}
   m_IsPrefabParent: 0

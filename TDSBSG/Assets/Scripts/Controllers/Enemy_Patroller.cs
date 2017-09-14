@@ -76,17 +76,20 @@ public class Enemy_Patroller : EnemyBase
     {
         base.OnAlartStateChange(newState, newWantedRobot);
 
-        switch (newState)
+        if (isHostile)
         {
-            case 0:
-                ResumePatrolling();
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            default:
-                break;
+            switch (newState)
+            {
+                case 0:
+                    ResumePatrolling();
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                default:
+                    break;
+            }
         }
     }
     #endregion
@@ -278,6 +281,7 @@ public class Enemy_Patroller : EnemyBase
                         }
                         #endregion
 
+                        #region NavTick
                         navTickTimer += Time.fixedDeltaTime;
 
                         //If we should check and update navigation
@@ -381,6 +385,7 @@ public class Enemy_Patroller : EnemyBase
                                 #endregion
                             }
                         }
+                        #endregion
                         #endregion
                     }
                     //TODO: DONE While target is visible and outside of catching distance, chase target

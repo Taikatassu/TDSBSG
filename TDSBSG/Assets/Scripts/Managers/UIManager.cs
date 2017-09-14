@@ -99,12 +99,12 @@ public class UIManager : MonoBehaviour
     {
         GameObject newStartButton = Instantiate(Resources.Load("UI/MenuButton_Base") as GameObject, mainMenuHolder);
         startButton = newStartButton.GetComponent<Button>();
-        startButton.GetComponentInChildren<Text>().text = "PLAY";
+        startButton.GetComponentInChildren<Text>().text = "play";
         startButton.onClick.AddListener(OnStartButtonPressed);
 
         GameObject newQuitButton = Instantiate(Resources.Load("UI/MenuButton_Base") as GameObject, mainMenuHolder);
         quitButton = newQuitButton.GetComponent<Button>();
-        quitButton.GetComponentInChildren<Text>().text = "QUIT";
+        quitButton.GetComponentInChildren<Text>().text = "quit";
         quitButton.onClick.AddListener(OnQuitButtonPressed);
     }
 
@@ -112,17 +112,17 @@ public class UIManager : MonoBehaviour
     {
         GameObject newResumeButton = Instantiate(Resources.Load("UI/MenuButton_Base") as GameObject, pauseMenuHolder);
         resumeButton = newResumeButton.GetComponent<Button>();
-        resumeButton.GetComponentInChildren<Text>().text = "RESUME";
+        resumeButton.GetComponentInChildren<Text>().text = "resume";
         resumeButton.onClick.AddListener(OnResumeButtonPressed);
 
         GameObject newRestartButton = Instantiate(Resources.Load("UI/MenuButton_Base") as GameObject, pauseMenuHolder);
         restartButton = newRestartButton.GetComponent<Button>();
-        restartButton.GetComponentInChildren<Text>().text = "RESTART";
+        restartButton.GetComponentInChildren<Text>().text = "restart";
         restartButton.onClick.AddListener(OnRestartButtonPressed);
 
         GameObject newExitGameButton = Instantiate(Resources.Load("UI/MenuButton_Base") as GameObject, pauseMenuHolder);
         exitGameButton = newExitGameButton.GetComponent<Button>();
-        exitGameButton.GetComponentInChildren<Text>().text = "EXIT";
+        exitGameButton.GetComponentInChildren<Text>().text = "exit";
         exitGameButton.onClick.AddListener(OnExitGameButtonPressed);
     }
 

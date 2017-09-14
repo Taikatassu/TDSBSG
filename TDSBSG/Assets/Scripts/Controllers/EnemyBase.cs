@@ -13,6 +13,7 @@ public class EnemyBase : MonoBehaviour {
     [SerializeField]
     protected SpriteAnimationController spriteController;
 
+    protected bool isHostile = true; //If false, the enemy's vision cone is toggled off, and the enemy will ignore the player
     IPossessable stoppedPossessable = null;
     protected bool initialized = false;
     protected bool isAlerted = false;
@@ -55,55 +56,69 @@ public class EnemyBase : MonoBehaviour {
 
     private void OnEnable()
     {
-        em.OnAlertStateChange += OnAlartStateChange;
-        em.OnSecurityTierChange += OnSecurityTierChange;
+        if (isHostile)
+        {
+            em.OnAlertStateChange += OnAlartStateChange;
+            em.OnSecurityTierChange += OnSecurityTierChange;
+        }
         em.OnPauseActorsStateChange += OnPauseActorsStateChange;
     }
 
     private void OnDisable()
     {
-        em.OnAlertStateChange -= OnAlartStateChange;
-        em.OnSecurityTierChange -= OnSecurityTierChange;
+        if (isHostile)
+        {
+            em.OnAlertStateChange -= OnAlartStateChange;
+            em.OnSecurityTierChange -= OnSecurityTierChange;
+        }
         em.OnPauseActorsStateChange -= OnPauseActorsStateChange;
+    }
+
+    public void SetIsHostile(bool newIsHostile)
+    {
+        isHostile = newIsHostile;
     }
 
     protected virtual void OnAlartStateChange(int newState, ERobotType newWantedRobot)
     {
-        switch (newState)
+        if (!isHostile)
         {
-            case 0:
-                if (!isAlerted)
-                {
-                    return;
-                }
+            switch (newState)
+            {
+                case 0:
+                    if (!isAlerted)
+                    {
+                        return;
+                    }
 
-                SetIsAlerted(false);
-                //TODO: Return to original patrol route
-                visionRangeMultiplier = defaultVisionRangeMultiplier;
-                visionAngleMultiplier = defaultVisionAngleMultiplier;
-                break;
-            case 1:
-                if (isAlerted)
-                {
-                    return;
-                }
+                    SetIsAlerted(false);
+                    //TODO: Return to original patrol route
+                    visionRangeMultiplier = defaultVisionRangeMultiplier;
+                    visionAngleMultiplier = defaultVisionAngleMultiplier;
+                    break;
+                case 1:
+                    if (isAlerted)
+                    {
+                        return;
+                    }
 
-                SetIsAlerted(true);
-                visionRangeMultiplier = alertedVisionRangeMultiplier;
-                visionAngleMultiplier = alertedVisionAngleMultiplier;
-                break;
-            case 2:
-                if (isAlerted)
-                {
-                    return;
-                }
+                    SetIsAlerted(true);
+                    visionRangeMultiplier = alertedVisionRangeMultiplier;
+                    visionAngleMultiplier = alertedVisionAngleMultiplier;
+                    break;
+                case 2:
+                    if (isAlerted)
+                    {
+                        return;
+                    }
 
-                isAlerted = true;
-                visionRangeMultiplier = alertedVisionRangeMultiplier;
-                visionAngleMultiplier = alertedVisionAngleMultiplier;
-                break;
-            default:
-                break;
+                    isAlerted = true;
+                    visionRangeMultiplier = alertedVisionRangeMultiplier;
+                    visionAngleMultiplier = alertedVisionAngleMultiplier;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -120,7 +135,10 @@ public class EnemyBase : MonoBehaviour {
 
     private void OnSecurityTierChange(int newTier)
     {
-        currentSecurityTier = newTier;
+        if (isHostile)
+        {
+            currentSecurityTier = newTier;
+        }
     }
 
     private void OnPauseActorsStateChange(bool newState)
@@ -130,8 +148,11 @@ public class EnemyBase : MonoBehaviour {
 
     public virtual void InitializeEnemy()
     {
-        player = em.BroadcastRequestPlayerReference().GetComponent<Player>();
-        myFoV = GetComponent<FieldOfView>();
+        if (isHostile)
+        {
+            player = em.BroadcastRequestPlayerReference().GetComponent<Player>();
+            myFoV = GetComponent<FieldOfView>();
+        }
 
         if (patrolPoints.Count <= 1)
         {
@@ -244,65 +265,70 @@ public class EnemyBase : MonoBehaviour {
         //TODO: change vision checks so that enemies can detect any possessable (not just player)
         if (initialized)
         {
-            //Calculate and send current vision variables to our FieldOfView controller
-            currentVisionRange = defaultVisionRange * visionRangeMultiplier;
-            currentVisionAngle = defaultVisionAngle * visionAngleMultiplier
-                + (currentSecurityTier * visionAngleIncreasePerSecurityTier);
-            myFoV.SetViewRange(currentVisionRange);
-            myFoV.SetViewAngle(currentVisionAngle);
-
-            if(isKnockedOut) {
-                knockOutTimer -= Time.fixedDeltaTime;
-                if(knockOutTimer <= 0.0f) {
-                    EndKnockOut();
-                }
-            }
-
-            //If we are not chasing a target
-            else if (chaseState == 0)
+            if (isHostile)
             {
-                visionTickTimer += Time.fixedDeltaTime;
-                //If we should check and update our vision
-                if (visionTickTimer >= visionTickInterval)
-                {
-                    //If the player is within the vision range
-                    Vector3 targetVector = player.transform.position - transform.position;
-                    if (targetVector.magnitude <= currentVisionRange)
-                    {
-                        //If the player is within the vision angle
-                        float angleToTarget = Vector3.Angle(targetVector, transform.forward);
-                        if (angleToTarget <= currentVisionAngle / 2)
-                        {
-                            Vector3 raycastOrigin = transform.position;
-                            raycastOrigin.y += eyeLevel;
-                            Vector3 raycastDirection = player.transform.position - raycastOrigin;
+                //Calculate and send current vision variables to our FieldOfView controller
+                currentVisionRange = defaultVisionRange * visionRangeMultiplier;
+                currentVisionAngle = defaultVisionAngle * visionAngleMultiplier
+                    + (currentSecurityTier * visionAngleIncreasePerSecurityTier);
+                myFoV.SetViewRange(currentVisionRange);
+                myFoV.SetViewAngle(currentVisionAngle);
 
-                            RaycastHit hit;
-                            //If we can hit anything with a raycast in the players direction
-                            if (Physics.Raycast(raycastOrigin, raycastDirection, out hit, currentVisionRange, obstacleMask))
+                if (isKnockedOut)
+                {
+                    knockOutTimer -= Time.fixedDeltaTime;
+                    if (knockOutTimer <= 0.0f)
+                    {
+                        EndKnockOut();
+                    }
+                }
+
+                //If we are not chasing a target
+                else if (chaseState == 0)
+                {
+                    visionTickTimer += Time.fixedDeltaTime;
+                    //If we should check and update our vision
+                    if (visionTickTimer >= visionTickInterval)
+                    {
+                        //If the player is within the vision range
+                        Vector3 targetVector = player.transform.position - transform.position;
+                        if (targetVector.magnitude <= currentVisionRange)
+                        {
+                            //If the player is within the vision angle
+                            float angleToTarget = Vector3.Angle(targetVector, transform.forward);
+                            if (angleToTarget <= currentVisionAngle / 2)
                             {
-                                //If the hit object has the tag "Possessable"
-                                if (hit.collider.CompareTag("Possessable"))
+                                Vector3 raycastOrigin = transform.position;
+                                raycastOrigin.y += eyeLevel;
+                                Vector3 raycastDirection = player.transform.position - raycastOrigin;
+
+                                RaycastHit hit;
+                                //If we can hit anything with a raycast in the players direction
+                                if (Physics.Raycast(raycastOrigin, raycastDirection, out hit, currentVisionRange, obstacleMask))
                                 {
-                                    IPossessable detectedRobot = hit.collider.GetComponent<IPossessable>();
-                                    //If we are alerted and the hit possessable is a robot of the type we're looking for
-                                    if (isAlerted && detectedRobot.GetRobotType() == wantedRobot)
+                                    //If the hit object has the tag "Possessable"
+                                    if (hit.collider.CompareTag("Possessable"))
                                     {
-                                        //Send an event about detecting the target and start chasing it
-                                        em.BroadcastDisobeyingDetected(detectedRobot.GetRobotType(), detectedRobot);
-                                        StopPossessable(detectedRobot);
-                                        currentTarget = detectedRobot.GetGameObject().transform;
-                                        StartChase();
-                                    }
-                                    //If the hit possessable is currently disobeying
-                                    else if (detectedRobot.GetIsDisobeying())
-                                    {
-                                        //Send an event about detecting the target and start chasing it
-                                        em.BroadcastDisobeyingDetected(detectedRobot.GetRobotType(), detectedRobot);
-                                        StopPossessable(detectedRobot);
-                                        currentTarget = detectedRobot.GetGameObject().transform;
-                                        wantedRobot = detectedRobot.GetRobotType();
-                                        StartChase();
+                                        IPossessable detectedRobot = hit.collider.GetComponent<IPossessable>();
+                                        //If we are alerted and the hit possessable is a robot of the type we're looking for
+                                        if (isAlerted && detectedRobot.GetRobotType() == wantedRobot)
+                                        {
+                                            //Send an event about detecting the target and start chasing it
+                                            em.BroadcastDisobeyingDetected(detectedRobot.GetRobotType(), detectedRobot);
+                                            StopPossessable(detectedRobot);
+                                            currentTarget = detectedRobot.GetGameObject().transform;
+                                            StartChase();
+                                        }
+                                        //If the hit possessable is currently disobeying
+                                        else if (detectedRobot.GetIsDisobeying())
+                                        {
+                                            //Send an event about detecting the target and start chasing it
+                                            em.BroadcastDisobeyingDetected(detectedRobot.GetRobotType(), detectedRobot);
+                                            StopPossessable(detectedRobot);
+                                            currentTarget = detectedRobot.GetGameObject().transform;
+                                            wantedRobot = detectedRobot.GetRobotType();
+                                            StartChase();
+                                        }
                                     }
                                 }
                             }
@@ -315,7 +341,10 @@ public class EnemyBase : MonoBehaviour {
 
     protected virtual void LateUpdate()
     {
-        myFoV.DrawFieldOfView();
+        if (isHostile)
+        {
+            myFoV.DrawFieldOfView();
+        }
     }
     #endregion
 }

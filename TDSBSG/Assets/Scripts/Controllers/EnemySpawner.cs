@@ -9,7 +9,9 @@ public class EnemySpawner : MonoBehaviour
     EventManager em;
     public GameObject enemyToSpawn;
     public List<PatrolPoint> patrolPoints = new List<PatrolPoint>();
-     
+    [SerializeField]
+    bool isHostile = true;
+
     private void Awake()
     {
         toolbox = FindObjectOfType<Toolbox>();
@@ -35,8 +37,10 @@ public class EnemySpawner : MonoBehaviour
     {
         GameObject newEnemy = Instantiate(enemyType, transform.position, transform.rotation);
         patrolPoints.Insert(0, GetComponent<PatrolPoint>());
-        newEnemy.GetComponent<EnemyBase>().SetPatrolPoints(patrolPoints);
-        newEnemy.GetComponent<EnemyBase>().InitializeEnemy();
+        EnemyBase newEnemyBase = newEnemy.GetComponent<EnemyBase>();
+        newEnemyBase.SetPatrolPoints(patrolPoints);
+        newEnemyBase.InitializeEnemy();
+        newEnemyBase.SetIsHostile(isHostile);
     }
 
 }
