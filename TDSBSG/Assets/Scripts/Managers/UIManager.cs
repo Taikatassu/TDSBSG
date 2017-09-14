@@ -124,6 +124,8 @@ public class UIManager : MonoBehaviour
     {
         //TODO: Restart the level (or the whole game?)
         Debug.Log("Restart button pressed (not yet implemented)");
+        int currentSceneIndex = em.BroadcastRequestCurrentSceneIndex();
+        em.BroadcastRequestLoadLevel(currentSceneIndex);
     }
 
     private void OnExitGameButtonPressed()
