@@ -223,12 +223,12 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public event RobotTypeVoid OnLevelCompleted;
-    public void BroadcastLevelCompleted(ERobotType lastPossessedRobotType)
+    public event IntRobotTypeVoid OnLevelCompleted;
+    public void BroadcastLevelCompleted(int sceneIndex, ERobotType lastPossessedRobotType)
     {
         if(OnLevelCompleted != null)
         {
-            OnLevelCompleted(lastPossessedRobotType);
+            OnLevelCompleted(sceneIndex, lastPossessedRobotType);
         }
     }
 

@@ -51,7 +51,8 @@ public class LevelManager : MonoBehaviour
                 if (cutsceneNavAgent.remainingDistance <= cutsceneNavAgentCompleteDistance)
                 {
                     endingCutscenePlaying = false;
-                    em.BroadcastLevelCompleted(lastPossessedRobotType);
+                    int currentSceneIndex = em.BroadcastRequestCurrentSceneIndex();
+                    em.BroadcastLevelCompleted(currentSceneIndex, lastPossessedRobotType);
                 }
             }
         }

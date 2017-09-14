@@ -166,12 +166,10 @@ public class ApplicationManager : MonoBehaviour
     {
         if (loading)
         {
-            Debug.Log("LoadingScreenController: FixedUpdate, loading = true");
             loadingScreenTimer -= Time.fixedDeltaTime;
 
             if (loadingScreenTimer <= 0)
             {
-                Debug.Log("LoadingScreenController: FixedUpdate, loadingScreenTimer <= 0, loading wanted scene");
                 SetLoadingScreenState(false);
 
                 currentSceneIndex = levelToLoadAfterLoadingScreen;

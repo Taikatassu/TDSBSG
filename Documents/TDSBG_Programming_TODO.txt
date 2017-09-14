@@ -4,6 +4,8 @@ DONE - Global alert state (alert on / off) (more than two states needed?)
 DONE - Instant alert triggered when progressing on global securit sale to the next level (~5 levels)
 DONE - Enemy field of vision increases with Global seurity state
 DONE - Vision cone angle and range increases when alerted
+
+-REDESIGNED-
 - Enemies return to normal functionaliy once alert has stopped
 - Three alert states: No alert, Target in sight, Searching
 - No alert: 
@@ -21,6 +23,7 @@ DONE - Vision cone angle and range increases when alerted
 	- If an enemy sees a target, the alert state changes back to the prior one
 	- When entering this state, a timer will start running (it will reset if the state changes)
 	- Once the timer is at zero, the alert will end and the state will return to the default one (No alert)
+-REDESIGNED-
 
 Methods of disobedience:
 DONE - Enter a restricted room
@@ -38,7 +41,6 @@ DONE - Interact with a restricted object
 		- Object restrictions
 		- Level of security?
 DONE - Harm humans (by shooting cans from vending machine)
-!!!	- Instant high level disobedience increase!
 
 Enemies
 DONE - Patrol
@@ -48,37 +50,38 @@ DONE - Alert system
 	DONE - When alert starts, alert system will notify all registered enemies
 	- If no sight of target for a duration X, end alert
 DONE - Chasing mechanics
-DONE - PatrolPoint temporary guarding (enemy stops at a patrol point for a certain duration, before continuing on it's route)
+DONE - PatrolPoint temporary guarding (enemy stops at a patrol point for a certain duration, before continuing on 
+       it's route)
 	DONE - A float value for guardDuration (if 0, no guarding, e.i. continue the patrol instantly)
-- If AI (player) swaps body within enemy vision cone while being chased, enemy target changes to the newly possessed unit
 
 UI
-WIP - Main menu?
+DONE - Main menu
+DONE - Pause menu
 NOPE - HUD?
 
 Varying possessables
 DONE - Change possession button from Q-key to mouse left click (on top of possessable)
 DONE - Primary / secondary
-- Different abilities / functionalities
-- Radio, Vending machine, Roomba, Robotic forklift, 
-  Connected electronics (local network), e.g. tv screens / computers, etc...
+DONE - Different abilities / functionalities
+DONE - Radio, Vending machine, Roomba, Robotic forklift, 
+       Connected electronics (local network), e.g. tv screens / computers, etc...
 WIP - Implement networked possessables
 	DONE - Switching between nodes by clicking another connected node, regardless of range
-	- Switching between nodes is done by choosing the direction with mouse click
+	DONE - Switching between nodes is done by choosing the direction with mouse click
 	DONE - "Manager" has info on all the connected nodes (an list of ints which signify paired nodes)
 	DONE - Draw indicator lines between nodes
 
 Interactable objects
 	DONE - Base
 	DONE - Implement interactableObject interaction to mouse left click (on top of object)
-	- Various different functionalities
+	DONE - Various different functionalities
 	DONE - bool stationaryInteractable (if true, user cannon move when interacting)
 	DONE (changed to the user side) - float interactionStartDuration (how long it takes for the user to 
 					  start interacting with the object)
-		- User cannot move while starting interaction with the object
+	DONE - User cannot move while starting interaction with the object
 	DONE (changed to the user side) - float interactionEndDuration (how long it takes for the user to end 
 					  interaction with the object)
-		- User cannot move while ending interaction with the object
+	DONE - User cannot move while ending interaction with the object
 	DONE - float StartInteraction() (return -1 if cannot interact. return interactionStartDuration if can interact)
 	DONE - float EndInteraction() (return -1 if cannot interact. return interactionEndDuration if can interact)
 	DONE - permissionList (contains robotTypes that can interact with the object)
@@ -94,10 +97,8 @@ DONE- Level end
 DONE - Spawn player with the last possessed possessable at level start
 DONE - Load new scene once the player finishes a level
 DONE - Load the initial scene when pressing the play button in main menu
-- Create a animation scene for the elevator doors opening and closing at the start and end of a level
-	- Possibly with some "cinematic" camera work
-
-
+DONE - Create a animation scene for the elevator doors opening and closing at the start and end of a level
+	(- Possibly with some "cinematic" camera work)
 
 TODO:
 DONE - Fix debug manager
@@ -130,14 +131,18 @@ DONE - KnockedOut enemies continue to their navMesh destination
 DONE - Reset lastPossessedRobotType when restarting first level
 DONE - If switching out of and back to a forklift possessable while an interactable is lifted, the forklift is 
        unable to lower the object
-	    - The problem seems to persist without the elevator as well (just cannon lower a lifted object)
+	   (- The problem seems to persist without the elevator as well (just cannon lower a lifted object))
 DONE - Game over screen
 DONE - Remove roomba from the beginning of level_02
+DONE - Game completed screen
+DONE - Loading screen
 - Implement slight smooth on the possessed possessable rotation
 - Some sprites on the office workers jump during animation (office workers. Possibly different pivot point?)
 - Enemies can travel through vents?
-- Simple AI for the possessables (they should have tasks to complete to keep them occuped until the player possesses them)
-- Game completed screen
+- Simple AI for the possessables (they should have tasks to complete to keep them occuped until the player 
+  possesses them)
+- Camere collision with environment / auto transparency to walls (somehow prevent environment from 
+  blocking the player's vision)
 
 
 

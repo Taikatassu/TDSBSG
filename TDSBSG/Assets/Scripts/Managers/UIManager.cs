@@ -25,6 +25,9 @@ public class UIManager : MonoBehaviour
     //GameOver screen
     public GameObject gameOverScreen;
 
+    //GameCompleted screen
+    public GameObject gameCompletedScreen;
+
     // BlackPanel
     [SerializeField]
     Image blackPanel;
@@ -34,7 +37,10 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     float fadeTime = 0.5f;
     float timeStartedLerping = 0f;
+    float gameCompletedScreenDuration = 5f;
+    float gameCompletedScreenTimer = 0f;
 
+    bool gameCompletedScreenVisible = false;
     bool pauseMenuAvailable = false;
     int mainMenuIndex = -1;
     int firstLevelIndex = -1;
@@ -63,6 +69,11 @@ public class UIManager : MonoBehaviour
         DisablePauseMenu();
 
         isFading = false;
+
+        if(gameCompletedScreen != null)
+        {
+            gameCompletedScreen.SetActive(false);
+        }
 
     }
 
@@ -103,6 +114,17 @@ public class UIManager : MonoBehaviour
                 }
             }
         }
+
+        if (gameCompletedScreenVisible)
+        {
+            gameCompletedScreenTimer -= Time.fixedDeltaTime;
+
+            if(gameCompletedScreenTimer <= 0)
+            {
+                gameCompletedScreen.SetActive(false);
+                gameCompletedScreenVisible = false;
+            }
+        }
     }
 
     private void OnEnable()
@@ -111,6 +133,7 @@ public class UIManager : MonoBehaviour
         em.OnPauseStateChange += OnPauseStateChange;
         em.OnRequestLoadLevel += OnRequestLoadLevel;
         em.OnPlayerCatched += OnPlayerCatched;
+        em.OnLevelCompleted += OnLevelCompleted;
 
         blackPanel.gameObject.SetActive(true);
 
@@ -129,6 +152,20 @@ public class UIManager : MonoBehaviour
         em.OnPauseStateChange -= OnPauseStateChange;
         em.OnRequestLoadLevel -= OnRequestLoadLevel;
         em.OnPlayerCatched -= OnPlayerCatched;
+        em.OnLevelCompleted -= OnLevelCompleted;
+    }
+
+    private void OnLevelCompleted(int sceneIndex, ERobotType finishedRobotType)
+    {
+        if(sceneIndex == lastLevelIndex)
+        {
+            if (gameCompletedScreen != null)
+            {
+                gameCompletedScreen.SetActive(true);
+                gameCompletedScreenTimer = gameCompletedScreenDuration;
+                gameCompletedScreenVisible = true;
+            }
+        }
     }
 
     private void OnPlayerCatched()

@@ -162,7 +162,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void OnLevelCompleted(ERobotType lastPossessedRobotType)
+    void OnLevelCompleted(int sceneIndex, ERobotType lastPossessedRobotType)
     {
         robotTypeToSpawnPlayerAs = lastPossessedRobotType;
         LoadNextLevel();
