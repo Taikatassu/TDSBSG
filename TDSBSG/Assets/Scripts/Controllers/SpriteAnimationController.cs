@@ -40,9 +40,11 @@ public class SpriteAnimationController : MonoBehaviour
     GameObject knockedOutSpritePlayer;
 
     List<GameObject> spritePlayers = new List<GameObject>();
-    //[SerializeField]
-    //float takeDamageDuration = 0.5f;
-    //float takeDamageTimer = 0f;
+    [SerializeField]
+    float takeDamageDuration = 0.5f;
+    float takeDamageTimer = 0f;
+
+
 
     EAnimationState currentAnimState = EAnimationState.IDLE;
     EViewDirection currentViewDirection = EViewDirection.DEFAULT;
@@ -82,6 +84,12 @@ public class SpriteAnimationController : MonoBehaviour
         spritePlayers.Add(knockedOutSpritePlayer);
     }
 
+    public void StartKnockout()
+    {
+        takeDamageTimer = takeDamageDuration;
+        SetAnimationState(EAnimationState.TAKEDAMAGE);
+    }
+
     public void SetAnimationState(EAnimationState newState)
     {
         if (currentAnimState != newState)
@@ -104,22 +112,18 @@ public class SpriteAnimationController : MonoBehaviour
 
     private void SetEnabledSpritePlayer(GameObject newSpritePlayer)
     {
-        //Debug.Log("SetEnabledSpritePlayer, newSpritePlayer: " + newSpritePlayer);
         enabledSpritePlayer = newSpritePlayer;
         int count = spritePlayers.Count;
-        Debug.Log(gameObject.name + ", SetEnabledSpritePlayer, count: " + count);
         for (int i = 0; i < count; i++)
         {
-            if(spritePlayers[i] != null)
+            if (spritePlayers[i] != null)
             {
                 if (enabledSpritePlayer == spritePlayers[i])
                 {
-                    Debug.Log(gameObject.name + ", spritePlayers[i].SetActive(true), spritePlayers[i].name: " + spritePlayers[i]);
                     spritePlayers[i].SetActive(true);
                 }
                 else
                 {
-                    Debug.Log(gameObject.name + ", spritePlayers[i].SetActive(false), spritePlayers[i].name: " + spritePlayers[i]);
                     spritePlayers[i].SetActive(false);
                 }
             }
@@ -233,6 +237,16 @@ public class SpriteAnimationController : MonoBehaviour
             else
             {
                 Debug.LogWarning(gameObject.name + "This should not be happening (cameraAngle: " + cameraAngle + ")");
+            }
+        }
+
+        if (currentAnimState == EAnimationState.TAKEDAMAGE)
+        {
+            takeDamageTimer -= Time.fixedDeltaTime;
+
+            if (takeDamageTimer <= 0)
+            {
+                SetAnimationState(EAnimationState.KNOCKEDOUT);
             }
         }
     }

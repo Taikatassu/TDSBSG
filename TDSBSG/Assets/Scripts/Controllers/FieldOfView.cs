@@ -15,6 +15,9 @@ public class FieldOfView : MonoBehaviour
     LayerMask obstacleMask;
     public MeshFilter viewMeshFilter;
     Mesh viewMesh;
+    MeshRenderer viewMeshRenderer = null;
+    Material defaultMaterial = null;
+    Material turnedOffMaterial = null;
 
     private void Start()
     {
@@ -26,16 +29,28 @@ public class FieldOfView : MonoBehaviour
         viewMeshHolder.transform.localPosition = locPos;
         viewMeshHolder.transform.localRotation = Quaternion.identity;
         viewMeshFilter = viewMeshHolder.AddComponent<MeshFilter>();
-        MeshRenderer viewMeshRenderer = viewMeshHolder.AddComponent<MeshRenderer>();
+        viewMeshRenderer = viewMeshHolder.AddComponent<MeshRenderer>();
         viewMeshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         viewMeshRenderer.receiveShadows = false;
-        Material visionIndicatorMaterial 
-            = Resources.Load("Materials/FovIndicator_mat") as Material;
-        viewMeshRenderer.material = visionIndicatorMaterial;
+        defaultMaterial = Resources.Load("Materials/FovIndicatorOn_mat") as Material;
+        turnedOffMaterial = Resources.Load("Materials/FovIndicatorOff_mat") as Material;
+        viewMeshRenderer.material = defaultMaterial;
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
 
+    }
+
+    public void ChangeConeState(bool on)
+    {
+        if (on)
+        {
+            viewMeshRenderer.material = defaultMaterial;
+        }
+        else
+        {
+            viewMeshRenderer.material = turnedOffMaterial;
+        }
     }
 
     public void SetViewRange(float newViewRange)
