@@ -12,11 +12,14 @@ EditorBuildSettings:
     path: Assets/_Scenes/MainMenu.unity
     guid: 3df0c57e4caeea1458be8d5ebffa1a60
   - enabled: 1
-    path: Assets/_Scenes/Level_JuhoTest.unity
-    guid: 2ffbc08e8d984e741bb409dbb5959002
+    path: Assets/_Scenes/Level_01.unity
+    guid: 3bad19431c7b6b74ebacf4f8df850a25
   - enabled: 1
     path: Assets/_Scenes/Level_SamTest.unity
     guid: d075b3627b7fcc344906c9902ac0fe33
+  - enabled: 1
+    path: Assets/_Scenes/Level_JuhoTest.unity
+    guid: 2ffbc08e8d984e741bb409dbb5959002
   - enabled: 1
     path: Assets/_Scenes/Level_ShotaTest.unity
     guid: 52cc03ff3e3f0ba4ba22a195de870656

@@ -217,278 +217,280 @@ public class Enemy_Patroller : EnemyBase
         {
             if (initialized)
             {
-                //Calculate and send currentMovementSpeed to navAgent
-                currentMovementSpeed = defaultMovementSpeed * movementSpeedMultiplier;
-                navAgent.speed = currentMovementSpeed;
+                if (!isKnockedOut)
+                {//Calculate and send currentMovementSpeed to navAgent
+                    currentMovementSpeed = defaultMovementSpeed * movementSpeedMultiplier;
+                    navAgent.speed = currentMovementSpeed;
 
-                //If we are currently patrolling
-                if (isPatrolling)
-                {
-                    #region Patrolling
-                    #region Rotating to guarding position
-                    //If we are currently trying to align ourselves with a guarding point
-                    if (rotatingToGuardPosition)
+                    //If we are currently patrolling
+                    if (isPatrolling)
                     {
-                        //Turn to the proper alignment slowly
-                        float guardingSlerpTimeSinceStarted = Time.time - guardinSlerpStartTime;
-                        float guardingSlerpPercentage = guardingSlerpTimeSinceStarted / guardingSlerpDuration;
-
-                        transform.rotation = Quaternion.Slerp(guardingSlerpStartRotation,
-                            guardingSlerpEndRotation, guardingSlerpPercentage);
-
-                        //If we are aligned
-                        if (guardingSlerpPercentage >= 1)
+                        #region Patrolling
+                        #region Rotating to guarding position
+                        //If we are currently trying to align ourselves with a guarding point
+                        if (rotatingToGuardPosition)
                         {
-                            //Stop aligning and start looking around
-                            atGuardRotation = true;
-                            rotatingToGuardPosition = false;
-                            if (patrolPoints[currentPatrolPointIndex].GetShouldLookAround())
+                            //Turn to the proper alignment slowly
+                            float guardingSlerpTimeSinceStarted = Time.time - guardinSlerpStartTime;
+                            float guardingSlerpPercentage = guardingSlerpTimeSinceStarted / guardingSlerpDuration;
+
+                            transform.rotation = Quaternion.Slerp(guardingSlerpStartRotation,
+                                guardingSlerpEndRotation, guardingSlerpPercentage);
+
+                            //If we are aligned
+                            if (guardingSlerpPercentage >= 1)
                             {
-                                StartLookAround();
+                                //Stop aligning and start looking around
+                                atGuardRotation = true;
+                                rotatingToGuardPosition = false;
+                                if (patrolPoints[currentPatrolPointIndex].GetShouldLookAround())
+                                {
+                                    StartLookAround();
+                                }
                             }
                         }
-                    }
-                    #endregion
+                        #endregion
 
-                    #region Looking around
-                    //If we are currently looking around
-                    if (lookingAround)
-                    {
-                        //Calculate and update current look around rotation
-                        float phase = Mathf.Sin(lookAroundTime / lookAroundDuration);
-                        transform.eulerAngles = new Vector3(lookAroundCenterRotation.x,
-                            lookAroundCenterRotation.y + phase * lookAroundAngle, lookAroundCenterRotation.z);
-
-                        lookAroundTime += Time.fixedDeltaTime;
-                    }
-                    #endregion
-
-                    navTickTimer += Time.fixedDeltaTime;
-
-                    //If we should check and update navigation
-                    if (navTickTimer >= navTickInterval)
-                    {
-                        navTickTimer = 0;
-
-                        //If we are currently guarding a patrol point
-                        if (isGuarding)
+                        #region Looking around
+                        //If we are currently looking around
+                        if (lookingAround)
                         {
-                            #region Patrol point guarding
-                            //If were close enough to our current destination point
-                            if (navAgent.remainingDistance < guardPointRadius)
+                            //Calculate and update current look around rotation
+                            float phase = Mathf.Sin(lookAroundTime / lookAroundDuration);
+                            transform.eulerAngles = new Vector3(lookAroundCenterRotation.x,
+                                lookAroundCenterRotation.y + phase * lookAroundAngle, lookAroundCenterRotation.z);
+
+                            lookAroundTime += Time.fixedDeltaTime;
+                        }
+                        #endregion
+
+                        navTickTimer += Time.fixedDeltaTime;
+
+                        //If we should check and update navigation
+                        if (navTickTimer >= navTickInterval)
+                        {
+                            navTickTimer = 0;
+
+                            //If we are currently guarding a patrol point
+                            if (isGuarding)
                             {
-                                //If we should look around when guarding the patrol point (and aren't already doing that)
-                                if (!rotatingToGuardPosition && !atGuardRotation && !lookingAround
-                                    && patrolPoints[currentPatrolPointIndex].GetShouldLookAround())
+                                #region Patrol point guarding
+                                //If were close enough to our current destination point
+                                if (navAgent.remainingDistance < guardPointRadius)
                                 {
-                                    lookAroundCenterRotation = patrolPoints[currentPatrolPointIndex].transform.eulerAngles;
-
-                                    //If our arrival rotation is outside of the look around zone
-                                    if (Mathf.Abs(transform.eulerAngles.y - lookAroundCenterRotation.y)
-                                        > patrolPoints[currentPatrolPointIndex].GetLookAroundAngle())
+                                    //If we should look around when guarding the patrol point (and aren't already doing that)
+                                    if (!rotatingToGuardPosition && !atGuardRotation && !lookingAround
+                                        && patrolPoints[currentPatrolPointIndex].GetShouldLookAround())
                                     {
-                                        //If we are not already rotating to be within the look around zone
-                                        if (!rotatingToGuardPosition && !atGuardRotation)
-                                        {
-                                            //If it's closer for us to rotate at the positive side of the look around zone
-                                            if (transform.eulerAngles.y - (patrolPoints[currentPatrolPointIndex].transform.eulerAngles.y
-                                                + patrolPoints[currentPatrolPointIndex].GetLookAroundAngle())
-                                                < transform.eulerAngles.y - (patrolPoints[currentPatrolPointIndex].transform.eulerAngles.y
-                                                - patrolPoints[currentPatrolPointIndex].GetLookAroundAngle()))
-                                            {
-                                                //Set the look around zone's positive end as the end rotation
-                                                guardingSlerpEndRotation = Quaternion.Euler(new Vector3(0,
-                                                    (patrolPoints[currentPatrolPointIndex].transform.eulerAngles.y
-                                                    + patrolPoints[currentPatrolPointIndex].GetLookAroundAngle()) - 1, 0));
-                                            }
-                                            //If it's closer for us to rotate at the negative side of the look around zone
-                                            else
-                                            {
-                                                //Set the look around zone's negative end as the end rotation
-                                                guardingSlerpEndRotation = Quaternion.Euler(new Vector3(0,
-                                                    (patrolPoints[currentPatrolPointIndex].transform.eulerAngles.y
-                                                    - patrolPoints[currentPatrolPointIndex].GetLookAroundAngle()) + 1, 0));
-                                            }
+                                        lookAroundCenterRotation = patrolPoints[currentPatrolPointIndex].transform.eulerAngles;
 
-                                            //Initialize other parameters required to rotate to the closest edge of the look around zone
-                                            guardingSlerpStartRotation = transform.rotation;
-                                            guardinSlerpStartTime = Time.time;
-                                            rotatingToGuardPosition = true;
+                                        //If our arrival rotation is outside of the look around zone
+                                        if (Mathf.Abs(transform.eulerAngles.y - lookAroundCenterRotation.y)
+                                            > patrolPoints[currentPatrolPointIndex].GetLookAroundAngle())
+                                        {
+                                            //If we are not already rotating to be within the look around zone
+                                            if (!rotatingToGuardPosition && !atGuardRotation)
+                                            {
+                                                //If it's closer for us to rotate at the positive side of the look around zone
+                                                if (transform.eulerAngles.y - (patrolPoints[currentPatrolPointIndex].transform.eulerAngles.y
+                                                    + patrolPoints[currentPatrolPointIndex].GetLookAroundAngle())
+                                                    < transform.eulerAngles.y - (patrolPoints[currentPatrolPointIndex].transform.eulerAngles.y
+                                                    - patrolPoints[currentPatrolPointIndex].GetLookAroundAngle()))
+                                                {
+                                                    //Set the look around zone's positive end as the end rotation
+                                                    guardingSlerpEndRotation = Quaternion.Euler(new Vector3(0,
+                                                        (patrolPoints[currentPatrolPointIndex].transform.eulerAngles.y
+                                                        + patrolPoints[currentPatrolPointIndex].GetLookAroundAngle()) - 1, 0));
+                                                }
+                                                //If it's closer for us to rotate at the negative side of the look around zone
+                                                else
+                                                {
+                                                    //Set the look around zone's negative end as the end rotation
+                                                    guardingSlerpEndRotation = Quaternion.Euler(new Vector3(0,
+                                                        (patrolPoints[currentPatrolPointIndex].transform.eulerAngles.y
+                                                        - patrolPoints[currentPatrolPointIndex].GetLookAroundAngle()) + 1, 0));
+                                                }
+
+                                                //Initialize other parameters required to rotate to the closest edge of the look around zone
+                                                guardingSlerpStartRotation = transform.rotation;
+                                                guardinSlerpStartTime = Time.time;
+                                                rotatingToGuardPosition = true;
+                                            }
+                                        }
+                                        //If our arrival rotatin is within the look around zone
+                                        else
+                                        {
+                                            //Start looking around
+                                            atGuardRotation = true;
+                                            StartLookAround();
                                         }
                                     }
-                                    //If our arrival rotatin is within the look around zone
-                                    else
+                                    //If we should not look around, but are not yet properly aligned with the patrol point
+                                    else if (!rotatingToGuardPosition && !atGuardRotation)
                                     {
-                                        //Start looking around
-                                        atGuardRotation = true;
-                                        StartLookAround();
+                                        //Intialize parameters and start turning to the proper alignment
+                                        guardingSlerpStartRotation = transform.rotation;
+                                        guardingSlerpEndRotation = patrolPoints[currentPatrolPointIndex].transform.rotation;
+                                        guardinSlerpStartTime = Time.time;
+                                        rotatingToGuardPosition = true;
+                                    }
+
+                                    guardingTimer -= navTickInterval;
+                                    //If the guarding timer is at zero
+                                    if (guardingTimer <= 0)
+                                    {
+                                        //Stop guarding and move to the next point
+                                        isGuarding = false;
+                                        EndLookAround();
+                                        SetNextPatrolPoint();
                                     }
                                 }
-                                //If we should not look around, but are not yet properly aligned with the patrol point
-                                else if (!rotatingToGuardPosition && !atGuardRotation)
+                                #endregion
+                            }
+                            //If we are within the acceptable complete radius of the patrol point
+                            else if (navAgent.remainingDistance < patrolPointCompleteRadius)
+                            {
+                                #region Setting next patrol point if current reached, and guarding not neccessary
+                                float newGuardingDuration = patrolPoints[currentPatrolPointIndex].GetGuardingDuration();
+                                //If we should be guarding the patrol point
+                                if (newGuardingDuration > 0)
                                 {
-                                    //Intialize parameters and start turning to the proper alignment
-                                    guardingSlerpStartRotation = transform.rotation;
-                                    guardingSlerpEndRotation = patrolPoints[currentPatrolPointIndex].transform.rotation;
-                                    guardinSlerpStartTime = Time.time;
-                                    rotatingToGuardPosition = true;
+                                    //Start guarding the patrol point
+                                    guardingTimer = newGuardingDuration;
+                                    isGuarding = true;
                                 }
-
-                                guardingTimer -= navTickInterval;
-                                //If the guarding timer is at zero
-                                if (guardingTimer <= 0)
+                                //If not, move to the next destination
+                                else
                                 {
-                                    //Stop guarding and move to the next point
-                                    isGuarding = false;
-                                    EndLookAround();
                                     SetNextPatrolPoint();
                                 }
+                                #endregion
                             }
-                            #endregion
                         }
-                        //If we are within the acceptable complete radius of the patrol point
-                        else if (navAgent.remainingDistance < patrolPointCompleteRadius)
-                        {
-                            #region Setting next patrol point if current reached, and guarding not neccessary
-                            float newGuardingDuration = patrolPoints[currentPatrolPointIndex].GetGuardingDuration();
-                            //If we should be guarding the patrol point
-                            if (newGuardingDuration > 0)
-                            {
-                                //Start guarding the patrol point
-                                guardingTimer = newGuardingDuration;
-                                isGuarding = true;
-                            }
-                            //If not, move to the next destination
-                            else
-                            {
-                                SetNextPatrolPoint();
-                            }
-                            #endregion
-                        }
+                        #endregion
                     }
-                    #endregion
-                }
-                //TODO: DONE While target is visible and outside of catching distance, chase target
-                //If AI (player) swaps body within enemy vision cone while being chased, enemy target 
-                //changes to the newly possessed unit
-                //If target gets within catching distance, check if player
-                //If catched target was player, game over
-                //If not, return to your original task
-                //DONE If target gets outside of the enemy's vision, go to the last known location
-                //DONE If target (or any other robot of the same type) re-enters enemys vision, restart chase
-                //DONE If target is still not visible, (look around and then) return to your original duties
+                    //TODO: DONE While target is visible and outside of catching distance, chase target
+                    //If AI (player) swaps body within enemy vision cone while being chased, enemy target 
+                    //changes to the newly possessed unit
+                    //If target gets within catching distance, check if player
+                    //If catched target was player, game over
+                    //If not, return to your original task
+                    //DONE If target gets outside of the enemy's vision, go to the last known location
+                    //DONE If target (or any other robot of the same type) re-enters enemys vision, restart chase
+                    //DONE If target is still not visible, (look around and then) return to your original duties
 
-                //If we are currently chasing a target
-                else if (chaseState == 1)
-                {
-                    #region Chasing
-                    navTickTimer += Time.fixedDeltaTime;
-
-                    //If we should check and update navigation
-                    if (navTickTimer >= navTickInterval)
+                    //If we are currently chasing a target
+                    else if (chaseState == 1)
                     {
-                        navTickTimer = 0;
+                        #region Chasing
+                        navTickTimer += Time.fixedDeltaTime;
 
-                        Debug.Log("ChaseState == 1, navTick");
-                        float distanceToTarget = navAgent.remainingDistance;
-                        //If we are not yet close enough to catch the target
-                        if (distanceToTarget > catchDistance)
+                        //If we should check and update navigation
+                        if (navTickTimer >= navTickInterval)
                         {
-                            Debug.Log("distanceToTarget > catchDistance");
-                            //If the target is in sight
-                            if (TargetInSight())
-                            {
-                                Debug.Log("Target is in sight, updating position");
-                                //Set the target's current position as our destination
-                                lastKnownTargetPos = currentTarget.position;
-                                navAgent.SetDestination(lastKnownTargetPos);
-                            }
-                            else
-                            {
-                                navAgent.SetDestination(lastKnownTargetPos);
-                            }
+                            navTickTimer = 0;
 
-                            ////If the target is within catching distance
-                            //if (distanceToTarget < catchDistance)
-                            //{
-                            //    if (TargetInSight())
-                            //    {
-                            //        Debug.Log("Target catched");
-                            //        if (currentTarget.GetComponent(typeof(IPossessable)))
-                            //        {
-                            //            if (currentTarget.GetComponent<IPossessable>().GetIsPossessed())
-                            //            {
-                            //                Debug.Log("Catched target was player, broadcasting PlayerCatched");
-                            //                em.BroadcastPlayerCatched();
-                            //            }
-                            //        }
-                            //    }
-
-                            //    EndChase();
-                            //    ResumePatrolling();
-                            //    //TODO: Check if player
-                            //    //If yes, game over
-                            //    //If not, look around
-                            //    //If another robot of the wanted type sighted, start chasing it
-                            //    //If not, restart patrolling
-                            //}
-
-                        }
-                        //If the target is within catching distance
-                        else if (distanceToTarget <= catchDistance)
-                        {
-                            Debug.Log("distanceToTarget <= catchDistance");
-                            //TODO: Implement a "LookAround" method, and call it here, before returning to patrolling
-                            if (TargetInSight())
+                            Debug.Log("ChaseState == 1, navTick");
+                            float distanceToTarget = navAgent.remainingDistance;
+                            //If we are not yet close enough to catch the target
+                            if (distanceToTarget > catchDistance)
                             {
-                                Debug.Log("Target catched");
-                                if (currentTarget.GetComponent(typeof(IPossessable)))
+                                Debug.Log("distanceToTarget > catchDistance");
+                                //If the target is in sight
+                                if (TargetInSight())
                                 {
-                                    if (currentTarget.GetComponent<IPossessable>().GetIsPossessed())
+                                    Debug.Log("Target is in sight, updating position");
+                                    //Set the target's current position as our destination
+                                    lastKnownTargetPos = currentTarget.position;
+                                    navAgent.SetDestination(lastKnownTargetPos);
+                                }
+                                else
+                                {
+                                    navAgent.SetDestination(lastKnownTargetPos);
+                                }
+
+                                ////If the target is within catching distance
+                                //if (distanceToTarget < catchDistance)
+                                //{
+                                //    if (TargetInSight())
+                                //    {
+                                //        Debug.Log("Target catched");
+                                //        if (currentTarget.GetComponent(typeof(IPossessable)))
+                                //        {
+                                //            if (currentTarget.GetComponent<IPossessable>().GetIsPossessed())
+                                //            {
+                                //                Debug.Log("Catched target was player, broadcasting PlayerCatched");
+                                //                em.BroadcastPlayerCatched();
+                                //            }
+                                //        }
+                                //    }
+
+                                //    EndChase();
+                                //    ResumePatrolling();
+                                //    //TODO: Check if player
+                                //    //If yes, game over
+                                //    //If not, look around
+                                //    //If another robot of the wanted type sighted, start chasing it
+                                //    //If not, restart patrolling
+                                //}
+
+                            }
+                            //If the target is within catching distance
+                            else if (distanceToTarget <= catchDistance)
+                            {
+                                Debug.Log("distanceToTarget <= catchDistance");
+                                //TODO: Implement a "LookAround" method, and call it here, before returning to patrolling
+                                if (TargetInSight())
+                                {
+                                    Debug.Log("Target catched");
+                                    if (currentTarget.GetComponent(typeof(IPossessable)))
                                     {
-                                        Debug.Log("Catched target was player, broadcasting PlayerCatched");
-                                        em.BroadcastPlayerCatched();
+                                        if (currentTarget.GetComponent<IPossessable>().GetIsPossessed())
+                                        {
+                                            Debug.Log("Catched target was player, broadcasting PlayerCatched");
+                                            em.BroadcastPlayerCatched();
+                                        }
                                     }
                                 }
-                            }
 
-                            Debug.Log("Ending chase, resuming patrolling");
-                            EndChase();
-                            ResumePatrolling();
+                                Debug.Log("Ending chase, resuming patrolling");
+                                EndChase();
+                                ResumePatrolling();
+                            }
+                        }
+                        #endregion
+                    }
+
+                    if (isGuarding)
+                    {
+                        if (spriteController)
+                        {
+                            spriteController.SetAnimationState(EAnimationState.IDLE);
                         }
                     }
-                    #endregion
-                }
-
-
-                if (isGuarding)
-                {
-                    if (spriteController)
+                    else if (isPatrolling)
                     {
-                        spriteController.SetAnimationState(EAnimationState.IDLE);
+                        if (spriteController)
+                        {
+                            spriteController.SetAnimationState(EAnimationState.WALK);
+                        }
+                    }
+                    else if (chaseState != 0)
+                    {
+                        if (spriteController)
+                        {
+                            spriteController.SetAnimationState(EAnimationState.WALK);
+                        }
+                    }
+                    else
+                    {
+                        if (spriteController)
+                        {
+                            spriteController.SetAnimationState(EAnimationState.IDLE);
+                        }
                     }
                 }
-                else if (isPatrolling)
-                {
-                    if (spriteController)
-                    {
-                        spriteController.SetAnimationState(EAnimationState.WALK);
-                    }
-                }
-                else if (chaseState != 0)
-                {
-                    if (spriteController)
-                    {
-                        spriteController.SetAnimationState(EAnimationState.WALK);
-                    }
-                }
-                else
-                {
-                    if (spriteController)
-                    {
-                        spriteController.SetAnimationState(EAnimationState.IDLE);
-                    }
-                }
+                
             }
         }
     }

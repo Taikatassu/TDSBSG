@@ -117,14 +117,16 @@ DONE - Rotate possessed possessable controls with camera
 DONE - Forklift prefab
 DONE - Vending Machine prefab
 DONE - Door lerp moves the doors too far away?
-- Guards cannot open doors?
+DONE - Guards cannot open doors?
 DONE - Implement game over when seen / Finish alert system 
 DONE - Guards send an event when they see a disobeying possessable (also start alarm)
 DONE - The spotted possessed cannot move while the guards run to it
 DONE - If it was the player, game over
 DONE - If it was not the player, guards return to patrolling
 - Implement the pause menu restart functionality
-
+- Opening pausemenu does not prevent mouse interaction with the scene
+- Some sprites on the office workers jump during animation (office workers. Possibly different pivot point?)
+- Top sprites
 
 
 

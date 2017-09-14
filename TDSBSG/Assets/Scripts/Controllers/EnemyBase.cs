@@ -41,8 +41,8 @@ public class EnemyBase : MonoBehaviour {
     protected int currentSecurityTier = 0;
     int visionAngleIncreasePerSecurityTier = 15;
     protected bool isPaused = false; //Separate from full game pause. Used for example during cutscenes if necessary to pause all movement
-    [SerializeField]
-    float knockOutDuration;
+    //[SerializeField]
+    float knockOutDuration = 5f;
     float knockOutTimer;
     protected bool isKnockedOut;
     #endregion
@@ -229,10 +229,13 @@ public class EnemyBase : MonoBehaviour {
     public void KnockOut() {
         isKnockedOut = true;
         knockOutTimer = knockOutDuration;
+        spriteController.StartKnockout();
+        myFoV.ChangeConeState(false);
     }
 
     protected void EndKnockOut() {
         isKnockedOut = false;
+        myFoV.ChangeConeState(true);
     }
 
     #region FixedUpdate & LateUpdate
