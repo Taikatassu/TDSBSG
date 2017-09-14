@@ -36,6 +36,7 @@ public class EventManager : MonoBehaviour
     public delegate int EmptyInt();
     public delegate Vector3 EmptyVector3();
     public delegate void Vector3Void(Vector3 vec3);
+    public delegate ERobotType EmptyRobotType();
 
     public event EmptyVoid OnInitializeGame;
     public void BroadcastInitializeGame()
@@ -253,6 +254,19 @@ public class EventManager : MonoBehaviour
     public void BroadcastPlayerCatched() {
         if (OnPlayerCatched != null) {
             OnPlayerCatched();
+        }
+    }
+
+    public event EmptyRobotType OnRequestSpawningRobotType;
+    public ERobotType BroadcastRequestSpawningRobotType()
+    {
+        if(OnRequestSpawningRobotType != null)
+        {
+            return OnRequestSpawningRobotType();
+        }
+        else
+        {
+            return ERobotType.NONE;
         }
     }
 }

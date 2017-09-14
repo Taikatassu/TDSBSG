@@ -250,6 +250,7 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
     protected virtual void FixedUpdate()
     {
         rb.velocity = Vector3.zero;
+        //Debug.Log(gameObject.name + ", disobeyingList.Count: " + disobeyingList.Count);
 
         if (Input.GetKey(KeyCode.LeftShift))
 		{

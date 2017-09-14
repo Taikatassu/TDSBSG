@@ -183,7 +183,6 @@ public class UIManager : MonoBehaviour
     private void OnQuitButtonPressed()
     {
         //Stop everything, close application
-        Debug.Log("Quit button pressed");
         em.BroadcastRequestExitApplication();
     }
 
@@ -195,14 +194,12 @@ public class UIManager : MonoBehaviour
     private void OnRestartButtonPressed()
     {
         //TODO: Restart the level (or the whole game?)
-        Debug.Log("Restart button pressed (not yet implemented)");
         int currentSceneIndex = em.BroadcastRequestCurrentSceneIndex();
         em.BroadcastRequestLoadLevel(currentSceneIndex);
     }
 
     private void OnExitGameButtonPressed()
     {
-        Debug.Log("OnExitGameButtonPressed");
         em.BroadcastRequestLoadLevel(mainMenuIndex);
     }
 

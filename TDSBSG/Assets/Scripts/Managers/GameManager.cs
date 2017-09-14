@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
         em.OnRequestPauseStateChange += OnRequestPauseStateChange;
         em.OnLevelCompleted += OnLevelCompleted;
         em.OnPlayerCatched += OnPlayerCatched;
+        em.OnRequestSpawningRobotType += OnRequestSpawningRobotType;
     }
 
     private void OnDisable()
@@ -59,6 +60,7 @@ public class GameManager : MonoBehaviour
         em.OnRequestPauseStateChange -= OnRequestPauseStateChange;
         em.OnLevelCompleted -= OnLevelCompleted;
         em.OnPlayerCatched -= OnPlayerCatched;
+        em.OnRequestSpawningRobotType -= OnRequestSpawningRobotType;
     }
 
     //void Start()
@@ -66,6 +68,11 @@ public class GameManager : MonoBehaviour
     //    em.BroadcastInitializeGame();
     //    em.BroadcastStartGame();
     //}
+
+    private ERobotType OnRequestSpawningRobotType()
+    {
+        return robotTypeToSpawnPlayerAs;
+    }
 
     private void PauseGame()
     {
@@ -83,7 +90,7 @@ public class GameManager : MonoBehaviour
 
     private void TogglePauseGame()
     {
-        if(pausingAvailable)
+        if (pausingAvailable)
         {
             if (isPaused)
             {
@@ -106,7 +113,7 @@ public class GameManager : MonoBehaviour
 
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-        if(mainMenuIndex == -1 || firstLevelIndex == -1 || lastLevelIndex == -1)
+        if (mainMenuIndex == -1 || firstLevelIndex == -1 || lastLevelIndex == -1)
         {
             Vector3 sceneIndices = em.BroadcastRequestSceneIndices();
             mainMenuIndex = (int)sceneIndices.x;
@@ -119,7 +126,7 @@ public class GameManager : MonoBehaviour
             pausingAvailable = false;
             ResumeGame();
         }
-        else if(scene.buildIndex == firstLevelIndex)
+        else if (scene.buildIndex == firstLevelIndex)
         {
             robotTypeToSpawnPlayerAs = ERobotType.DEFAULT;
             em.BroadcastSpawnPlayer(robotTypeToSpawnPlayerAs);
@@ -142,7 +149,7 @@ public class GameManager : MonoBehaviour
 
     void OnRequestPauseStateChange(bool newState)
     {
-        if(newState != isPaused)
+        if (newState != isPaused)
         {
             if (newState)
             {
@@ -190,7 +197,8 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void OnPlayerCatched() {
+    private void OnPlayerCatched()
+    {
         int currentSceneIndex = em.BroadcastRequestCurrentSceneIndex();
         em.BroadcastRequestLoadLevel(currentSceneIndex);
     }
