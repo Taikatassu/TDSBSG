@@ -22,6 +22,13 @@ public class UIManager : MonoBehaviour
     Button restartButton;
     Button exitGameButton;
 
+    // BlackPanel
+    [SerializeField]
+    Image blackPanel;
+    [SerializeField]
+    float fadeSpeed = 0.02f;
+    bool isFading = false;
+
     bool pauseMenuAvailable = false;
     int mainMenuIndex = -1;
     int firstLevelIndex = -1;
@@ -48,7 +55,10 @@ public class UIManager : MonoBehaviour
 
         EnableMainMenu();
         DisablePauseMenu();
-    }
+
+		isFading = false;
+
+	}
 
     private void Start()
     {
@@ -57,18 +67,33 @@ public class UIManager : MonoBehaviour
         firstLevelIndex = (int)sceneIndices.y;
         lastLevelIndex = (int)sceneIndices.z;
     }
+    private void Update() {
+        if (isFading) {
+            Debug.Log("Fading");
+            Color panelColor = blackPanel.color;
+            panelColor.a -= fadeSpeed;
+            Debug.Log("Alpha = " + panelColor.a);
+            if (panelColor.a <= 0.0f) {
+                isFading = false;
+            }
+            blackPanel.color = new Color(panelColor.r, panelColor.g, panelColor.b, panelColor.a);
+        }
+    }
 
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
         em.OnPauseStateChange += OnPauseStateChange;
-    }
+		em.OnRequestLoadLevel += OnRequestLoadLevel;
+
+	}
 
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnLevelFinishedLoading;
         em.OnPauseStateChange -= OnPauseStateChange;
-    }
+		em.OnRequestLoadLevel -= OnRequestLoadLevel;
+	}
 
     private void CreateMainMenu()
     {
@@ -171,6 +196,7 @@ public class UIManager : MonoBehaviour
 
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
+        isFading = true;
         if (mainMenuIndex == -1 || firstLevelIndex == -1 || lastLevelIndex == -1)
         {
             Vector3 sceneIndices = em.BroadcastRequestSceneIndices();
@@ -192,4 +218,10 @@ public class UIManager : MonoBehaviour
             pauseMenuAvailable = true;
         }
     }
+
+    private void OnRequestLoadLevel(int desiredSceneBuildIndex) {
+		Color panelColor = blackPanel.color;
+		panelColor.a = 1.0f;
+		blackPanel.color = new Color(panelColor.r, panelColor.g, panelColor.b, panelColor.a);
+	}
 }
