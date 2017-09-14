@@ -135,10 +135,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27d899f9014e0a04fb0ab1551d4f400b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPostion: {fileID: 4180821592377394}
-  ammoCount: 10
+  spawnTransform: {fileID: 4180821592377394}
+  useDefaultProjectiles: 0
+  projectiles: []
   shootForce: 5
-  cooldownDuration: 0.3
+  shootCooldown: 1
 --- !u!114 &114636230884828620
 MonoBehaviour:
   m_ObjectHideFlags: 1
