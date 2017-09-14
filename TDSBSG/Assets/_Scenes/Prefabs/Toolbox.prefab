@@ -107,7 +107,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1473460521585620
 GameObject:
   m_ObjectHideFlags: 1
@@ -256,7 +256,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1866200480965140
 GameObject:
   m_ObjectHideFlags: 0
@@ -835,7 +835,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenuIndex: 1
   firstLevelIndex: 2
-  lastLevelIndex: 3
+  lastLevelIndex: 4
   loadingScreenBackground: {fileID: 1348481229216380}
   loadingScreenCleanerBot: {fileID: 1473460521585620}
   loadingScreenMiniCleaner: {fileID: 1632458811141898}

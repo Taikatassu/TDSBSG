@@ -39,7 +39,10 @@ public class Interactable_Liftable : Interactable {
 
     public float StartInteraction(Transform newLifter) {
         currentLifter = newLifter;
-        GetComponent<Collider>().enabled = false;
+        if (!stationaryInteractable)
+        {
+            GetComponent<Collider>().enabled = false;
+        }
         isInUse = true;
         return 0.0f;
     }
@@ -47,7 +50,10 @@ public class Interactable_Liftable : Interactable {
     public override float EndInteraction(IPossessable user)
     {
         if (base.EndInteraction(user) == -1.0f) { return -1.0f; }
-        GetComponent<Collider>().enabled = true;
+        if (!stationaryInteractable)
+        {
+            GetComponent<Collider>().enabled = true;
+        }
         isInUse = false;
         return endDurationTime;
     }

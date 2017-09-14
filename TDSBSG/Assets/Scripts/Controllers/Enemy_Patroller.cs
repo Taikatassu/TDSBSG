@@ -54,6 +54,7 @@ public class Enemy_Patroller : EnemyBase
 
     private void OnPauseActorsStateChange(bool newState)
     {
+        navAgent.isStopped = newState;
         isPaused = newState;
     }
 

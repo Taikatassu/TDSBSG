@@ -63,7 +63,11 @@ public class Room : MonoBehaviour
                     }
                 }
 
-                iPossessable.AddDisobeyingToList(gameObject);
+                if (!isSameType)
+                {
+                    iPossessable.AddDisobeyingToList(gameObject);
+                }
+
                 em.BroadcastRoomEntered(levelOfSecurity, isSameType, robotType);
             }
         }
