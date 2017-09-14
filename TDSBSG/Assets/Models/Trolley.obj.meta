@@ -1,0 +1,219 @@
+fileFormatVersion: 2
+guid: d340e1ebf942f804b8bb77266e4e1984
+timeCreated: 1505373833
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Cube.181_Cube.253_Forklift
+    100002: Cube.183_Cube.255_Forklift
+    100004: Cube.186_Cube.258_Forklift
+    100006: Cube.187_Cube.259_Forklift
+    100008: Cube.188_Cube.260_Forklift
+    100010: Cube.189_Cube.261_Forklift
+    100012: Cube.190_Cube.262_Boxes
+    100014: Cylinder.030_Cylinder.015_Black
+    100016: Cylinder.031_Cylinder.016_Roomba01
+    100018: Cylinder.032_Cylinder.017_Forklift
+    100020: Cylinder.033_Cylinder.024_Forklift
+    100022: Cylinder.034_Cylinder.025_Roomba01
+    100024: Cylinder.035_Cylinder.035_Black
+    100026: Cylinder.036_Cylinder.036_Black
+    100028: Cylinder.037_Cylinder.037_Roomba01
+    100030: Cylinder.038_Cylinder.038_Forklift
+    100032: Cylinder.039_Cylinder.039_Forklift
+    100034: Cylinder.040_Cylinder.040_Roomba01
+    100036: Cylinder.041_Cylinder.041_Black
+    100038: Cylinder.042_Cylinder.042_Soda
+    100040: Cylinder.043_Cylinder.043_Soda
+    100042: Cylinder.044_Cylinder.044_Soda
+    100044: Cylinder.045_Cylinder.045_Soda
+    100046: Cylinder.046_Cylinder.046_Soda
+    100048: Cylinder.047_Cylinder.047_Soda
+    100050: Cylinder.048_Cylinder.048_Soda
+    100052: Cylinder.049_Cylinder.049_Soda
+    100054: //RootNode
+    400000: Cube.181_Cube.253_Forklift
+    400002: Cube.183_Cube.255_Forklift
+    400004: Cube.186_Cube.258_Forklift
+    400006: Cube.187_Cube.259_Forklift
+    400008: Cube.188_Cube.260_Forklift
+    400010: Cube.189_Cube.261_Forklift
+    400012: Cube.190_Cube.262_Boxes
+    400014: Cylinder.030_Cylinder.015_Black
+    400016: Cylinder.031_Cylinder.016_Roomba01
+    400018: Cylinder.032_Cylinder.017_Forklift
+    400020: Cylinder.033_Cylinder.024_Forklift
+    400022: Cylinder.034_Cylinder.025_Roomba01
+    400024: Cylinder.035_Cylinder.035_Black
+    400026: Cylinder.036_Cylinder.036_Black
+    400028: Cylinder.037_Cylinder.037_Roomba01
+    400030: Cylinder.038_Cylinder.038_Forklift
+    400032: Cylinder.039_Cylinder.039_Forklift
+    400034: Cylinder.040_Cylinder.040_Roomba01
+    400036: Cylinder.041_Cylinder.041_Black
+    400038: Cylinder.042_Cylinder.042_Soda
+    400040: Cylinder.043_Cylinder.043_Soda
+    400042: Cylinder.044_Cylinder.044_Soda
+    400044: Cylinder.045_Cylinder.045_Soda
+    400046: Cylinder.046_Cylinder.046_Soda
+    400048: Cylinder.047_Cylinder.047_Soda
+    400050: Cylinder.048_Cylinder.048_Soda
+    400052: Cylinder.049_Cylinder.049_Soda
+    400054: //RootNode
+    2300000: Cube.181_Cube.253_Forklift
+    2300002: Cube.183_Cube.255_Forklift
+    2300004: Cube.186_Cube.258_Forklift
+    2300006: Cube.187_Cube.259_Forklift
+    2300008: Cube.188_Cube.260_Forklift
+    2300010: Cube.189_Cube.261_Forklift
+    2300012: Cube.190_Cube.262_Boxes
+    2300014: Cylinder.030_Cylinder.015_Black
+    2300016: Cylinder.031_Cylinder.016_Roomba01
+    2300018: Cylinder.032_Cylinder.017_Forklift
+    2300020: Cylinder.033_Cylinder.024_Forklift
+    2300022: Cylinder.034_Cylinder.025_Roomba01
+    2300024: Cylinder.035_Cylinder.035_Black
+    2300026: Cylinder.036_Cylinder.036_Black
+    2300028: Cylinder.037_Cylinder.037_Roomba01
+    2300030: Cylinder.038_Cylinder.038_Forklift
+    2300032: Cylinder.039_Cylinder.039_Forklift
+    2300034: Cylinder.040_Cylinder.040_Roomba01
+    2300036: Cylinder.041_Cylinder.041_Black
+    2300038: Cylinder.042_Cylinder.042_Soda
+    2300040: Cylinder.043_Cylinder.043_Soda
+    2300042: Cylinder.044_Cylinder.044_Soda
+    2300044: Cylinder.045_Cylinder.045_Soda
+    2300046: Cylinder.046_Cylinder.046_Soda
+    2300048: Cylinder.047_Cylinder.047_Soda
+    2300050: Cylinder.048_Cylinder.048_Soda
+    2300052: Cylinder.049_Cylinder.049_Soda
+    3300000: Cube.181_Cube.253_Forklift
+    3300002: Cube.183_Cube.255_Forklift
+    3300004: Cube.186_Cube.258_Forklift
+    3300006: Cube.187_Cube.259_Forklift
+    3300008: Cube.188_Cube.260_Forklift
+    3300010: Cube.189_Cube.261_Forklift
+    3300012: Cube.190_Cube.262_Boxes
+    3300014: Cylinder.030_Cylinder.015_Black
+    3300016: Cylinder.031_Cylinder.016_Roomba01
+    3300018: Cylinder.032_Cylinder.017_Forklift
+    3300020: Cylinder.033_Cylinder.024_Forklift
+    3300022: Cylinder.034_Cylinder.025_Roomba01
+    3300024: Cylinder.035_Cylinder.035_Black
+    3300026: Cylinder.036_Cylinder.036_Black
+    3300028: Cylinder.037_Cylinder.037_Roomba01
+    3300030: Cylinder.038_Cylinder.038_Forklift
+    3300032: Cylinder.039_Cylinder.039_Forklift
+    3300034: Cylinder.040_Cylinder.040_Roomba01
+    3300036: Cylinder.041_Cylinder.041_Black
+    3300038: Cylinder.042_Cylinder.042_Soda
+    3300040: Cylinder.043_Cylinder.043_Soda
+    3300042: Cylinder.044_Cylinder.044_Soda
+    3300044: Cylinder.045_Cylinder.045_Soda
+    3300046: Cylinder.046_Cylinder.046_Soda
+    3300048: Cylinder.047_Cylinder.047_Soda
+    3300050: Cylinder.048_Cylinder.048_Soda
+    3300052: Cylinder.049_Cylinder.049_Soda
+    4300000: Cube.181_Cube.253_Forklift
+    4300002: Cube.183_Cube.255_Forklift
+    4300004: Cube.186_Cube.258_Forklift
+    4300006: Cube.187_Cube.259_Forklift
+    4300008: Cube.188_Cube.260_Forklift
+    4300010: Cube.189_Cube.261_Forklift
+    4300012: Cube.190_Cube.262_Boxes
+    4300014: Cylinder.030_Cylinder.015_Black
+    4300016: Cylinder.031_Cylinder.016_Roomba01
+    4300018: Cylinder.032_Cylinder.017_Forklift
+    4300020: Cylinder.033_Cylinder.024_Forklift
+    4300022: Cylinder.034_Cylinder.025_Roomba01
+    4300024: Cylinder.035_Cylinder.035_Black
+    4300026: Cylinder.036_Cylinder.036_Black
+    4300028: Cylinder.037_Cylinder.037_Roomba01
+    4300030: Cylinder.038_Cylinder.038_Forklift
+    4300032: Cylinder.039_Cylinder.039_Forklift
+    4300034: Cylinder.040_Cylinder.040_Roomba01
+    4300036: Cylinder.041_Cylinder.041_Black
+    4300038: Cylinder.042_Cylinder.042_Soda
+    4300040: Cylinder.043_Cylinder.043_Soda
+    4300042: Cylinder.044_Cylinder.044_Soda
+    4300044: Cylinder.045_Cylinder.045_Soda
+    4300046: Cylinder.046_Cylinder.046_Soda
+    4300048: Cylinder.047_Cylinder.047_Soda
+    4300050: Cylinder.048_Cylinder.048_Soda
+    4300052: Cylinder.049_Cylinder.049_Soda
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
