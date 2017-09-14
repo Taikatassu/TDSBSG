@@ -25,8 +25,10 @@ public class Interactable_Door : Interactable {
 	Vector3 closedRot_2;
 	[SerializeField]
 	float animationDuration = 1.0f;
+    [SerializeField]
+    bool autoClose = true;
 
-	EDoorState state;
+    EDoorState state;
 
 	ParticleSystem lightEffect;
 
@@ -121,43 +123,37 @@ public class Interactable_Door : Interactable {
 				}
 			}
 		}
-		EnemyBase hitEnemy = other.GetComponent<EnemyBase>();
-		if (hitEnemy) {
-			Debug.Log("Hit Enemy");
+		else if (other.GetComponent<EnemyBase>()) {
 			state = EDoorState.IS_OPENING;
 			CreateGreanLightEffect();
 			return;
-			// TODO : Create enemy permission list
-			// if(enemyPermissionList == true) {
-			//state = EDoorState.IS_OPENING;
-			//CreateGreanLightEffect();
-			//return;
-			//} else {
-			//CreateRedLightEffect();
-			//return;
-			//}
 		}
 
 	}
 
 	private void OnTriggerExit(Collider other) {
-		Debug.Log("exit door");
 
-		if (other.GetComponent(typeof(IPossessable))) {
-			IPossessable hitUser = other.GetComponent<IPossessable>();
-			if (hitUser.GetIsPossessed()) {
-				if (ContainPermissionList(hitUser.GetRobotType())) {
-					state = EDoorState.IS_CLOSING;
-				}
-			}
-		}
+        if (autoClose)
+        {
+            if (other.GetComponent(typeof(IPossessable)))
+            {
+                IPossessable hitUser = other.GetComponent<IPossessable>();
+                if (hitUser.GetIsPossessed())
+                {
+                    if (ContainPermissionList(hitUser.GetRobotType()))
+                    {
+                        state = EDoorState.IS_CLOSING;
+                    }
+                }
+                OffLightEffect();
+            }
 
-		if (other.GetComponent(typeof(EnemyBase))) {
-			EnemyBase hitEnemy = other.GetComponent<EnemyBase>();
-			// check enemy's permission 
-			state = EDoorState.IS_CLOSING;
-		}
-		OffLightEffect();
+            if (other.GetComponent<EnemyBase>())
+            {
+                state = EDoorState.IS_CLOSING;
+                OffLightEffect();
+            }
+        }
 	}
 
 	void CreateGreanLightEffect() {
