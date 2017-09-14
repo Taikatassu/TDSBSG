@@ -247,7 +247,8 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
     protected virtual void FixedUpdate()
     {
 
-		if (Input.GetKey(KeyCode.LeftShift))
+        //Debug.Log("interactionPause: " + interactionPause + ", canMove: " + canMove);
+        if (Input.GetKey(KeyCode.LeftShift))
 		{
 			currentMovementSpeedMultiplier = 3;
 		}

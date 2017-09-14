@@ -38,6 +38,8 @@ public class SpriteAnimationController : MonoBehaviour
     GameObject takeDamageSpritePlayer;
     [SerializeField]
     GameObject knockedOutSpritePlayer;
+    [SerializeField]
+    GameObject topSpritePlayer;
 
     List<GameObject> spritePlayers = new List<GameObject>();
     [SerializeField]
@@ -82,6 +84,7 @@ public class SpriteAnimationController : MonoBehaviour
 
         spritePlayers.Add(takeDamageSpritePlayer);
         spritePlayers.Add(knockedOutSpritePlayer);
+        spritePlayers.Add(topSpritePlayer);
     }
 
     public void StartKnockout()
@@ -134,7 +137,12 @@ public class SpriteAnimationController : MonoBehaviour
     {
         //Debug.Log(gameObject.name + ", UpdateSpriteState, currentAnimState: " 
         //    + currentAnimState + ", currentViewDirection: " + currentViewDirection);
-        if (currentAnimState == EAnimationState.TAKEDAMAGE)
+        if(currentViewDirection == EViewDirection.TOP)
+        {
+            SetEnabledSpritePlayer(topSpritePlayer);
+        }
+
+        else if (currentAnimState == EAnimationState.TAKEDAMAGE)
         {
             SetEnabledSpritePlayer(takeDamageSpritePlayer);
         }
@@ -213,9 +221,15 @@ public class SpriteAnimationController : MonoBehaviour
             //rayOrigin.y++;
             //Debug.DrawRay(rayOrigin, cameraDirection, Color.red, 1f);
             //Debug.DrawRay(rayOrigin, transform.forward * 10, Color.blue, 1f);
+            float minCameraHeightToCountAsTopView = 12;
+            if(cameraTransform.position.y - transform.position.y >= minCameraHeightToCountAsTopView)
+            {
+                SetViewDirection(EViewDirection.TOP);
+            }
+
 
             //Front
-            if (cameraAngle >= frontAngleMinMax.x && cameraAngle < frontAngleMinMax.y)
+            else if (cameraAngle >= frontAngleMinMax.x && cameraAngle < frontAngleMinMax.y)
             {
                 SetViewDirection(EViewDirection.FRONT);
             }
@@ -269,6 +283,7 @@ public enum EViewDirection
     BACK,
     RIGHT,
     LEFT,
+    TOP,
 
 }
 
