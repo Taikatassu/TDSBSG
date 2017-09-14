@@ -31,7 +31,7 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
     readonly EPossessableType possessableType = EPossessableType.PRIMARY;
     readonly ERobotType robotType = ERobotType.DEFAULT;
     float defaultMovementSpeed = 150f;
-    float currentMovementSpeedMultiplier = 1;
+    float currentMovementSpeedMultiplier = 1.5f;
     #endregion
 
     private void Awake()
@@ -245,6 +245,16 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
 
     protected virtual void FixedUpdate()
     {
+
+		if (Input.GetKey(KeyCode.LeftShift))
+		{
+			currentMovementSpeedMultiplier = 3;
+		}
+		else
+		{
+			currentMovementSpeedMultiplier = 1.5f;
+		}
+
         if (disobeyingList.Count > 0)
         {
             isDisobeying = true;
