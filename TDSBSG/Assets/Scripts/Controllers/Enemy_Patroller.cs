@@ -171,6 +171,20 @@ public class Enemy_Patroller : EnemyBase
     }
     #endregion
 
+    #region KnockOut
+    public override void KnockOut()
+    {
+        base.KnockOut();
+        navAgent.isStopped = true;
+    }
+
+    protected override void EndKnockOut()
+    {
+        base.EndKnockOut();
+        navAgent.isStopped = false;
+    }
+    #endregion
+
     #region Start & EndChase
     protected override void StartChase()
     {
@@ -490,7 +504,7 @@ public class Enemy_Patroller : EnemyBase
                         }
                     }
                 }
-                
+
             }
         }
     }

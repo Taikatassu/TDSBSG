@@ -226,14 +226,14 @@ public class EnemyBase : MonoBehaviour {
         return false;
     }
 
-    public void KnockOut() {
+    public virtual void KnockOut() {
         isKnockedOut = true;
         knockOutTimer = knockOutDuration;
         spriteController.StartKnockout();
         myFoV.ChangeConeState(false);
     }
 
-    protected void EndKnockOut() {
+    protected virtual void EndKnockOut() {
         isKnockedOut = false;
         myFoV.ChangeConeState(true);
     }

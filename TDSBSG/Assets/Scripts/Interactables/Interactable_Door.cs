@@ -134,7 +134,7 @@ public class Interactable_Door : Interactable {
 			if (hitUser.GetIsPossessed()) {
 				if (ContainPermissionList(hitUser.GetRobotType())) {
 					state = EDoorState.IS_OPENING;
-					CreateGreanLightEffect();
+					CreateGreenLightEffect();
 					return;
 				} else {
 					CreateRedLightEffect();
@@ -144,7 +144,7 @@ public class Interactable_Door : Interactable {
 		}
 		else if (other.GetComponent<EnemyBase>()) {
 			state = EDoorState.IS_OPENING;
-			CreateGreanLightEffect();
+			CreateGreenLightEffect();
 			return;
 		}
 
@@ -175,7 +175,7 @@ public class Interactable_Door : Interactable {
         }
 	}
 
-	void CreateGreanLightEffect() {
+	void CreateGreenLightEffect() {
 		if (lightEffect != null) { OffLightEffect(); }
 		lightEffect = Instantiate(Resources.Load<ParticleSystem>("ParticleEffect/GreanLight"),
 			gameObject.transform.position + new Vector3(0, 3, 0), Quaternion.identity);
@@ -188,6 +188,9 @@ public class Interactable_Door : Interactable {
 		lightEffect.Play();
 	}
 	void OffLightEffect() {
-		Destroy(lightEffect.gameObject);
+        if(lightEffect != null)
+        {
+            Destroy(lightEffect.gameObject);
+        }
 	}
 }

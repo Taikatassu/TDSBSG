@@ -47,7 +47,7 @@ DONE - Alert system
 	DONE - All enemies register to alert system when spawned
 	DONE - When alert starts, alert system will notify all registered enemies
 	- If no sight of target for a duration X, end alert
-WIP - Chasing mechanics
+DONE - Chasing mechanics
 DONE - PatrolPoint temporary guarding (enemy stops at a patrol point for a certain duration, before continuing on it's route)
 	DONE - A float value for guardDuration (if 0, no guarding, e.i. continue the patrol instantly)
 - If AI (player) swaps body within enemy vision cone while being chased, enemy target changes to the newly possessed unit
@@ -107,10 +107,9 @@ DONE - Implement a way to pause all enemies during cutscenes without changing ti
 DONE - Rotate the possessable possessed by the player in the direction of movement (velocity direction)
 DONE - Update scene indices if neccessary (ApplicationManager, UIManager, GameManager)
 DONE - PaperMario-like multi-sided sprite animation controller
-- Implement slight smooth on the possessed possessable rotation
-WIP - Implement rotatable camera
+DONE - Implement rotatable camera
 DONE - Redo Poss_Worker & Interactable_Liftable
-- Implement the rest of the sprites on enemies and possessables (spriteAnimationController)
+DONE - Implement the rest of the sprites on enemies and possessables (spriteAnimationController)
 DONE - Screen To GIF (make a GIF of the sprite enemy walking around in the scene (pull populated scene from git))
 DONE - Check if all sprites exist (defaut robot, roomba, forklift, vending machine, radio?, enemies)
 DONE - Rotate possessed possessable controls with camera
@@ -123,13 +122,15 @@ DONE - Guards send an event when they see a disobeying possessable (also start a
 DONE - The spotted possessed cannot move while the guards run to it
 DONE - If it was the player, game over
 DONE - If it was not the player, guards return to patrolling
-- Implement the pause menu restart functionality
+DONE - Implement the pause menu restart functionality
+DONE - Top sprites
+- Implement slight smooth on the possessed possessable rotation
 - Opening pausemenu does not prevent mouse interaction with the scene
 - Some sprites on the office workers jump during animation (office workers. Possibly different pivot point?)
-- Top sprites
-
-
-
+- Main menu background
+- KnockedOut enemies continue to their navMesh destination
+- If switching out of and back to a forklift possessable while an interactable is lifted, the forklift is 
+  unable to lower the object
 
 
 
