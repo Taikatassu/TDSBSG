@@ -62,11 +62,14 @@ public class Poss_ConnectedMaster : Poss_Stationary
             }
         }
 
+        connectionIndicatorsEnabled = true;
+        UpdateConnectionIndicators();
         SetConnectionIndicatorState(false);
     }
     
     public void SetConnectionIndicatorState(bool newState)
     {
+        Debug.Log("SetConnectionIndicatorState, newState: " + newState);
         if(connectionIndicatorsEnabled != newState)
         {
             connectionIndicatorsEnabled = newState;
@@ -87,9 +90,9 @@ public class Poss_ConnectedMaster : Poss_Stationary
         {
             Vector3[] indicatorPosition = new Vector3[2];
             indicatorPosition[0] = connectionInfoList[i].startPoint.position;
-            indicatorPosition[0].y++;
+            //indicatorPosition[0].y++;
             indicatorPosition[1] = connectionInfoList[i].endPoint.position;
-            indicatorPosition[1].y++;
+            //indicatorPosition[1].y++;
             connectionInfoList[i].indicator.SetPositions(indicatorPosition);
         }
     }

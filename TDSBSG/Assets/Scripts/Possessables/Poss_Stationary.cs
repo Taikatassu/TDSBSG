@@ -61,7 +61,7 @@ public class Poss_Stationary : MonoBehaviour, IPossessable
         disobeyingList = new List<GameObject>();
         canMove = true;
 
-        ResetAll();
+        //ResetAll();
     }
 
     private void ResetAll()
@@ -92,19 +92,24 @@ public class Poss_Stationary : MonoBehaviour, IPossessable
 
     public void AddDisobeyingToList(GameObject go)
     {
-        disobeyingList.Add(go);
+        //if (!disobeyingList.Contains(go))
+        //{
+        //    disobeyingList.Add(go);
+        //}
     }
 
     public void RemoveDisobeyingFromList(GameObject go)
     {
-        if (disobeyingList.Contains(go))
-        {
-            disobeyingList.Remove(go);
-        }
-        else
-        {
-            Debug.LogWarning("RemoveDisobeyingFromList: Object to remove not found!");
-        }
+        //No need to add to 
+
+        //if (disobeyingList.Contains(go))
+        //{
+        //    disobeyingList.Remove(go);
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("RemoveDisobeyingFromList: Object to remove not found!");
+        //}
     }
 
     public void AddToConnectedPossessablesList(IPossessable newConnection)
