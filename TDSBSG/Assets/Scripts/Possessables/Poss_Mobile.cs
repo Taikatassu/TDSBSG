@@ -55,8 +55,7 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
 
         em.OnInitializeGame += OnInitializeGame;
         em.OnPauseActorsStateChange += OnPauseActorsStateChange;
-        em.OnDisobeyingDetected += OnDisobeyingDetected;
-
+        em.OnPauseStateChange += OnPauseStateChange;
     }
 
     protected virtual void OnDisable()
@@ -65,7 +64,15 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
 
         em.OnInitializeGame -= OnInitializeGame;
         em.OnPauseActorsStateChange -= OnPauseActorsStateChange;
-        em.OnDisobeyingDetected -= OnDisobeyingDetected;
+        em.OnPauseStateChange -= OnPauseStateChange;
+    }
+
+    protected void OnPauseStateChange(bool isPaused)
+    {
+        movingUp = false;
+        movingDown = false;
+        movingRight = false;
+        movingLeft = false;
     }
 
     protected virtual void OnInitializeGame()
@@ -253,13 +260,13 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
         //Debug.Log(gameObject.name + ", disobeyingList.Count: " + disobeyingList.Count);
 
         if (Input.GetKey(KeyCode.LeftShift))
-		{
-			currentMovementSpeedMultiplier = 3;
-		}
-		else
-		{
-			currentMovementSpeedMultiplier = 1.5f;
-		}
+        {
+            currentMovementSpeedMultiplier = 3;
+        }
+        else
+        {
+            currentMovementSpeedMultiplier = 1.5f;
+        }
 
         if (disobeyingList.Count > 0)
         {
@@ -336,9 +343,4 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
         navMeshAgent.SetDestination(newDest);
     }
 
-    private void OnDisobeyingDetected(ERobotType detectedRobotType, IPossessable detectedRobot) {
-        if(this == (UnityEngine.Object)detectedRobot) {
-            // cant move
-        }
-    }
 }

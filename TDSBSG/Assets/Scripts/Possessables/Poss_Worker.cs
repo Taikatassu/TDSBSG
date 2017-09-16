@@ -46,7 +46,7 @@ public class Poss_Worker : Poss_Mobile
     protected override void OnInitializeGame()
     {
         base.OnInitializeGame();
-        
+
         lifter.GetComponent<Collider>().enabled = false;
 
         lifterDownPos = lifter.localPosition;
@@ -62,7 +62,7 @@ public class Poss_Worker : Poss_Mobile
         {
             LerpInteractableObject();
         }
-        
+
         if (Input.GetKey(KeyCode.LeftShift))
         {
             currentMovementSpeedMultiplier = 3;
@@ -148,10 +148,8 @@ public class Poss_Worker : Poss_Mobile
         switch (newInput)
         {
             case EInputType.USE_KEYDOWN:
-                Debug.Log("Worker.GiveInput: USE_KEYDOWN");
                 if (liftingObject)
                 {
-                    Debug.Log("Worker.GiveInput: USE_KEYDOWN, liftingObject = true, overlappingObjects.Count: " + overlappingObjects.Count);
                     if (overlappingObjects.Count > 0)
                     {
                         Debug.Log(overlappingObjects[0].name);
@@ -168,9 +166,7 @@ public class Poss_Worker : Poss_Mobile
                 }
                 else
                 {
-                    //Debug.Log("Start Interaction Liftable");
                     Interactable_Liftable closestLiftable = GetClosestLiftable();
-                    Debug.Log("Worker.GiveInput: USE_KEYDOWN, liftingObject = false, closestLiftable: " + closestLiftable);
                     if (closestLiftable != null)
                     {
                         float result = closestLiftable.StartInteraction(lifter);
@@ -180,7 +176,6 @@ public class Poss_Worker : Poss_Mobile
                             {
                                 liftingStationaryObject = true;
                             }
-                            Debug.Log("Worker.GiveInput: USE_KEYDOWN, liftingObject = false, closestLiftable != null, result >= 0 (started interaction successfully)");
 
                             StartLerp(true);
                             currentLiftable = closestLiftable;
@@ -267,7 +262,7 @@ public class Poss_Worker : Poss_Mobile
     {
         if (liftingObject)
         {
-            if(other.gameObject.layer != LayerMask.NameToLayer("Ignore Raycast"))
+            if (other.gameObject.layer != LayerMask.NameToLayer("Ignore Raycast"))
             {
                 if (overlappingObjects.Contains(other.gameObject))
                 {

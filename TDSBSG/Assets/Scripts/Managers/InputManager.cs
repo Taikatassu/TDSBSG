@@ -33,7 +33,10 @@ public class InputManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
+    }
 
+    private void OnEnable()
+    {
         toolbox = FindObjectOfType<Toolbox>();
         em = toolbox.GetComponent<EventManager>();
     }

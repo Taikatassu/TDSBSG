@@ -137,17 +137,84 @@ DONE - Remove roomba from the beginning of level_02
 DONE - Game completed screen
 DONE - Loading screen
 - Implement slight smooth on the possessed possessable rotation
-- Some sprites on the office workers jump during animation (office workers. Possibly different pivot point?)
 - Enemies can travel through vents?
 - Simple AI for the possessables (they should have tasks to complete to keep them occuped until the player 
   possesses them)
+
+Build 1.01
+DONE - Credits (triple check everyones full names and proper titles)
+	DONE - Main menu button "credits" (opens credits screen)
+	DONE - While in credits screen, new button "Close" is available
+	DONE - If pressed, credits panel will close and main menu will be opened (actually already open in the background)
+	DONE - Esc key will also close the credits panel
+DONE - Redo loading screen
+	DONE - Open loading screen when starting to load new level, load new level and close loading screen once timer is out
+	DONE - Prevent game pause during loading sceens
+DONE - Zero out possessable movement when pausing the game (currently the last movement direction stays and the possessable
+       continues moving in that direction after unpausing until re-pressing the button after unpausing, even though it does 
+       not move during a pause)
+DONE - Calculate top view sprite angle properly (instead of just using camera height)
+DONE - Modifiy connected node possessing to possess the node in click direction even if clicked on an interactable or 
+       possessable when those interactions fail (are too far)
+DONE - Add the correct (missing a few) door permission indicators next to Level_03 doors
+DONE - Remove unnecessary objects in Level_03
+DONE - Some Level_03 doors should auto-close but do not
+DONE - Move the sofa in Level_02 lobby to the side a bit (so the player doesn't have to circle around it twice during 
+       the level)
+DONE - Modify Level_02 final room Poss_CleanerBot placement (currently too close to connected display node and therefore 
+       hard to notice. Same with CleanerBot in the first bathroom)
+DONE - Remove colliders from soda cans in Level_02 second bathroom area (currenly partially blocking player movement in 
+       the area)
+DONE - Some sprites on the office workers jump during animation (office workers. Possibly different pivot point?)
+DONE - Increase guard stun duration (implement visible stun timer?)
+DONE - Make forklift interaction with the Level_03 security door more obvious
+DONE - Some top sprites get left on even when returning to side view (apparently those are old versions of the robots, 
+       replacing them with the new prefabs should fix things)
+	DONE - Level_02 last CleaningBot (front idle placement is off to the side)
+DONE - Lowering liftable objects back to the ground with a forklift will place them floating slightly off the ground
+DONE - Enemies can still see through Level_03 vents
+DONE - Fix Level_03 puzzles
+	- Some of the puzzles in Level_03 can be skipped by holding doors open with other robots (reposition guards 
+	  so that those doors are practically inaccessible to the roomba)
+DONE - Fix sprite players on prop plants
+DONE - Fix door permission indicator light location (public transform for all doors to be used as spawn location)
+
+- Some way to show the user the controls of the game (prompt when possessing a robot that can do something with 
+  the "use" button? A tutorial screen accessible from the main menu?)
+- Add required credits to all third party assets (e.g. free license audio files)!!
+- Add a volume slider in main menu and the pause menu
+- Post processing?
+- Remove all unnecessary Debug.Log prints
+- Fix game over screen displaying (display for x time until reloading the scene. Currenly practically never visible
+  because new scene is instantly loaded and a loading screen is displayed on top of it)
+- Finish field of view mesh calculation optimization
 - Camere collision with environment / auto transparency to walls (somehow prevent environment from 
   blocking the player's vision)
-
-
-
-
-
-
+- Take damage, knocked out and directional top sprites (Playtester critique: top sprites don't show character 
+  animations (knockedOut, takeDamage))
+- Audio
+	DONE - Music for levels (starts playing when a level is loaded, once the loading screen closes)
+	DONE - Music for main menu (starts playing when main menu is loaded, once the loading screen closes)
+	- Toggleable SoundEffects for all characters
+	- Implement final audio files
+	- Audio clips needed:
+		Priority:
+		- Main menu music
+		- Level 01 music
+		- Level 02 music
+		- Level 03 music
+		- Elevator arrived sound effect (played at the beginning of each level)
+		Secondary:
+		- Alarm / whistle or something similar (played when a guard detects the player)
+		- Game over sound effect
+		- Game completed sound effect
+		Wishlist:
+		- Sound effects for doors (elevator, security, automatic)
+		- Move and idle effects for all characters (footsteps for humans, electric whirring / humming for robots)
+		- Mumbling / grumbling / whistling effects for human characters (played when player is close to humans)
+		- Elevator music (played during loading screens, loading screens last for 2 seconds atm)
+		- Shoot effect for vending machine and hit effect for soda can
+		- Electric beeping noises (played when possessing robots)
+		- ?
 
 

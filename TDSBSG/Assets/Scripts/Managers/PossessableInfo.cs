@@ -22,13 +22,13 @@ public class PossessableInfo : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
-
-        toolbox = FindObjectOfType<Toolbox>();
-        em = toolbox.GetComponent<EventManager>();
     }
 
     private void OnEnable()
     {
+        toolbox = FindObjectOfType<Toolbox>();
+        em = toolbox.GetComponent<EventManager>();
+
         em.OnInitializeGame += OnInitializeGame;
     }
 

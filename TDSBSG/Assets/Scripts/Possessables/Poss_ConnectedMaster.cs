@@ -69,7 +69,6 @@ public class Poss_ConnectedMaster : Poss_Stationary
     
     public void SetConnectionIndicatorState(bool newState)
     {
-        Debug.Log("SetConnectionIndicatorState, newState: " + newState);
         if(connectionIndicatorsEnabled != newState)
         {
             connectionIndicatorsEnabled = newState;

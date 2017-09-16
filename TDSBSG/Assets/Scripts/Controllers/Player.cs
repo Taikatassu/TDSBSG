@@ -153,6 +153,7 @@ public class Player : MonoBehaviour
         {
             if (button == 0 && down)
             {
+                bool somethingFound = false;
                 Ray ray = Camera.main.ScreenPointToRay(mousePosition);
                 RaycastHit hit;
                 Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.red, 5f);
@@ -168,6 +169,7 @@ public class Player : MonoBehaviour
                         if (primaryPossession.GetConnectedPossessablesList().Contains(hitPossessable))
                         {
                             PossessPossessable(hitPossessable);
+                            somethingFound = true;
                             return;
                         }
                         else if (Physics.Raycast(raycastOrigin, hitObjectDirection, out hit, possessionRange, possessBlockinMask))
@@ -175,45 +177,52 @@ public class Player : MonoBehaviour
                             if (hit.collider.gameObject == hitPossessable.GetGameObject())
                             {
                                 PossessPossessable(hitPossessable);
+                                somethingFound = true;
                                 return;
                             }
                         }
                     }
                     else if (hit.collider.GetComponent(typeof(Interactable)))
                     {
-                        ////Try to interact
-                        Debug.Log("Hit InteractableObject");
-
                         Interactable currentInteractableObject = hit.collider.GetComponent<Interactable>();
 
                         if (currentInteractableObject.ContainPermissionList(primaryPossession.GetRobotType()))
                         {
                             primaryPossession.SetInteractableObject(currentInteractableObject);
                             currentInteractableObject.StartInteraction(primaryPossession);
+                            somethingFound = true;
                         }
                     }
 
                 }
-                else if (Physics.Raycast(ray, out hit, 1000f))
+
+                if (!somethingFound)
                 {
-                    IPossessable temporaryPossessable = null;
-                    float previousAngle = 180.0f;
-                    foreach (IPossessable i in primaryPossession.GetConnectedPossessablesList())
+                    if (Physics.Raycast(ray, out hit, 1000f))
                     {
-                        float angle = Vector3.Angle(hit.point - transform.position, i.GetGameObject().transform.position - transform.position);
-                        //Debug.Log("Angle = " + angle.ToString("f2") + "f");
-
-                        if ((angle <= maxAngle) && (angle < previousAngle))
+                        IPossessable temporaryPossessable = null;
+                        float previousAngle = 180.0f;
+                        foreach (IPossessable i in primaryPossession.GetConnectedPossessablesList())
                         {
-                            temporaryPossessable = i;
-                            previousAngle = angle;
+                            Vector3 mouseClickDirection = hit.point - transform.position;
+                            mouseClickDirection.y = 0;
+                            Vector3 connectedNodeDirection = i.GetGameObject().transform.position - transform.position;
+                            connectedNodeDirection.y = 0;
+                            float angle = Vector3.Angle(mouseClickDirection, connectedNodeDirection);
+
+                            if ((angle <= maxAngle) && (angle < previousAngle))
+                            {
+                                temporaryPossessable = i;
+                                previousAngle = angle;
+                            }
+                        }
+                        if (temporaryPossessable != null)
+                        {
+                            PossessPossessable(temporaryPossessable);
+                            somethingFound = true;
                         }
                     }
-                    if (temporaryPossessable != null)
-                    {
-                        PossessPossessable(temporaryPossessable);
-                    }
-                }
+                }          
             }
             else if (button == 1 && down)
             {

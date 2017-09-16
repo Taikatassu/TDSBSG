@@ -27,6 +27,11 @@ public class ApplicationManager : MonoBehaviour
     [SerializeField]
     GameObject loadingScreenMiniCleaner;
     GameObject loadingScreenHolder;
+    bool levelLoaded = false;
+    bool loadingScreenTimerFinished = false;
+    bool loading = false;
+    float loadingScreenTimer = 0;
+    float loadingScreenDuration = 2;
     #endregion
 
     private void Awake()
@@ -40,16 +45,15 @@ public class ApplicationManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        DontDestroyOnLoad(gameObject);
 
-        toolbox = FindObjectOfType<Toolbox>();
-        em = toolbox.GetComponent<EventManager>();
-        loadingScreenHolder = loadingScreenBackground.transform.parent.gameObject;
-        SetLoadingScreenState(false);
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
+        loadingScreenHolder = loadingScreenBackground.transform.parent.gameObject;
+        SetLoadingScreenState(false);
+
         if (SceneManager.GetActiveScene().buildIndex == introSceneIndex)
         {
             SceneManager.LoadScene(mainMenuIndex);
@@ -58,6 +62,9 @@ public class ApplicationManager : MonoBehaviour
 
     private void OnEnable()
     {
+        toolbox = FindObjectOfType<Toolbox>();
+        em = toolbox.GetComponent<EventManager>();
+
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
         em.OnRequestLoadLevel += OnRequestLoadLevel;
         em.OnRequestExitApplication += OnRequestExitApplication;
@@ -76,51 +83,58 @@ public class ApplicationManager : MonoBehaviour
 
     private void SetLoadingScreenState(bool newState)
     {
-        if (newState)
+        if(loadingScreenHolder != null)
         {
-            ERobotType robotType = em.BroadcastRequestSpawningRobotType();
-            switch (robotType)
+            if (newState)
             {
-                case ERobotType.DEBUG:
-                    loadingScreenCleanerBot.SetActive(false);
-                    loadingScreenMiniCleaner.SetActive(false);
-                    break;
-                case ERobotType.NONE:
-                    loadingScreenCleanerBot.SetActive(false);
-                    loadingScreenMiniCleaner.SetActive(false);
-                    break;
-                case ERobotType.DEFAULT:
-                    loadingScreenCleanerBot.SetActive(true);
-                    loadingScreenMiniCleaner.SetActive(false);
-                    break;
-                case ERobotType.WORKER:
-                    loadingScreenCleanerBot.SetActive(false);
-                    loadingScreenMiniCleaner.SetActive(false);
-                    break;
-                case ERobotType.SMALL:
-                    loadingScreenCleanerBot.SetActive(false);
-                    loadingScreenMiniCleaner.SetActive(true);
-                    break;
-                default:
-                    break;
-            }
+                ERobotType robotType = em.BroadcastRequestSpawningRobotType();
+                switch (robotType)
+                {
+                    case ERobotType.DEBUG:
+                        loadingScreenCleanerBot.SetActive(false);
+                        loadingScreenMiniCleaner.SetActive(false);
+                        break;
+                    case ERobotType.NONE:
+                        loadingScreenCleanerBot.SetActive(false);
+                        loadingScreenMiniCleaner.SetActive(false);
+                        break;
+                    case ERobotType.DEFAULT:
+                        loadingScreenCleanerBot.SetActive(true);
+                        loadingScreenMiniCleaner.SetActive(false);
+                        break;
+                    case ERobotType.WORKER:
+                        loadingScreenCleanerBot.SetActive(false);
+                        loadingScreenMiniCleaner.SetActive(false);
+                        break;
+                    case ERobotType.SMALL:
+                        loadingScreenCleanerBot.SetActive(false);
+                        loadingScreenMiniCleaner.SetActive(true);
+                        break;
+                    default:
+                        break;
+                }
 
-            loadingScreenHolder.SetActive(true);
-            loadingScreenTimer = loadingScreenDuration;
-            loading = true;
-        }
-        else
-        {
-            loadingScreenHolder.SetActive(false);
-            loading = false;
+                em.BroadcastLoadingScreenStateChange(true);
+                loadingScreenHolder.SetActive(true);
+                loadingScreenTimerFinished = false;
+                loadingScreenTimer = loadingScreenDuration;
+                loading = true;
+            }
+            else
+            {
+                em.BroadcastLoadingScreenStateChange(false);
+                loadingScreenHolder.SetActive(false);
+                loading = false;
+            }
         }
     }
 
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-        if (scene.buildIndex >= firstLevelIndex/* && scene.buildIndex <= lastLevelIndex*/)
+        levelLoaded = true;
+        if (loadingScreenTimerFinished)
         {
-
+            SetLoadingScreenState(false);
         }
     }
 
@@ -129,18 +143,21 @@ public class ApplicationManager : MonoBehaviour
         //if (sceneBuildIndex == currentSceneIndex) {
         //	return;
         //}
+        levelLoaded = false;
         em.BroadcastRequestPauseStateChange(false);
 
         if (currentSceneIndex == introSceneIndex && sceneBuildIndex == mainMenuIndex)
         {
             currentSceneIndex = sceneBuildIndex;
-            SceneManager.LoadScene(currentSceneIndex);
+            SceneManager.LoadSceneAsync(currentSceneIndex);
         }
         else
         {
             levelToLoadAfterLoadingScreen = sceneBuildIndex;
             em.BroadcastPauseActorsStateChange(true);
             SetLoadingScreenState(true);
+            currentSceneIndex = levelToLoadAfterLoadingScreen;
+            SceneManager.LoadSceneAsync(currentSceneIndex);
         }
     }
 
@@ -159,9 +176,6 @@ public class ApplicationManager : MonoBehaviour
         Application.Quit();
     }
 
-    bool loading = false;
-    float loadingScreenTimer = 0;
-    float loadingScreenDuration = 2;
     private void FixedUpdate()
     {
         if (loading)
@@ -170,10 +184,15 @@ public class ApplicationManager : MonoBehaviour
 
             if (loadingScreenTimer <= 0)
             {
-                SetLoadingScreenState(false);
+                loadingScreenTimerFinished = true;
 
-                currentSceneIndex = levelToLoadAfterLoadingScreen;
-                SceneManager.LoadScene(currentSceneIndex);
+                if (levelLoaded)
+                {
+                    SetLoadingScreenState(false);
+                }
+
+                //currentSceneIndex = levelToLoadAfterLoadingScreen;
+                //SceneManager.LoadScene(currentSceneIndex);
             }
         }
     }

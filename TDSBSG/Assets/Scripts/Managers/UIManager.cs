@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     public Transform mainMenuHolder;
     Button startButton;
     Button quitButton;
+    Button creditsButton;
 
     // PauseMenu
     public Transform pauseMenuHolder;
@@ -28,11 +29,14 @@ public class UIManager : MonoBehaviour
     //GameCompleted screen
     public GameObject gameCompletedScreen;
 
+    //Credits screen
+    public GameObject creditsScreen;
+    public Transform closeCreditsScreenButtonHolder;
+    Button closeCreditsScreenButton;
+
     // BlackPanel
     [SerializeField]
     Image blackPanel;
-    [SerializeField]
-    //float fadeSpeed = 0.05f;
     bool isFading = false;
     [SerializeField]
     float fadeTime = 0.5f;
@@ -57,11 +61,12 @@ public class UIManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         DontDestroyOnLoad(gameObject);
+    }
 
-        toolbox = FindObjectOfType<Toolbox>();
-        em = toolbox.GetComponent<EventManager>();
-
+    private void Start()
+    {
         CreateMainMenu();
         CreatePauseMenu();
 
@@ -69,20 +74,6 @@ public class UIManager : MonoBehaviour
         DisablePauseMenu();
 
         isFading = false;
-
-        if(gameCompletedScreen != null)
-        {
-            gameCompletedScreen.SetActive(false);
-        }
-
-    }
-
-    private void Start()
-    {
-        Vector3 sceneIndices = em.BroadcastRequestSceneIndices();
-        mainMenuIndex = (int)sceneIndices.x;
-        firstLevelIndex = (int)sceneIndices.y;
-        lastLevelIndex = (int)sceneIndices.z;
     }
 
     private void FixedUpdate()
@@ -92,7 +83,7 @@ public class UIManager : MonoBehaviour
             float timeSinceStarted = Time.time - timeStartedLerping;
             float percentageCompleted = timeSinceStarted / fadeTime;
 
-            if(gameOverScreen != null)
+            if (gameOverScreen != null)
             {
                 Color gameOverColor = gameOverScreen.GetComponent<Image>().color;
                 gameOverColor.a = Mathf.Lerp(1, 0, percentageCompleted);
@@ -119,7 +110,7 @@ public class UIManager : MonoBehaviour
         {
             gameCompletedScreenTimer -= Time.fixedDeltaTime;
 
-            if(gameCompletedScreenTimer <= 0)
+            if (gameCompletedScreenTimer <= 0)
             {
                 gameCompletedScreen.SetActive(false);
                 gameCompletedScreenVisible = false;
@@ -129,6 +120,14 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
+        toolbox = FindObjectOfType<Toolbox>();
+        em = toolbox.GetComponent<EventManager>();
+
+        Vector3 sceneIndices = em.BroadcastRequestSceneIndices();
+        mainMenuIndex = (int)sceneIndices.x;
+        firstLevelIndex = (int)sceneIndices.y;
+        lastLevelIndex = (int)sceneIndices.z;
+
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
         em.OnPauseStateChange += OnPauseStateChange;
         em.OnRequestLoadLevel += OnRequestLoadLevel;
@@ -144,6 +143,16 @@ public class UIManager : MonoBehaviour
             gameOverScreen.GetComponent<Image>().color = startColor;
             gameOverScreen.SetActive(false);
         }
+
+        if (gameCompletedScreen != null)
+        {
+            gameCompletedScreen.SetActive(false);
+        }
+
+        if (creditsScreen != null)
+        {
+            creditsScreen.SetActive(false);
+        }
     }
 
     private void OnDisable()
@@ -155,9 +164,17 @@ public class UIManager : MonoBehaviour
         em.OnLevelCompleted -= OnLevelCompleted;
     }
 
+    private void OnInputEvent(EInputType newInput)
+    {
+        if (newInput == EInputType.PAUSE_KEYDOWN)
+        {
+            CloseCreditsScreen();
+        }
+    }
+
     private void OnLevelCompleted(int sceneIndex, ERobotType finishedRobotType)
     {
-        if(sceneIndex == lastLevelIndex)
+        if (sceneIndex == lastLevelIndex)
         {
             if (gameCompletedScreen != null)
             {
@@ -190,6 +207,16 @@ public class UIManager : MonoBehaviour
         quitButton = newQuitButton.GetComponent<Button>();
         quitButton.GetComponentInChildren<Text>().text = "quit";
         quitButton.onClick.AddListener(OnQuitButtonPressed);
+
+        GameObject newCreditsButton = Instantiate(Resources.Load("UI/MenuButton_Base") as GameObject, mainMenuHolder);
+        creditsButton = newCreditsButton.GetComponent<Button>();
+        creditsButton.GetComponentInChildren<Text>().text = "credits";
+        creditsButton.onClick.AddListener(OnCreditsButtonPressed);
+
+        GameObject newCloseCreditsScreenButton = Instantiate(Resources.Load("UI/MenuButton_Base") as GameObject, closeCreditsScreenButtonHolder);
+        closeCreditsScreenButton = newCloseCreditsScreenButton.GetComponent<Button>();
+        closeCreditsScreenButton.GetComponentInChildren<Text>().text = "close";
+        closeCreditsScreenButton.onClick.AddListener(CloseCreditsScreen);
     }
 
     private void CreatePauseMenu()
@@ -223,6 +250,22 @@ public class UIManager : MonoBehaviour
         em.BroadcastRequestExitApplication();
     }
 
+    private void OnCreditsButtonPressed()
+    {
+        if (creditsScreen != null)
+        {
+            if (creditsScreen.activeSelf == true)
+            {
+                creditsScreen.SetActive(false);
+            }
+            else
+            {
+                creditsScreen.SetActive(true);
+            }
+
+        }
+    }
+
     private void OnResumeButtonPressed()
     {
         em.BroadcastRequestPauseStateChange(false);
@@ -233,6 +276,22 @@ public class UIManager : MonoBehaviour
         //TODO: Restart the level (or the whole game?)
         int currentSceneIndex = em.BroadcastRequestCurrentSceneIndex();
         em.BroadcastRequestLoadLevel(currentSceneIndex);
+    }
+
+    private void OpenCreditsScreen()
+    {
+        if (creditsScreen != null)
+        {
+            creditsScreen.SetActive(true);
+        }
+    }
+
+    private void CloseCreditsScreen()
+    {
+        if (creditsScreen != null)
+        {
+            creditsScreen.SetActive(false);
+        }
     }
 
     private void OnExitGameButtonPressed()
@@ -290,12 +349,14 @@ public class UIManager : MonoBehaviour
             DisablePauseMenu();
             EnableMainMenu();
             pauseMenuAvailable = false;
+            em.OnInputEvent += OnInputEvent;
         }
         if (scene.buildIndex >= firstLevelIndex/* && scene.buildIndex <= lastLevelIndex*/)
         {
             DisableMainMenu();
             DisablePauseMenu();
             pauseMenuAvailable = true;
+            em.OnInputEvent -= OnInputEvent;
         }
 
         timeStartedLerping = Time.time;

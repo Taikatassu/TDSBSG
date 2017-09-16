@@ -37,6 +37,7 @@ public class EventManager : MonoBehaviour
     public delegate Vector3 EmptyVector3();
     public delegate void Vector3Void(Vector3 vec3);
     public delegate ERobotType EmptyRobotType();
+    public delegate void SoundEffectVoid(SoundEffect soundEffect); 
 
     public event EmptyVoid OnInitializeGame;
     public void BroadcastInitializeGame()
@@ -68,7 +69,7 @@ public class EventManager : MonoBehaviour
     public event Vector3Void OnMousePositionChange;
     public void BroadcastMousePositionChange(Vector3 newPosition)
     {
-        if(OnMousePositionChange != null)
+        if (OnMousePositionChange != null)
         {
             OnMousePositionChange(newPosition);
         }
@@ -176,6 +177,15 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public event BoolVoid OnLoadingScreenStateChange;
+    public void BroadcastLoadingScreenStateChange(bool isOpen)
+    {
+        if(OnLoadingScreenStateChange != null)
+        {
+            OnLoadingScreenStateChange(isOpen);
+        }
+    }
+
     public event EmptyInt OnRequestCurrentSceneIndex;
     public int BroadcastRequestCurrentSceneIndex()
     {
@@ -226,7 +236,7 @@ public class EventManager : MonoBehaviour
     public event IntRobotTypeVoid OnLevelCompleted;
     public void BroadcastLevelCompleted(int sceneIndex, ERobotType lastPossessedRobotType)
     {
-        if(OnLevelCompleted != null)
+        if (OnLevelCompleted != null)
         {
             OnLevelCompleted(sceneIndex, lastPossessedRobotType);
         }
@@ -244,15 +254,17 @@ public class EventManager : MonoBehaviour
     public event BoolVoid OnHideEnvironmentStateChange;
     public void BroadcastHideEnvironmentStateChange(bool newState)
     {
-        if(OnHideEnvironmentStateChange != null)
+        if (OnHideEnvironmentStateChange != null)
         {
             OnHideEnvironmentStateChange(newState);
         }
     }
 
     public event EmptyVoid OnPlayerCatched;
-    public void BroadcastPlayerCatched() {
-        if (OnPlayerCatched != null) {
+    public void BroadcastPlayerCatched()
+    {
+        if (OnPlayerCatched != null)
+        {
             OnPlayerCatched();
         }
     }
@@ -260,7 +272,7 @@ public class EventManager : MonoBehaviour
     public event EmptyRobotType OnRequestSpawningRobotType;
     public ERobotType BroadcastRequestSpawningRobotType()
     {
-        if(OnRequestSpawningRobotType != null)
+        if (OnRequestSpawningRobotType != null)
         {
             return OnRequestSpawningRobotType();
         }
@@ -269,4 +281,23 @@ public class EventManager : MonoBehaviour
             return ERobotType.NONE;
         }
     }
+
+    public event StringVoid OnRequestAudio;
+    public void BroadcastRequestAudio(string audioName)
+    {
+        if(OnRequestAudio != null)
+        {
+            OnRequestAudio(audioName);
+        }
+    }
+
+    public event SoundEffectVoid OnRegisterSoundEffect;
+    public void BroadcastRegisterSoundEffect(SoundEffect newSoundEffect)
+    {
+        if (OnRegisterSoundEffect != null)
+        {
+            OnRegisterSoundEffect(newSoundEffect);
+        }
+    }
+
 }

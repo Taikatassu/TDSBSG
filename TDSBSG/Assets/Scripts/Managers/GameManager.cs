@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
     int lastLevelIndex = -1;
     [SerializeField]
     bool loopLevels = false;
+    bool startingLevel = false;
+    float startingLevelPeriodTimer = 0f;
+    float startingLevelPeriodDuration = 1f;
 
     private void Awake()
     {
@@ -30,27 +33,25 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
-
-        toolbox = FindObjectOfType<Toolbox>();
-        em = toolbox.GetComponent<EventManager>();
-    }
-
-    private void Start()
-    {
-        Vector3 sceneIndices = em.BroadcastRequestSceneIndices();
-        mainMenuIndex = (int)sceneIndices.x;
-        firstLevelIndex = (int)sceneIndices.y;
-        lastLevelIndex = (int)sceneIndices.z;
     }
 
     private void OnEnable()
     {
+        toolbox = FindObjectOfType<Toolbox>();
+        em = toolbox.GetComponent<EventManager>();
+
+        Vector3 sceneIndices = em.BroadcastRequestSceneIndices();
+        mainMenuIndex = (int)sceneIndices.x;
+        firstLevelIndex = (int)sceneIndices.y;
+        lastLevelIndex = (int)sceneIndices.z;
+
         em.OnInputEvent += OnInputEvent;
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
         em.OnRequestPauseStateChange += OnRequestPauseStateChange;
         em.OnLevelCompleted += OnLevelCompleted;
         em.OnPlayerCatched += OnPlayerCatched;
         em.OnRequestSpawningRobotType += OnRequestSpawningRobotType;
+        em.OnRequestLoadLevel += OnRequestLoadLevel;
     }
 
     private void OnDisable()
@@ -61,13 +62,8 @@ public class GameManager : MonoBehaviour
         em.OnLevelCompleted -= OnLevelCompleted;
         em.OnPlayerCatched -= OnPlayerCatched;
         em.OnRequestSpawningRobotType -= OnRequestSpawningRobotType;
+        em.OnRequestLoadLevel += OnRequestLoadLevel;
     }
-
-    //void Start()
-    //{
-    //    em.BroadcastInitializeGame();
-    //    em.BroadcastStartGame();
-    //}
 
     private ERobotType OnRequestSpawningRobotType()
     {
@@ -111,6 +107,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void OnRequestLoadLevel(int sceneBuildIndex)
+    {
+        pausingAvailable = false;
+    }
+
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
         if (mainMenuIndex == -1 || firstLevelIndex == -1 || lastLevelIndex == -1)
@@ -123,26 +124,25 @@ public class GameManager : MonoBehaviour
 
         if (scene.buildIndex == mainMenuIndex)
         {
-            pausingAvailable = false;
             ResumeGame();
         }
         else if (scene.buildIndex == firstLevelIndex)
         {
+            startingLevelPeriodTimer = startingLevelPeriodDuration;
+            startingLevel = true;
             robotTypeToSpawnPlayerAs = ERobotType.DEFAULT;
             em.BroadcastSpawnPlayer(robotTypeToSpawnPlayerAs);
             em.BroadcastInitializeGame();
             em.BroadcastStartGame();
-            pausingAvailable = true;
             ResumeGame();
         }
         else if (scene.buildIndex > firstLevelIndex/* && scene.buildIndex <= lastLevelIndex*/)
         {
-            //TODO: Spawn player
-            //em.BroadcastSpawnPlayer(robotTypeToSpawnPlayerWith)
+            startingLevelPeriodTimer = startingLevelPeriodDuration;
+            startingLevel = true;
             em.BroadcastSpawnPlayer(robotTypeToSpawnPlayerAs);
             em.BroadcastInitializeGame();
             em.BroadcastStartGame();
-            pausingAvailable = true;
             ResumeGame();
         }
     }
@@ -201,5 +201,19 @@ public class GameManager : MonoBehaviour
     {
         int currentSceneIndex = em.BroadcastRequestCurrentSceneIndex();
         em.BroadcastRequestLoadLevel(currentSceneIndex);
+    }
+
+    private void FixedUpdate()
+    {
+        if (startingLevel)
+        {
+            startingLevelPeriodTimer -= Time.fixedDeltaTime;
+
+            if(startingLevelPeriodTimer <= 0)
+            {
+                startingLevel = false;
+                pausingAvailable = true;
+            }
+        }
     }
 }

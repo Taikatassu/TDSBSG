@@ -22,14 +22,11 @@ public class LevelManager : MonoBehaviour
     float endingCutscenWalkSpeed = 1.5f;
     ERobotType lastPossessedRobotType = ERobotType.NONE;
 
-    private void Awake()
+    private void OnEnable()
     {
         toolbox = FindObjectOfType<Toolbox>();
         em = toolbox.GetComponent<EventManager>();
-    }
 
-    private void OnEnable()
-    {
         endTrigger.OnTriggerEntered += OnEndTriggerEntered;
         //em.OnStartGame += OnStartGame;
         em.OnSpawnPlayer += OnSpawnPlayer;

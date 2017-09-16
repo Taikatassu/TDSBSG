@@ -40,15 +40,14 @@ public class SecurityManager : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(gameObject);
-
-        toolbox = FindObjectOfType<Toolbox>();
-        em = toolbox.GetComponent<EventManager>();
-
-        maximumOfSecurityPoint = numOfTiers * pointPerTier;
     }
 
     private void OnEnable()
     {
+        toolbox = FindObjectOfType<Toolbox>();
+        em = toolbox.GetComponent<EventManager>();
+        maximumOfSecurityPoint = numOfTiers * pointPerTier;
+
         em.OnRoomEntered += OnRoomEntered;
         em.OnDoorEntered += OnDoorEntered;
         em.OnDisobeyingDetected += OnDisobeyingDetected;

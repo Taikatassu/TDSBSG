@@ -12,6 +12,10 @@ public class EnemyBase : MonoBehaviour {
     protected List<PatrolPoint> patrolPoints = new List<PatrolPoint>();
     [SerializeField]
     protected SpriteAnimationController spriteController;
+    [SerializeField]
+    ParticleSystem knockOutMeter;
+    ParticleSystem knockOutMeter2;
+    ParticleSystem knockOutMeter3;
 
     protected bool isHostile = true; //If false, the enemy's vision cone is toggled off, and the enemy will ignore the player
     IPossessable stoppedPossessable = null;
@@ -42,10 +46,11 @@ public class EnemyBase : MonoBehaviour {
     protected int currentSecurityTier = 0;
     int visionAngleIncreasePerSecurityTier = 15;
     protected bool isPaused = false; //Separate from full game pause. Used for example during cutscenes if necessary to pause all movement
-    //[SerializeField]
-    float knockOutDuration = 5f;
+    float knockOutDuration = 20f;
     float knockOutTimer;
     protected bool isKnockedOut;
+    float knockOutMeterMinValue = 0.01f;
+    float knockOutMeterMaxValue = 0.99f;
     #endregion
 
     private void Awake()
@@ -154,15 +159,14 @@ public class EnemyBase : MonoBehaviour {
             myFoV = GetComponent<FieldOfView>();
         }
 
-        //if (patrolPoints.Count <= 1)
-        //{
-        //    Debug.LogWarning("Patroller has only one patrol point, so it will remain stationary!");
-        //}
-
         if (spriteController)
         {
             spriteController.SetAnimationState(EAnimationState.IDLE);
         }
+
+        knockOutMeter2 = knockOutMeter.transform.GetChild(0).GetComponent<ParticleSystem>();
+        knockOutMeter3 = knockOutMeter2.transform.GetChild(0).GetComponent<ParticleSystem>();
+        SetKnockOutDurationMeterState(false);
 
         initialized = true;
     }
@@ -250,11 +254,47 @@ public class EnemyBase : MonoBehaviour {
         knockOutTimer = knockOutDuration;
         spriteController.StartKnockout();
         myFoV.ChangeConeState(false);
+        SetKnockOutDurationMeterState(true);
+        UpdateKnockOutDurationMeter();
     }
 
     protected virtual void EndKnockOut() {
         isKnockedOut = false;
         myFoV.ChangeConeState(true);
+        UpdateKnockOutDurationMeter();
+        SetKnockOutDurationMeterState(false);
+    }
+
+    protected void UpdateKnockOutDurationMeter()
+    {
+        if (knockOutMeter != null)
+        {
+            float meterValue = Mathf.Clamp((1 - (knockOutTimer / knockOutDuration)),
+                knockOutMeterMinValue, knockOutMeterMaxValue);
+            knockOutMeter.GetComponent<Renderer>().material.SetFloat("_Cutoff", meterValue);
+            knockOutMeter2.GetComponent<Renderer>().material.SetFloat("_Cutoff", meterValue);
+            knockOutMeter3.GetComponent<Renderer>().material.SetFloat("_Cutoff", meterValue);
+        }
+    }
+
+    protected void SetKnockOutDurationMeterState(bool enabled)
+    {
+        if(knockOutMeter != null)
+        {
+            if (enabled)
+            {
+                knockOutMeter.gameObject.SetActive(true);
+                knockOutMeter2.gameObject.SetActive(true);
+                knockOutMeter3.gameObject.SetActive(true);
+
+            }
+            else
+            {
+                knockOutMeter.gameObject.SetActive(false);
+                knockOutMeter2.gameObject.SetActive(false);
+                knockOutMeter3.gameObject.SetActive(false);
+            }
+        }
     }
 
     #region FixedUpdate & LateUpdate
@@ -275,6 +315,8 @@ public class EnemyBase : MonoBehaviour {
                 if (isKnockedOut)
                 {
                     knockOutTimer -= Time.fixedDeltaTime;
+                    UpdateKnockOutDurationMeter();
+
                     if (knockOutTimer <= 0.0f)
                     {
                         EndKnockOut();

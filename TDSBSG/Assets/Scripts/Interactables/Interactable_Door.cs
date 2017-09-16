@@ -34,8 +34,13 @@ public class Interactable_Door : Interactable
     bool autoClose = true;
     float timeStartedLerping = 0f;
     EDoorState state;
+    [SerializeField]
+    Transform accessLightMarker;
+    [SerializeField]
+    Transform accessLightMarker2;
 
     ParticleSystem lightEffect;
+    ParticleSystem lightEffect2;
 
     private enum EDoorState
     {
@@ -118,7 +123,7 @@ public class Interactable_Door : Interactable
             doorObject_2.transform.localEulerAngles = Vector3.Lerp(startRot_2, openRot_2, percentageCompleted);
         }
 
-        if(percentageCompleted >= 1)
+        if (percentageCompleted >= 1)
         {
             state = EDoorState.IS_WAITING;
         }
@@ -157,12 +162,12 @@ public class Interactable_Door : Interactable
                 if (ContainPermissionList(hitUser.GetRobotType()))
                 {
                     timeStartedLerping = Time.time;
-                    if(doorObject != null)
+                    if (doorObject != null)
                     {
                         startPos = doorObject.transform.localPosition;
                         startRot = doorObject.transform.localEulerAngles;
                     }
-                    if(doorObject_2 != null)
+                    if (doorObject_2 != null)
                     {
                         startPos_2 = doorObject_2.transform.localPosition;
                         startRot_2 = doorObject_2.transform.localEulerAngles;
@@ -247,16 +252,48 @@ public class Interactable_Door : Interactable
 
     void CreateGreenLightEffect()
     {
-        if (lightEffect != null) { OffLightEffect(); }
-        lightEffect = Instantiate(Resources.Load<ParticleSystem>("ParticleEffect/GreanLight"),
-            gameObject.transform.position + new Vector3(0, 3, 0), Quaternion.identity);
+        if (lightEffect != null)
+        {
+            OffLightEffect();
+        }
+        if (accessLightMarker != null)
+        {
+            lightEffect = Instantiate(Resources.Load<ParticleSystem>("ParticleEffect/GreenLight"),
+                accessLightMarker);
+            if(accessLightMarker2 != null)
+            {
+                lightEffect2 = Instantiate(Resources.Load<ParticleSystem>("ParticleEffect/GreenLight"),
+                    accessLightMarker);
+            }
+        }
+        else
+        {
+            lightEffect = Instantiate(Resources.Load<ParticleSystem>("ParticleEffect/GreenLight"),
+                gameObject.transform.position + new Vector3(0, 3, 0), Quaternion.identity);
+        }
         lightEffect.Play();
     }
     void CreateRedLightEffect()
     {
-        if (lightEffect != null) { OffLightEffect(); }
-        lightEffect = Instantiate(Resources.Load<ParticleSystem>("ParticleEffect/RedLight"),
+        if (lightEffect != null)
+        {
+            OffLightEffect();
+        }
+        if (accessLightMarker != null)
+        {
+            lightEffect = Instantiate(Resources.Load<ParticleSystem>("ParticleEffect/RedLight"),
+            accessLightMarker);
+            if (accessLightMarker2 != null)
+            {
+                lightEffect2 = Instantiate(Resources.Load<ParticleSystem>("ParticleEffect/RedLight"),
+                    accessLightMarker);
+            }
+        }
+        else
+        {
+            lightEffect = Instantiate(Resources.Load<ParticleSystem>("ParticleEffect/RedLight"),
             gameObject.transform.position + new Vector3(0, 3, 0), Quaternion.identity);
+        }
         lightEffect.Play();
     }
     void OffLightEffect()
@@ -264,6 +301,10 @@ public class Interactable_Door : Interactable
         if (lightEffect != null)
         {
             Destroy(lightEffect.gameObject);
+        }
+        if (lightEffect2 != null)
+        {
+            Destroy(lightEffect2.gameObject);
         }
     }
 }

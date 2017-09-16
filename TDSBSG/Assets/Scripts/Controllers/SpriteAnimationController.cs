@@ -17,6 +17,8 @@ public class SpriteAnimationController : MonoBehaviour
     Vector2 rightAngleMinMax = new Vector2(45, 135);
     [SerializeField]
     Vector2 leftAngleMinMax = new Vector2(-135, -45);
+    [SerializeField]
+    float topAngleMin = 60;
 
     [SerializeField]
     GameObject frontIdleSpritePlayer;
@@ -39,13 +41,15 @@ public class SpriteAnimationController : MonoBehaviour
     [SerializeField]
     GameObject knockedOutSpritePlayer;
     [SerializeField]
-    GameObject topSpritePlayer;
+    GameObject topFrontIdleWalkSpritePlayer;
+    [SerializeField]
+    GameObject topBackIdleWalkSpritePlayer;
 
     List<GameObject> spritePlayers = new List<GameObject>();
     [SerializeField]
     float takeDamageDuration = 0.5f;
     float takeDamageTimer = 0f;
-
+    bool top = false;
 
 
     EAnimationState currentAnimState = EAnimationState.IDLE;
@@ -71,20 +75,23 @@ public class SpriteAnimationController : MonoBehaviour
     {
         cameraTransform = em.BroadcastRequestCameraReference().transform;
 
-        spritePlayers = new List<GameObject>();
-        spritePlayers.Add(frontIdleSpritePlayer);
-        spritePlayers.Add(frontWalkSpritePlayer);
-        spritePlayers.Add(backIdleSpritePlayer);
-        spritePlayers.Add(backWalkSpritePlayer);
+        spritePlayers = new List<GameObject>
+        {
+            frontIdleSpritePlayer,
+            frontWalkSpritePlayer,
+            backIdleSpritePlayer,
+            backWalkSpritePlayer,
 
-        spritePlayers.Add(rightIdleSpritePlayer);
-        spritePlayers.Add(rightWalkSpritePlayer);
-        spritePlayers.Add(leftIdleSpritePlayer);
-        spritePlayers.Add(leftWalkSpritePlayer);
+            rightIdleSpritePlayer,
+            rightWalkSpritePlayer,
+            leftIdleSpritePlayer,
+            leftWalkSpritePlayer,
 
-        spritePlayers.Add(takeDamageSpritePlayer);
-        spritePlayers.Add(knockedOutSpritePlayer);
-        spritePlayers.Add(topSpritePlayer);
+            takeDamageSpritePlayer,
+            knockedOutSpritePlayer,
+            topFrontIdleWalkSpritePlayer,
+            topBackIdleWalkSpritePlayer
+        };
     }
 
     public void StartKnockout()
@@ -135,20 +142,34 @@ public class SpriteAnimationController : MonoBehaviour
 
     private void UpdateSpriteState()
     {
-        //Debug.Log(gameObject.name + ", UpdateSpriteState, currentAnimState: " 
-        //    + currentAnimState + ", currentViewDirection: " + currentViewDirection);
-        if(currentViewDirection == EViewDirection.TOP)
+        if (currentViewDirection == EViewDirection.TOP)
         {
-            SetEnabledSpritePlayer(topSpritePlayer);
+            SetEnabledSpritePlayer(topFrontIdleWalkSpritePlayer);
         }
 
         else if (currentAnimState == EAnimationState.TAKEDAMAGE)
         {
-            SetEnabledSpritePlayer(takeDamageSpritePlayer);
+            if (top)
+            {
+                //TODO: Change this to top view take damage sprite once they are ready
+                SetEnabledSpritePlayer(takeDamageSpritePlayer);
+            }
+            else
+            {
+                SetEnabledSpritePlayer(takeDamageSpritePlayer);
+            }
         }
         else if (currentAnimState == EAnimationState.KNOCKEDOUT)
         {
-            SetEnabledSpritePlayer(knockedOutSpritePlayer);
+            if (top)
+            {
+                //TODO: Change this to top view knocked out sprite once they are ready
+                SetEnabledSpritePlayer(knockedOutSpritePlayer);
+            }
+            else
+            {
+                SetEnabledSpritePlayer(knockedOutSpritePlayer);
+            }
         }
         else
         {
@@ -157,47 +178,76 @@ public class SpriteAnimationController : MonoBehaviour
                 case EViewDirection.DEFAULT:
                     break;
                 case EViewDirection.FRONT:
-                    switch (currentAnimState)
+                    if (top)
                     {
-                        case EAnimationState.IDLE:
-                            SetEnabledSpritePlayer(frontIdleSpritePlayer);
-                            break;
-                        case EAnimationState.WALK:
-                            SetEnabledSpritePlayer(frontWalkSpritePlayer);
-                            break;
+                        SetEnabledSpritePlayer(topFrontIdleWalkSpritePlayer);
                     }
+                    else
+                    {
+                        switch (currentAnimState)
+                        {
+                            case EAnimationState.IDLE:
+                                SetEnabledSpritePlayer(frontIdleSpritePlayer);
+                                break;
+                            case EAnimationState.WALK:
+                                SetEnabledSpritePlayer(frontWalkSpritePlayer);
+                                break;
+                        }
+                    }
+
                     break;
                 case EViewDirection.BACK:
-                    switch (currentAnimState)
+                    if (top)
                     {
-                        case EAnimationState.IDLE:
-                            SetEnabledSpritePlayer(backIdleSpritePlayer);
-                            break;
-                        case EAnimationState.WALK:
-                            SetEnabledSpritePlayer(backWalkSpritePlayer);
-                            break;
+                        SetEnabledSpritePlayer(topBackIdleWalkSpritePlayer);
+                    }
+                    else
+                    {
+                        switch (currentAnimState)
+                        {
+                            case EAnimationState.IDLE:
+                                SetEnabledSpritePlayer(backIdleSpritePlayer);
+                                break;
+                            case EAnimationState.WALK:
+                                SetEnabledSpritePlayer(backWalkSpritePlayer);
+                                break;
+                        }
                     }
                     break;
                 case EViewDirection.RIGHT:
-                    switch (currentAnimState)
+                    if (top)
                     {
-                        case EAnimationState.IDLE:
-                            SetEnabledSpritePlayer(rightIdleSpritePlayer);
-                            break;
-                        case EAnimationState.WALK:
-                            SetEnabledSpritePlayer(rightWalkSpritePlayer);
-                            break;
+                        SetEnabledSpritePlayer(topFrontIdleWalkSpritePlayer);
+                    }
+                    else
+                    {
+                        switch (currentAnimState)
+                        {
+                            case EAnimationState.IDLE:
+                                SetEnabledSpritePlayer(rightIdleSpritePlayer);
+                                break;
+                            case EAnimationState.WALK:
+                                SetEnabledSpritePlayer(rightWalkSpritePlayer);
+                                break;
+                        }
                     }
                     break;
                 case EViewDirection.LEFT:
-                    switch (currentAnimState)
+                    if (top)
                     {
-                        case EAnimationState.IDLE:
-                            SetEnabledSpritePlayer(leftIdleSpritePlayer);
-                            break;
-                        case EAnimationState.WALK:
-                            SetEnabledSpritePlayer(leftWalkSpritePlayer);
-                            break;
+                        SetEnabledSpritePlayer(topFrontIdleWalkSpritePlayer);
+                    }
+                    else
+                    {
+                        switch (currentAnimState)
+                        {
+                            case EAnimationState.IDLE:
+                                SetEnabledSpritePlayer(leftIdleSpritePlayer);
+                                break;
+                            case EAnimationState.WALK:
+                                SetEnabledSpritePlayer(leftWalkSpritePlayer);
+                                break;
+                        }
                     }
                     break;
             }
@@ -214,43 +264,59 @@ public class SpriteAnimationController : MonoBehaviour
         if (cameraTransform != null)
         {
             Vector3 cameraDirection = cameraTransform.position - transform.position;
-            cameraDirection.y = 0;
-            float cameraAngle = Vector3.SignedAngle(transform.forward, cameraDirection, Vector3.up);
+            Vector3 cameraDirectionHorizontal = cameraDirection;
+            cameraDirectionHorizontal.y = 0;
+            float cameraAngleHorizontal = Vector3.SignedAngle(transform.forward, cameraDirectionHorizontal, Vector3.up);
 
             //Vector3 rayOrigin = transform.position;
             //rayOrigin.y++;
-            //Debug.DrawRay(rayOrigin, cameraDirection, Color.red, 1f);
+            //Debug.DrawRay(rayOrigin, cameraDirectionHorizontal, Color.red, 1f);
             //Debug.DrawRay(rayOrigin, transform.forward * 10, Color.blue, 1f);
-            float minCameraHeightToCountAsTopView = 12;
-            if(cameraTransform.position.y - transform.position.y >= minCameraHeightToCountAsTopView)
+            //float minCameraHeightToCountAsTopView = 12;
+            //if(cameraTransform.position.y - transform.position.y >= minCameraHeightToCountAsTopView)
+            //{
+            //    SetViewDirection(EViewDirection.TOP);
+            //}
+
+            Vector3 cameraDirectionVertical = cameraDirection;
+            cameraDirectionVertical.z = new Vector2(cameraDirectionVertical.x, cameraDirectionVertical.z).magnitude;
+            cameraDirectionVertical.x = 0;
+            float cameraAngleVertical = Mathf.Abs(Vector3.SignedAngle(Vector3.forward, cameraDirectionVertical, Vector3.right));
+
+            if (cameraAngleVertical >= topAngleMin)
             {
-                SetViewDirection(EViewDirection.TOP);
+                //SetViewDirection(EViewDirection.TOP);
+                top = true;
+            }
+            else
+            {
+                top = false;
             }
 
 
             //Front
-            else if (cameraAngle >= frontAngleMinMax.x && cameraAngle < frontAngleMinMax.y)
+            if (cameraAngleHorizontal >= frontAngleMinMax.x && cameraAngleHorizontal < frontAngleMinMax.y)
             {
                 SetViewDirection(EViewDirection.FRONT);
             }
             //Back
-            else if (cameraAngle >= backAngleMinMax.y || cameraAngle < backAngleMinMax.x)
+            else if (cameraAngleHorizontal >= backAngleMinMax.y || cameraAngleHorizontal < backAngleMinMax.x)
             {
                 SetViewDirection(EViewDirection.BACK);
             }
             //Right
-            else if (cameraAngle >= rightAngleMinMax.x && cameraAngle < rightAngleMinMax.y)
+            else if (cameraAngleHorizontal >= rightAngleMinMax.x && cameraAngleHorizontal < rightAngleMinMax.y)
             {
                 SetViewDirection(EViewDirection.RIGHT);
             }
             //Left
-            else if (cameraAngle >= leftAngleMinMax.x && cameraAngle < leftAngleMinMax.y)
+            else if (cameraAngleHorizontal >= leftAngleMinMax.x && cameraAngleHorizontal < leftAngleMinMax.y)
             {
                 SetViewDirection(EViewDirection.LEFT);
             }
             else
             {
-                Debug.LogWarning(gameObject.name + "This should not be happening (cameraAngle: " + cameraAngle + ")");
+                Debug.LogWarning(gameObject.name + "This should not be happening (cameraAngle: " + cameraAngleHorizontal + ")");
             }
         }
 
@@ -263,6 +329,7 @@ public class SpriteAnimationController : MonoBehaviour
                 SetAnimationState(EAnimationState.KNOCKEDOUT);
             }
         }
+        UpdateSpriteState();
     }
 }
 

@@ -47,23 +47,19 @@ public class Poss_Turret : Poss_Stationary
 
         if(shooting)
         {
-            Debug.Log("shooting");
             Shoot();
         }
     }
 
     public override void GiveInput(EInputType newInput)
     {
-        Debug.Log("GiveInput, newInput: " + newInput);
         base.GiveInput(newInput);
         switch (newInput)
         {
             case EInputType.USE_KEYDOWN:
-                Debug.Log("USE_KEYDOWN");
                 shooting = true;
                 break;
             case EInputType.USE_KEYUP:
-                Debug.Log("USE_KEYUP");
                 shooting = false;
                 break;
             default:
@@ -87,7 +83,6 @@ public class Poss_Turret : Poss_Stationary
 
     private bool Shoot()
     {
-        Debug.Log("Shoot, ammoCount: " + ammoCount);
         if (ammoCount > 0)
         {
             if (shootCooldownTimer < 0.0f)

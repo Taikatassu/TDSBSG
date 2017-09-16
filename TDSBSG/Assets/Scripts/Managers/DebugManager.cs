@@ -27,13 +27,13 @@ public class DebugManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
-
-        //toolbox = FindObjectOfType<Toolbox>();
-        //em = toolbox.GetComponent<EventManager>();
     }
 
     private void OnEnable()
     {
+        //toolbox = FindObjectOfType<Toolbox>();
+        //em = toolbox.GetComponent<EventManager>();
+
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
     }
 
