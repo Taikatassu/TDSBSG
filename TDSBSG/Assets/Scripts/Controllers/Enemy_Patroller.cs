@@ -148,7 +148,6 @@ public class Enemy_Patroller : EnemyBase
 
     private void SetNextPatrolPoint()
     {
-        //Debug.Log("SetNextPatrolPoint");
         if (currentPatrolPointIndex < patrolPoints.Count - 1)
         {
             currentPatrolPointIndex++;
@@ -225,7 +224,8 @@ public class Enemy_Patroller : EnemyBase
             if (initialized)
             {
                 if (!isKnockedOut)
-                {//Calculate and send currentMovementSpeed to navAgent
+                {
+                    //Calculate and send currentMovementSpeed to navAgent
                     currentMovementSpeed = defaultMovementSpeed * movementSpeedMultiplier;
                     navAgent.speed = currentMovementSpeed;
 
@@ -389,7 +389,7 @@ public class Enemy_Patroller : EnemyBase
                         if (navTickTimer >= navTickInterval)
                         {
                             navTickTimer = 0;
-                            
+
                             float distanceToTarget = navAgent.remainingDistance;
                             //If we are not yet close enough to catch the target
                             if (distanceToTarget > catchDistance)
@@ -420,7 +420,7 @@ public class Enemy_Patroller : EnemyBase
                                         }
                                     }
                                 }
-                                
+
                                 EndChase();
                                 ResumePatrolling();
                             }

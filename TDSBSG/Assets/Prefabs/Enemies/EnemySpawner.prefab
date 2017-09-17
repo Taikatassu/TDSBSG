@@ -95,8 +95,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyToSpawn: {fileID: 1166362479310504, guid: eba0c40183b51d645b7b78ae32f2bfd2,
     type: 2}
-  patrolPoints:
-  - {fileID: 0}
+  patrolPoints: []
   isHostile: 1
 --- !u!114 &114717214091839110
 MonoBehaviour:

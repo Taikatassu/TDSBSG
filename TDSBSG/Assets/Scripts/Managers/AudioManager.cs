@@ -9,7 +9,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
     Toolbox toolbox;
     EventManager em;
-    
+
     public Sound[] globalSounds;
     private List<SoundEffect> soundEffects = new List<SoundEffect>();
 
@@ -22,7 +22,6 @@ public class AudioManager : MonoBehaviour
     float lastVolumeMultiplier = 0.5f;
 
     string currentSceneMusic = "MainMenu_Music"; //Initialize as the first scene music to play
-    bool desiredMenuAudioListenerState = false;
     bool delaySceneMusicStart = false;
 
     private void Awake()
@@ -68,6 +67,8 @@ public class AudioManager : MonoBehaviour
         em.OnRequestAudio += OnRequestAudio;
         em.OnRegisterSoundEffect += OnRegisterSoundEffect;
         em.OnLoadingScreenStateChange += OnLoadingScreenStateChange;
+        em.OnVolumeSliderValueChange += OnVolumeSliderValueChange;
+        em.OnRequestVolumeLevel += OnRequestVolumeLevel;
     }
 
     private void OnDisable()
@@ -77,6 +78,8 @@ public class AudioManager : MonoBehaviour
         em.OnRequestAudio -= OnRequestAudio;
         em.OnRegisterSoundEffect -= OnRegisterSoundEffect;
         em.OnLoadingScreenStateChange -= OnLoadingScreenStateChange;
+        em.OnVolumeSliderValueChange -= OnVolumeSliderValueChange;
+        em.OnRequestVolumeLevel -= OnRequestVolumeLevel;
     }
 
     private void OnLoadingScreenStateChange(bool isOpen)
@@ -91,6 +94,19 @@ public class AudioManager : MonoBehaviour
             delaySceneMusicStart = false;
             PlayAudioExclusive(currentSceneMusic);
         }
+    }
+
+    private void OnVolumeSliderValueChange(float newValue)
+    {
+        volumeMultiplier = newValue;
+        lastVolumeMultiplier = volumeMultiplier;
+
+        UpdateVolumeLevels();
+    }
+
+    private float OnRequestVolumeLevel()
+    {
+        return volumeMultiplier;
     }
 
     private void OnRegisterSoundEffect(SoundEffect newSoundEffect)
@@ -194,28 +210,32 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    private void UpdateVolumeLevels()
+    {
+        int count = globalSounds.Length;
+        for (int i = 0; i < count; i++)
+        {
+            Sound s = globalSounds[i];
+            s._source.volume = s._volume * lastVolumeMultiplier;
+
+        }
+
+        count = soundEffects.Count;
+        for (int i = 0; i < count; i++)
+        {
+            SoundEffect s = soundEffects[i];
+            s._source.volume = s._volume * lastVolumeMultiplier;
+
+        }
+    }
+
     private void Update()
     {
-        if (lastVolumeMultiplier != volumeMultiplier)
+        if (volumeMultiplier != lastVolumeMultiplier)
         {
             lastVolumeMultiplier = volumeMultiplier;
 
-            int count = globalSounds.Length;
-            for (int i = 0; i < count; i++)
-            {
-                Sound s = globalSounds[i];
-                s._source.volume = s._volume * lastVolumeMultiplier;
-
-            }
-
-            count = soundEffects.Count;
-            for (int i = 0; i < count; i++)
-            {
-                SoundEffect s = soundEffects[i];
-                s._source.volume = s._volume * lastVolumeMultiplier;
-
-            }
-
+            UpdateVolumeLevels();
         }
     }
 }

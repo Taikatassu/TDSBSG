@@ -267,17 +267,7 @@ public class SpriteAnimationController : MonoBehaviour
             Vector3 cameraDirectionHorizontal = cameraDirection;
             cameraDirectionHorizontal.y = 0;
             float cameraAngleHorizontal = Vector3.SignedAngle(transform.forward, cameraDirectionHorizontal, Vector3.up);
-
-            //Vector3 rayOrigin = transform.position;
-            //rayOrigin.y++;
-            //Debug.DrawRay(rayOrigin, cameraDirectionHorizontal, Color.red, 1f);
-            //Debug.DrawRay(rayOrigin, transform.forward * 10, Color.blue, 1f);
-            //float minCameraHeightToCountAsTopView = 12;
-            //if(cameraTransform.position.y - transform.position.y >= minCameraHeightToCountAsTopView)
-            //{
-            //    SetViewDirection(EViewDirection.TOP);
-            //}
-
+            
             Vector3 cameraDirectionVertical = cameraDirection;
             cameraDirectionVertical.z = new Vector2(cameraDirectionVertical.x, cameraDirectionVertical.z).magnitude;
             cameraDirectionVertical.x = 0;
@@ -285,7 +275,6 @@ public class SpriteAnimationController : MonoBehaviour
 
             if (cameraAngleVertical >= topAngleMin)
             {
-                //SetViewDirection(EViewDirection.TOP);
                 top = true;
             }
             else

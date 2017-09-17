@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 public class DebugManager : MonoBehaviour
 {
     public static DebugManager _instance;
-    //Toolbox toolbox;
-    //EventManager em;
 
     [SerializeField]
     bool showDebugIndicators = false;
@@ -31,9 +29,6 @@ public class DebugManager : MonoBehaviour
 
     private void OnEnable()
     {
-        //toolbox = FindObjectOfType<Toolbox>();
-        //em = toolbox.GetComponent<EventManager>();
-
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
     }
 
@@ -67,6 +62,5 @@ public class DebugManager : MonoBehaviour
 
         lastState = showDebugIndicators;
     }
-
 
 }

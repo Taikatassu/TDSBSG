@@ -31,7 +31,7 @@ public class ApplicationManager : MonoBehaviour
     bool loadingScreenTimerFinished = false;
     bool loading = false;
     float loadingScreenTimer = 0;
-    float loadingScreenDuration = 2;
+    float loadingScreenDuration = 0;
     #endregion
 
     private void Awake()
@@ -140,9 +140,6 @@ public class ApplicationManager : MonoBehaviour
 
     void OnRequestLoadLevel(int sceneBuildIndex)
     {
-        //if (sceneBuildIndex == currentSceneIndex) {
-        //	return;
-        //}
         levelLoaded = false;
         em.BroadcastRequestPauseStateChange(false);
 
@@ -190,9 +187,6 @@ public class ApplicationManager : MonoBehaviour
                 {
                     SetLoadingScreenState(false);
                 }
-
-                //currentSceneIndex = levelToLoadAfterLoadingScreen;
-                //SceneManager.LoadScene(currentSceneIndex);
             }
         }
     }

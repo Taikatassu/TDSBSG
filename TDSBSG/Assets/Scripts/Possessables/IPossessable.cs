@@ -4,6 +4,8 @@ using UnityEngine;
 
 public interface IPossessable
 {
+    bool GetIsStationary();
+
     bool GetIsPossessed();
 
     bool GetIsDisobeying();

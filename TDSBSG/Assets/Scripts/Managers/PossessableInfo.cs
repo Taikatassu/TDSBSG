@@ -39,7 +39,7 @@ public class PossessableInfo : MonoBehaviour
 
     private void OnInitializeGame()
     {
-        //ResetAll();
+        //Do something here
     }
 
     private void ResetAll()

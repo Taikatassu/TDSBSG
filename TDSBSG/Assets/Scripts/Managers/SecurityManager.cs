@@ -39,6 +39,7 @@ public class SecurityManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         DontDestroyOnLoad(gameObject);
     }
 
@@ -60,7 +61,7 @@ public class SecurityManager : MonoBehaviour
         em.OnDisobeyingDetected -= OnDisobeyingDetected;
     }
 
-    private void OnDisobeyingDetected(ERobotType disobeyingRobotType,IPossessable disobeyingRobot)
+    private void OnDisobeyingDetected(ERobotType disobeyingRobotType, IPossessable disobeyingRobot)
     {
         wantedRobot = disobeyingRobotType;
         StartAlarm();

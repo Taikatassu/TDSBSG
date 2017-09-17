@@ -7,8 +7,6 @@ public class Projectile : MonoBehaviour {
 
     [SerializeField]
     bool reusable = false;
-    //Collider capsale;
-    //Rigidbody rb;
 
     private void OnCollisionEnter(Collision collision) {
         EnemyBase enemy = collision.gameObject.GetComponent<EnemyBase>();

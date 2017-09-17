@@ -1,4 +1,4 @@
-Alert state system
+DONE Alert state system
 DONE - Global security state (increases slowly by disobedience, but never decreases)
 DONE - Global alert state (alert on / off) (more than two states needed?)
 DONE - Instant alert triggered when progressing on global securit sale to the next level (~5 levels)
@@ -25,24 +25,24 @@ DONE - Vision cone angle and range increases when alerted
 	- Once the timer is at zero, the alert will end and the state will return to the default one (No alert)
 -REDESIGNED-
 
-Methods of disobedience:
+DONE Methods of disobedience:
 DONE - Enter a restricted room
-	- Room-class
-		- Room restrictions
-		- Level of security?
-		- Entering a room with higher level of security without 
-		  proper clearance will result in higher disobedience increases
+	DONE - Room-class
+		DONE - Room restrictions
+		DONE - Level of security?
+		(discarded feature) - Entering a room with higher level of security without 
+		  		      proper clearance will result in higher disobedience increases
 DONE - Pass through a restricted doorway
-	- Doorway-class
-		- Doorway restrictions
-		- Level of security?
+	DONE - Doorway-class
+		DONE - Doorway restrictions
+		DONE - Level of security?
 DONE - Interact with a restricted object
-	- Interactable-class
-		- Object restrictions
-		- Level of security?
+	DONE - Interactable-class
+		DONE - Object restrictions
+		DONE - Level of security?
 DONE - Harm humans (by shooting cans from vending machine)
 
-Enemies
+DONE Enemies
 DONE - Patrol
 DONE - Vision cones
 DONE - Alert system
@@ -54,24 +54,28 @@ DONE - PatrolPoint temporary guarding (enemy stops at a patrol point for a certa
        it's route)
 	DONE - A float value for guardDuration (if 0, no guarding, e.i. continue the patrol instantly)
 
-UI
+DONE UI
 DONE - Main menu
 DONE - Pause menu
 NOPE - HUD?
 
-Varying possessables
+DONE Varying possessables
 DONE - Change possession button from Q-key to mouse left click (on top of possessable)
 DONE - Primary / secondary
 DONE - Different abilities / functionalities
-DONE - Radio, Vending machine, Roomba, Robotic forklift, 
-       Connected electronics (local network), e.g. tv screens / computers, etc...
-WIP - Implement networked possessables
+	(discarded feature) - Radio (distractor)
+	DONE - Vending machine
+	DONE - MiniCleaner (aka Roomba)
+	DONE - Robotic forklift
+	DONE - Connected electronics (local network), e.g. tv screens / computers, etc...
+
+DONE - Implement networked possessables
 	DONE - Switching between nodes by clicking another connected node, regardless of range
 	DONE - Switching between nodes is done by choosing the direction with mouse click
 	DONE - "Manager" has info on all the connected nodes (an list of ints which signify paired nodes)
 	DONE - Draw indicator lines between nodes
 
-Interactable objects
+DONE Interactable objects
 	DONE - Base
 	DONE - Implement interactableObject interaction to mouse left click (on top of object)
 	DONE - Various different functionalities
@@ -86,11 +90,10 @@ Interactable objects
 	DONE - float EndInteraction() (return -1 if cannot interact. return interactionEndDuration if can interact)
 	DONE - permissionList (contains robotTypes that can interact with the object)
 
-
-Input
+DONE Input
 DONE - Mouse input events (buttons up / down, cursor location)
 
-Levels
+DONE Levels
 DONE - Level manager
 DONE - Level start
 DONE- Level end
@@ -140,6 +143,10 @@ DONE - Loading screen
 - Enemies can travel through vents?
 - Simple AI for the possessables (they should have tasks to complete to keep them occuped until the player 
   possesses them)
+- Implement any possessable detection support to enemies (so that enemies can detect any and all disobeying
+  possessables, even those not currently possessed by the player)
+- Secondary possessables (stationary turrets, etc.)
+- More enemy types (stationary turrets, etc.)
 
 Build 1.01
 DONE - Credits (triple check everyones full names and proper titles)
@@ -174,22 +181,25 @@ DONE - Some top sprites get left on even when returning to side view (apparently
 DONE - Lowering liftable objects back to the ground with a forklift will place them floating slightly off the ground
 DONE - Enemies can still see through Level_03 vents
 DONE - Fix Level_03 puzzles
-	- Some of the puzzles in Level_03 can be skipped by holding doors open with other robots (reposition guards 
-	  so that those doors are practically inaccessible to the roomba)
+	DONE - Some of the puzzles in Level_03 can be skipped by holding doors open with other robots (reposition guards 
+	       so that those doors are practically inaccessible to the roomba)
 DONE - Fix sprite players on prop plants
 DONE - Fix door permission indicator light location (public transform for all doors to be used as spawn location)
+DONE - Camera collision with environment / auto transparency to walls (somehow prevent environment from 
+       blocking the player's vision)
+DONE - Player indicator draw order under character sprites
+DONE - Add a volume slider in main menu and the pause menu
+DONE - Fix game over screen displaying (display for x time until reloading the scene. Currenly practically never visible
+       because new scene is instantly loaded and a loading screen is displayed on top of it)
+DONE - Remove all unnecessary Debug.Log prints
+DONE - Check through all "TODO" comments in script, and fix / complete all WIP features deemed necessary
 
+- Finish field of view mesh calculation optimization
+	- Find out why the last two faces of the mesh are not drawn!
+- Post processing?
 - Some way to show the user the controls of the game (prompt when possessing a robot that can do something with 
   the "use" button? A tutorial screen accessible from the main menu?)
 - Add required credits to all third party assets (e.g. free license audio files)!!
-- Add a volume slider in main menu and the pause menu
-- Post processing?
-- Remove all unnecessary Debug.Log prints
-- Fix game over screen displaying (display for x time until reloading the scene. Currenly practically never visible
-  because new scene is instantly loaded and a loading screen is displayed on top of it)
-- Finish field of view mesh calculation optimization
-- Camera collision with environment / auto transparency to walls (somehow prevent environment from 
-  blocking the player's vision)
 - Take damage, knocked out and directional top sprites (Playtester critique: top sprites don't show character 
   animations (knockedOut, takeDamage))
 - Audio
@@ -216,5 +226,14 @@ DONE - Fix door permission indicator light location (public transform for all do
 		- Shoot effect for vending machine and hit effect for soda can
 		- Electric beeping noises (played when possessing robots)
 		- ?
+
+
+
+
+
+
+
+
+
 
 

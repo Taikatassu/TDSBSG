@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(FieldOfView))]
-public class EnemyBase : MonoBehaviour {
+public class EnemyBase : MonoBehaviour
+{
     #region References & variables
     protected Toolbox toolbox;
     protected EventManager em;
@@ -97,7 +98,6 @@ public class EnemyBase : MonoBehaviour {
                     }
 
                     SetIsAlerted(false);
-                    //TODO: Return to original patrol route
                     visionRangeMultiplier = defaultVisionRangeMultiplier;
                     visionAngleMultiplier = defaultVisionAngleMultiplier;
                     break;
@@ -129,7 +129,7 @@ public class EnemyBase : MonoBehaviour {
 
     protected void StopPossessable(IPossessable newStoppedPossessable)
     {
-        if(stoppedPossessable != null)
+        if (stoppedPossessable != null)
         {
             stoppedPossessable.ChangeCanMoveState(true);
         }
@@ -249,7 +249,8 @@ public class EnemyBase : MonoBehaviour {
         return false;
     }
 
-    public virtual void KnockOut() {
+    public virtual void KnockOut()
+    {
         isKnockedOut = true;
         knockOutTimer = knockOutDuration;
         spriteController.StartKnockout();
@@ -258,7 +259,8 @@ public class EnemyBase : MonoBehaviour {
         UpdateKnockOutDurationMeter();
     }
 
-    protected virtual void EndKnockOut() {
+    protected virtual void EndKnockOut()
+    {
         isKnockedOut = false;
         myFoV.ChangeConeState(true);
         UpdateKnockOutDurationMeter();
@@ -279,7 +281,7 @@ public class EnemyBase : MonoBehaviour {
 
     protected void SetKnockOutDurationMeterState(bool enabled)
     {
-        if(knockOutMeter != null)
+        if (knockOutMeter != null)
         {
             if (enabled)
             {
@@ -300,7 +302,6 @@ public class EnemyBase : MonoBehaviour {
     #region FixedUpdate & LateUpdate
     protected virtual void FixedUpdate()
     {
-        //TODO: change vision checks so that enemies can detect any possessable (not just player)
         if (initialized)
         {
             if (isHostile)

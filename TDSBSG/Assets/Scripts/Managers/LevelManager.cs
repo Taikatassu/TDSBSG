@@ -14,8 +14,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     Transform playerStart;
     NavMeshAgent cutsceneNavAgent = null;
-
-    //bool startingCutscenePlaying = false;
+    
     bool endingCutscenePlaying = false;
     float cutsceneNavAgentCompleteDistance = 0.1f;
     [SerializeField]
@@ -28,14 +27,12 @@ public class LevelManager : MonoBehaviour
         em = toolbox.GetComponent<EventManager>();
 
         endTrigger.OnTriggerEntered += OnEndTriggerEntered;
-        //em.OnStartGame += OnStartGame;
         em.OnSpawnPlayer += OnSpawnPlayer;
     }
 
     private void OnDisable()
     {
         endTrigger.OnTriggerEntered -= OnEndTriggerEntered;
-        //em.OnStartGame -= OnStartGame;
         em.OnSpawnPlayer -= OnSpawnPlayer;
     }
 
@@ -64,7 +61,6 @@ public class LevelManager : MonoBehaviour
             {
                 lastPossessedRobotType = enteringPossessable.GetRobotType();
                 em.BroadcastPauseActorsStateChange(true);
-                //TODO: Play the ending animation (set navAgent destination to endPoint, close elevator doors)
                 if (enteringPossessable.GetGameObject().GetComponent<NavMeshAgent>())
                 {
                     cutsceneNavAgent = enteringPossessable.GetGameObject().GetComponent<NavMeshAgent>();
@@ -99,10 +95,4 @@ public class LevelManager : MonoBehaviour
                 break;
         }
     }
-
-    //private void OnStartGame()
-    //{
-    //    //TODO: Play the starting animation
-    //    Debug.Log("LevelManager: OnStartGame");
-    //}
 }

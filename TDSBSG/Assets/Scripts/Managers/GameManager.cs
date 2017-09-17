@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviour
     bool startingLevel = false;
     float startingLevelPeriodTimer = 0f;
     float startingLevelPeriodDuration = 1f;
+    bool playerCatched = false;
+    float playerCatchedTimer = 0f;
+    float playerCatchedTimerDuration = 1f;
 
     private void Awake()
     {
@@ -185,8 +188,6 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                //TODO: Implement proper game completed screen
-                Debug.Log("Game completed! Loading main menu");
                 em.BroadcastRequestLoadLevel(mainMenuIndex);
             }
         }
@@ -199,8 +200,8 @@ public class GameManager : MonoBehaviour
 
     private void OnPlayerCatched()
     {
-        int currentSceneIndex = em.BroadcastRequestCurrentSceneIndex();
-        em.BroadcastRequestLoadLevel(currentSceneIndex);
+        playerCatchedTimer = playerCatchedTimerDuration;
+        playerCatched = true;
     }
 
     private void FixedUpdate()
@@ -209,10 +210,22 @@ public class GameManager : MonoBehaviour
         {
             startingLevelPeriodTimer -= Time.fixedDeltaTime;
 
-            if(startingLevelPeriodTimer <= 0)
+            if (startingLevelPeriodTimer <= 0)
             {
                 startingLevel = false;
                 pausingAvailable = true;
+            }
+        }
+
+        if (playerCatched)
+        {
+            playerCatchedTimer -= Time.fixedDeltaTime;
+
+            if(playerCatchedTimer <= 0)
+            {
+                playerCatched = false;
+                int currentSceneIndex = em.BroadcastRequestCurrentSceneIndex();
+                em.BroadcastRequestLoadLevel(currentSceneIndex);
             }
         }
     }

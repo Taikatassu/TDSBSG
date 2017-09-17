@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Interactable_Door : Interactable
 {
-
     [SerializeField]
     Collider interactionTrigger;
     [SerializeField]
@@ -51,8 +50,6 @@ public class Interactable_Door : Interactable
 
     private void Start()
     {
-        //permissionList = new List<ERobotType>();
-
         if (doorObject != null)
         {
             closedPos = doorObject.transform.localPosition;
@@ -89,22 +86,6 @@ public class Interactable_Door : Interactable
     {
         return endDurationTime;
     }
-
-    //public override float StartInteraction(IPossessable user) {
-    //	if (base.StartInteraction(user) == -1.0f) { return -1.0f; }
-
-    //	if (user.GetGameObject().GetComponent<Poss_Mobile>()) {
-    //		Poss_Mobile userMobile = user.GetGameObject().GetComponent<Poss_Mobile>();
-    //		Vector3 userPostion = userMobile.transform.position;
-
-    //       }
-    //	return startDurationTime;
-    //}
-
-    //public override float EndInteraction(IPossessable user) {
-    //	if (base.EndInteraction(user) == -1.0f) { return -1.0f; }
-    //       return endDurationTime;
-    //}
 
     private void Open()
     {
@@ -260,7 +241,7 @@ public class Interactable_Door : Interactable
         {
             lightEffect = Instantiate(Resources.Load<ParticleSystem>("ParticleEffect/GreenLight"),
                 accessLightMarker);
-            if(accessLightMarker2 != null)
+            if (accessLightMarker2 != null)
             {
                 lightEffect2 = Instantiate(Resources.Load<ParticleSystem>("ParticleEffect/GreenLight"),
                     accessLightMarker);
@@ -296,6 +277,7 @@ public class Interactable_Door : Interactable
         }
         lightEffect.Play();
     }
+
     void OffLightEffect()
     {
         if (lightEffect != null)

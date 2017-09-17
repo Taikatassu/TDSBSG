@@ -4,18 +4,13 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    //TODO: RayCast from camera to player, and hide any environmental objects if hit by the raycast
-    //http://answers.unity3d.com/questions/44815/make-object-transparent-when-between-camera-and-pl.html
-    //TODO: Add a parent to the camera, and implement rotation functionality
-    //TODO: Implement zooming functionality to mouse wheel(lerp between mode 0 and 1 by the zoom percentage)
-
-
     #region References & variables
     Toolbox toolbox;
     EventManager em;
     Transform rotatorTransform;
     Transform target;
-    
+    Transform cameraZoomerTransform;
+
     [SerializeField]
     Vector3 posOffsetMode0 = Vector3.zero;
     [SerializeField]
@@ -28,9 +23,17 @@ public class CameraController : MonoBehaviour
     Vector3 rotationOffset = Vector3.zero;
     float rotationSpeed = 12f;
     Vector3 lastMousePosition = Vector3.zero;
-    float cameraZoom = 0;
+    float cameraHeightPercentage = 0; //At what point between possOffsetMode0 and 
+                                      //possOffsetMode1 do we want the camera to be (ranges from 0f to 1f)
     [SerializeField]
-    float initialCameraZoom = 0.25f;
+    float initialCameraHeightPercentage = 0.25f;
+    [SerializeField]
+    LayerMask cameraObscureMask;
+    Vector3 cameraZoomerVelocity = Vector3.zero;
+    [SerializeField]
+    Camera cam;
+    Vector3[] clipPoints;
+    bool ignoreCameraCollision = false;
     #endregion
 
     private void Awake()
@@ -45,6 +48,7 @@ public class CameraController : MonoBehaviour
         em.OnInputEvent += OnInputEvent;
         em.OnRequestCameraReference += OnRequestCameraReference;
         em.OnMouseInputEvent += OnMouseInputEvent;
+        em.OnPossessablePossessed += OnPossessablePossessed;
     }
 
     private void OnDisable()
@@ -53,19 +57,22 @@ public class CameraController : MonoBehaviour
         em.OnInputEvent -= OnInputEvent;
         em.OnRequestCameraReference -= OnRequestCameraReference;
         em.OnMouseInputEvent -= OnMouseInputEvent;
+        em.OnPossessablePossessed -= OnPossessablePossessed;
     }
 
     void OnInitializeGame()
     {
+        cameraZoomerTransform = transform.GetChild(0);
         rotatorTransform = transform.parent;
         target = em.BroadcastRequestPlayerReference().transform;
 
-        cameraZoom = initialCameraZoom;
+        cameraHeightPercentage = initialCameraHeightPercentage;
         cameraMode = 0;
         Vector3 targetPosition = target.position;
         rotatorTransform.position = target.position;
         rotatorTransform.eulerAngles = target.eulerAngles;
-        transform.localPosition = Vector3.Lerp(posOffsetMode0, posOffsetMode1, cameraZoom);//posOffsetMode0;
+        transform.localPosition = Vector3.Lerp(posOffsetMode0, posOffsetMode1, cameraHeightPercentage);
+
         isFollowing = true;
     }
 
@@ -88,7 +95,7 @@ public class CameraController : MonoBehaviour
 
     private void OnMouseInputEvent(int button, bool down, Vector3 mousePosition)
     {
-        if(button == 2)
+        if (button == 2)
         {
             lastMousePosition = mousePosition;
             if (down)
@@ -112,6 +119,11 @@ public class CameraController : MonoBehaviour
         rotatorTransform.eulerAngles += rotationOffset;
     }
 
+    private void OnPossessablePossessed(bool wasStationary)
+    {
+        ignoreCameraCollision = wasStationary;
+    }
+
     private void ToggleCameraMode()
     {
         if (cameraMode == 0)
@@ -124,13 +136,88 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    private float CheckTargetVisibilityMultiCast()
+    {
+        float cameraZoomAdjustment = 0f;
+        for (int i = 0; i < clipPoints.Length; i++)
+        {
+            Vector3 rayOrigin = target.position;
+            rayOrigin.y++;
+            Vector3 rayDirection = clipPoints[i] - target.position;
+            float rayDistance = rayDirection.magnitude;
+
+            Debug.DrawRay(rayOrigin, rayDirection, Color.blue, 1f);
+            RaycastHit hit;
+            if (Physics.Raycast(rayOrigin, rayDirection, out hit, rayDistance, cameraObscureMask, QueryTriggerInteraction.Ignore))
+            {
+
+                Debug.DrawRay(rayOrigin, rayDirection.normalized * hit.distance, Color.blue, 1f);
+
+                if (cameraZoomAdjustment == 0)
+                {
+                    cameraZoomAdjustment = (transform.position - hit.point).magnitude;
+                }
+                else if ((transform.position - hit.point).magnitude < cameraZoomAdjustment)
+                {
+                    cameraZoomAdjustment = (transform.position - hit.point).magnitude;
+                }
+            }
+        }
+
+        return cameraZoomAdjustment;
+    }
+
+    private float CheckTargetVisibilitySingleCast()
+    {
+        float cameraZoomAdjustment = 0f;
+
+        Vector3 rayOrigin = target.position;
+        rayOrigin.y++;
+        Vector3 rayDirection = transform.position - target.position;
+        float rayDistance = rayDirection.magnitude;
+
+        Debug.DrawRay(rayOrigin, rayDirection, Color.blue, 1f);
+        RaycastHit hit;
+        if (Physics.Raycast(rayOrigin, rayDirection, out hit, rayDistance, cameraObscureMask, QueryTriggerInteraction.Ignore))
+        {
+            Debug.DrawRay(rayOrigin, rayDirection.normalized * hit.distance, Color.blue, 1f);
+            cameraZoomAdjustment = (transform.position - hit.point).magnitude;
+        }
+
+        return cameraZoomAdjustment;
+    }
+
+    private void UpdateClipPoints()
+    {
+        if (cam != null)
+        {
+            float z = cam.nearClipPlane;
+            float x = Mathf.Tan(cam.fieldOfView / 3.41f) * z;
+            float y = x / cam.aspect;
+            Quaternion atRotation = cam.transform.rotation;
+            Vector3 cameraPosition = transform.position;
+
+            clipPoints = new Vector3[5];
+            clipPoints[0] = (atRotation * new Vector3(-x, y, z)) + cameraPosition;
+            Debug.DrawRay(cameraPosition, clipPoints[0] - cameraPosition, Color.green, 0.1f);
+            clipPoints[1] = (atRotation * new Vector3(x, y, z)) + cameraPosition;
+            Debug.DrawRay(cameraPosition, clipPoints[1] - cameraPosition, Color.green, 0.1f);
+            clipPoints[2] = (atRotation * new Vector3(-x, -y, z)) + cameraPosition;
+            Debug.DrawRay(cameraPosition, clipPoints[2] - cameraPosition, Color.green, 0.1f);
+            clipPoints[3] = (atRotation * new Vector3(x, -y, z)) + cameraPosition;
+            Debug.DrawRay(cameraPosition, clipPoints[3] - cameraPosition, Color.green, 0.1f);
+            clipPoints[4] = cameraPosition/* - camera.transform.forward*/;
+        }
+    }
+
     private void FixedUpdate()
     {
+
         Vector3 targetPosition = target.position;
         Vector3 rotatorDesiredPosition = targetPosition;
 
         rotatorTransform.position = Vector3.SmoothDamp(rotatorTransform.position,
-            rotatorDesiredPosition, ref rotatorRefVelocity, smoothTime);       
+            rotatorDesiredPosition, ref rotatorRefVelocity, smoothTime);
     }
 
     private void LateUpdate()
@@ -138,30 +225,48 @@ public class CameraController : MonoBehaviour
         if (isFollowing)
         {
             Vector3 desiredCameraPosition = Vector3.zero;
-            //if (cameraMode == 0)
-            //{
-            //    //Calculate desired position with camera mode 0
-            //    desiredCameraPosition = posOffsetMode0;
-            //}
-            //else if (cameraMode == 1)
-            //{
-            //    //Calculate desired position with camera mode 1
-            //    desiredCameraPosition = posOffsetMode1;
-            //}
 
             //TODO: Move this to input manager?
-            cameraZoom -= Input.GetAxis("Mouse ScrollWheel") * 0.2f;
-            cameraZoom = Mathf.Clamp(cameraZoom, 0.0f, 1.0f);
+            cameraHeightPercentage -= Input.GetAxis("Mouse ScrollWheel") * 0.2f;
+            cameraHeightPercentage = Mathf.Clamp(cameraHeightPercentage, 0.0f, 1.0f);
 
-            desiredCameraPosition = Vector3.Lerp(posOffsetMode0, posOffsetMode1, cameraZoom);
-            
+            desiredCameraPosition = Vector3.Lerp(posOffsetMode0, posOffsetMode1, cameraHeightPercentage);
             //Smoothly move to the desired position
             transform.localPosition = Vector3.SmoothDamp(transform.localPosition,
                 desiredCameraPosition, ref cameraRefVeloity, smoothTime);
 
             Vector3 lookAtPos = rotatorTransform.position;
-            lookAtPos.y += 2;
-            transform.LookAt(lookAtPos);
+            lookAtPos.y += 1;
+            cameraZoomerTransform.LookAt(lookAtPos);
+
+            UpdateClipPoints();
+            float obscureDistance = CheckTargetVisibilityMultiCast();
+            //float obscureDistance = CheckTargetVisibilitySingleCast();
+            
+            if (ignoreCameraCollision || cameraHeightPercentage > 0.2f)
+            {
+                cameraZoomerTransform.localPosition = Vector3.SmoothDamp(cameraZoomerTransform.localPosition,
+                    Vector3.zero, ref cameraZoomerVelocity, smoothTime / 2);
+            }
+            else
+            {
+                if (obscureDistance > 0)
+                {
+                    Vector3 cameraZoomerDesiredPosition = transform.position
+                        + cameraZoomerTransform.forward * (Mathf.Clamp((obscureDistance + 1), 0,
+                        ((transform.position - target.position).magnitude - 2)));
+
+                    cameraZoomerTransform.position = Vector3.SmoothDamp(cameraZoomerTransform.position,
+                        cameraZoomerDesiredPosition, ref cameraZoomerVelocity, smoothTime / 2);
+                    //cameraZoomerTransform.position = cameraZoomerDesiredPosition;
+                }
+                else
+                {
+                    cameraZoomerTransform.localPosition = Vector3.SmoothDamp(cameraZoomerTransform.localPosition,
+                        Vector3.zero, ref cameraZoomerVelocity, smoothTime / 2);
+                    //cameraZoomerTransform.localPosition = Vector3.zero;
+                }
+            }
         }
     }
 

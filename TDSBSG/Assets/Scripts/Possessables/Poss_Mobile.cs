@@ -20,6 +20,7 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
     [SerializeField]
     protected SpriteAnimationController spriteController;
 
+    protected bool isStationary = false;
     protected bool canMove = false;
     protected bool isPossessed = false;
     protected bool isDisobeying = false;
@@ -41,14 +42,7 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
         em = toolbox.GetComponent<EventManager>();
         possInfo = toolbox.GetComponent<PossessableInfo>();
     }
-
-    private void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-        tag = "Possessable"; //Add this to all possessables
-        gameObject.layer = LayerMask.NameToLayer("Possessable");
-    }
-
+    
     protected virtual void OnEnable()
     {
         possInfo.possessables.Add(this);
@@ -82,6 +76,7 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
         possInfo = toolbox.GetComponent<PossessableInfo>();
         rb = GetComponent<Rigidbody>();
         tag = "Possessable"; //Add this to all possessables
+        gameObject.layer = LayerMask.NameToLayer("Possessable");
         disobeyingList = new List<GameObject>();
         connectedPossessables = new List<IPossessable>();
         cameraRotatorTransform = em.BroadcastRequestCameraReference().transform.parent;
@@ -204,6 +199,11 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
         }
     }
 
+    public bool GetIsStationary()
+    {
+        return isStationary;
+    }
+
     public virtual void GiveInput(EInputType newInput)
     {
         switch (newInput)
@@ -257,7 +257,6 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
     protected virtual void FixedUpdate()
     {
         rb.velocity = Vector3.zero;
-        //Debug.Log(gameObject.name + ", disobeyingList.Count: " + disobeyingList.Count);
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -304,7 +303,7 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
                         moveXValue--;
                     }
 
-                    Vector3 movementVelocity; // = new Vector3(moveXValue, 0, moveZValue).normalized;
+                    Vector3 movementVelocity; 
                     movementVelocity = (cameraRotatorTransform.forward * moveZValue
                         + cameraRotatorTransform.right * moveXValue).normalized;
 
@@ -342,5 +341,4 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
     {
         navMeshAgent.SetDestination(newDest);
     }
-
 }

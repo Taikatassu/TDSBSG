@@ -122,11 +122,15 @@ public class Player : MonoBehaviour
         if (primaryPossession != null)
         {
             transform.position = primaryPossessionTransform.position;
+            transform.rotation = primaryPossessionTransform.rotation;
         }
     }
 
     private void PossessPossessable(IPossessable newPossession)
     {
+        bool isStationary = newPossession.GetIsStationary();
+        em.BroadcastEventPossessablePossessed(isStationary);
+
         switch (newPossession.GetPossessableType())
         {
             case EPossessableType.PRIMARY:
@@ -222,7 +226,7 @@ public class Player : MonoBehaviour
                             somethingFound = true;
                         }
                     }
-                }          
+                }
             }
             else if (button == 1 && down)
             {
@@ -238,12 +242,6 @@ public class Player : MonoBehaviour
 
     private void OnInputEvent(EInputType newInput)
     {
-        //if (newInput == EInputType.POSSESS_KEYDOWN)
-        //{
-        //    TryPossessClosestPossessable();
-        //}
-
-        /*else */
         if (controllable && !isPaused)
         {
             if (primaryPossession != null)
@@ -251,16 +249,6 @@ public class Player : MonoBehaviour
                 primaryPossession.GiveInput(newInput);
             }
         }
-
-        //if (currentSecondaryPossessions.Count > 0)
-        //{
-        //    for (int i = 0; i < currentSecondaryPossessions.Count; i++)
-        //    {
-        //        currentSecondaryPossessions[i].GiveInput(newInput);
-        //    }
-        //}
-
-        //TODO: Handle player only inputs if neccessary
     }
 
     private void ResetAll()

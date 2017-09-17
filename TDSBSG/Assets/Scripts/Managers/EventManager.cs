@@ -29,7 +29,6 @@ public class EventManager : MonoBehaviour
     public delegate void IntBoolRobotTypeVoid(int integer, bool boolean, ERobotType eRobotType);
     public delegate void IntBoolVector3Void(int integer, bool boolean, Vector3 vec3);
     public delegate void IntRobotTypeVoid(int integer, ERobotType eRobotType);
-    public delegate void GameObjectVoid(GameObject go);
     public delegate GameObject EmptyGameObject();
     public delegate void RobotTypeVoid(ERobotType eRobotType);
     public delegate void RobotTypeIPossessableVoid(ERobotType eRobotType, IPossessable detectedRobot);
@@ -37,7 +36,9 @@ public class EventManager : MonoBehaviour
     public delegate Vector3 EmptyVector3();
     public delegate void Vector3Void(Vector3 vec3);
     public delegate ERobotType EmptyRobotType();
-    public delegate void SoundEffectVoid(SoundEffect soundEffect); 
+    public delegate void SoundEffectVoid(SoundEffect soundEffect);
+    public delegate void FloatVoid(float floatingPoint);
+    public delegate float EmptyFloat();
 
     public event EmptyVoid OnInitializeGame;
     public void BroadcastInitializeGame()
@@ -180,7 +181,7 @@ public class EventManager : MonoBehaviour
     public event BoolVoid OnLoadingScreenStateChange;
     public void BroadcastLoadingScreenStateChange(bool isOpen)
     {
-        if(OnLoadingScreenStateChange != null)
+        if (OnLoadingScreenStateChange != null)
         {
             OnLoadingScreenStateChange(isOpen);
         }
@@ -285,7 +286,7 @@ public class EventManager : MonoBehaviour
     public event StringVoid OnRequestAudio;
     public void BroadcastRequestAudio(string audioName)
     {
-        if(OnRequestAudio != null)
+        if (OnRequestAudio != null)
         {
             OnRequestAudio(audioName);
         }
@@ -297,6 +298,37 @@ public class EventManager : MonoBehaviour
         if (OnRegisterSoundEffect != null)
         {
             OnRegisterSoundEffect(newSoundEffect);
+        }
+    }
+
+    public event BoolVoid OnPossessablePossessed;
+    public void BroadcastEventPossessablePossessed(bool stationary)
+    {
+        if (OnPossessablePossessed != null)
+        {
+            OnPossessablePossessed(stationary);
+        }
+    }
+
+    public event FloatVoid OnVolumeSliderValueChange;
+    public void BroadcastVolumeSliderValueChange(float newValue)
+    {
+        if (OnVolumeSliderValueChange != null)
+        {
+            OnVolumeSliderValueChange(newValue);
+        }
+    }
+    
+    public event EmptyFloat OnRequestVolumeLevel;
+    public float BroadcastRequestVolumeLevel()
+    {
+        if (OnRequestVolumeLevel != null)
+        {
+            return OnRequestVolumeLevel();
+        }
+        else
+        {
+            return -1f;
         }
     }
 

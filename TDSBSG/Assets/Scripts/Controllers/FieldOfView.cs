@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
 {
-
     [SerializeField]
     private float viewRange = 0f;
     [SerializeField]
@@ -22,7 +21,6 @@ public class FieldOfView : MonoBehaviour
     private void Start()
     {
         GameObject viewMeshHolder = new GameObject("View Mesh Holder");
-        //viewMeshHolder.layer = LayerMask.NameToLayer("Indicators");
         viewMeshHolder.transform.SetParent(transform);
         Vector3 locPos = Vector3.zero;
         locPos.y = 0.5f;
@@ -74,7 +72,6 @@ public class FieldOfView : MonoBehaviour
             Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
     }
 
-    //TODO: Find out why the last two faces are not drawn
     public void DrawFieldOfView()
     {
         int stepCount = Mathf.RoundToInt(viewAngle * visionMeshResolution);
@@ -83,7 +80,6 @@ public class FieldOfView : MonoBehaviour
         for (int i = 0; i <= stepCount; i++)
         {
             float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
-            //Debug.Log("angle: " + angle);
             ViewCastInfo newViewCast = ViewCast(angle);
             viewPoints.Add(newViewCast.point);
         }
@@ -108,7 +104,6 @@ public class FieldOfView : MonoBehaviour
         viewMesh.vertices = vertices;
         viewMesh.triangles = triangles;
         viewMesh.RecalculateNormals();
-        //Debug.Log("viewMesh created. vertexCount: " + vertexCount);
     }
 
     ViewCastInfo ViewCast(float globalAngle)
@@ -117,12 +112,10 @@ public class FieldOfView : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, dir, out hit, viewRange, obstacleMask))
         {
-            //Debug.DrawRay(transform.position, hit.point - transform.position, Color.red);
             return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
         }
         else
         {
-            //Debug.DrawRay(transform.position, dir * viewRange, Color.red);
             return new ViewCastInfo(false, transform.position + dir * viewRange,
                 hit.distance, globalAngle);
         }

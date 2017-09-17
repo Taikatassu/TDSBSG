@@ -12,16 +12,22 @@ public class UIManager : MonoBehaviour
     EventManager em;
 
     // MainMenu
-    public Transform mainMenuHolder;
+    GameObject mainMenu;
+    public Transform mainMenuButtonHolder;
+    public Transform mainMenuVolumeSliderHolder;
     Button startButton;
     Button quitButton;
     Button creditsButton;
+    Slider mainMenuVolumeSlider;
 
     // PauseMenu
-    public Transform pauseMenuHolder;
+    GameObject pauseMenu;
+    public Transform pauseMenuButtonHolder;
+    public Transform pauseMenuVolumeSliderHolder;
     Button resumeButton;
     Button restartButton;
     Button exitGameButton;
+    Slider pauseMenuVolumeSlider;
 
     //GameOver screen
     public GameObject gameOverScreen;
@@ -50,6 +56,8 @@ public class UIManager : MonoBehaviour
     int firstLevelIndex = -1;
     int lastLevelIndex = -1;
 
+    float volumeSliderValue = 0f;
+
     private void Awake()
     {
         if (_instance == null)
@@ -76,33 +84,41 @@ public class UIManager : MonoBehaviour
         isFading = false;
     }
 
+    private void Update()
+    {
+        if (mainMenu.activeSelf == true)
+        {
+            if (mainMenuVolumeSlider.value != volumeSliderValue)
+            {
+                volumeSliderValue = mainMenuVolumeSlider.value;
+                em.BroadcastVolumeSliderValueChange(volumeSliderValue);
+            }
+        }
+
+        if (pauseMenu.activeSelf == true)
+        {
+            if (pauseMenuVolumeSlider.value != volumeSliderValue)
+            {
+                volumeSliderValue = pauseMenuVolumeSlider.value;
+                em.BroadcastVolumeSliderValueChange(volumeSliderValue);
+            }
+        }
+    }
+
     private void FixedUpdate()
     {
         if (isFading)
         {
             float timeSinceStarted = Time.time - timeStartedLerping;
             float percentageCompleted = timeSinceStarted / fadeTime;
-
-            if (gameOverScreen != null)
-            {
-                Color gameOverColor = gameOverScreen.GetComponent<Image>().color;
-                gameOverColor.a = Mathf.Lerp(1, 0, percentageCompleted);
-                gameOverScreen.GetComponent<Image>().color = gameOverColor;
-            }
-
+            
             Color panelColor = blackPanel.color;
             panelColor.a = Mathf.Lerp(1, 0, percentageCompleted);
             blackPanel.color = panelColor;
 
-
             if (percentageCompleted >= 1)
             {
                 isFading = false;
-
-                if (gameOverScreen != null)
-                {
-                    gameOverScreen.SetActive(false);
-                }
             }
         }
 
@@ -116,6 +132,7 @@ public class UIManager : MonoBehaviour
                 gameCompletedScreenVisible = false;
             }
         }
+
     }
 
     private void OnEnable()
@@ -138,9 +155,6 @@ public class UIManager : MonoBehaviour
 
         if (gameOverScreen != null)
         {
-            Color startColor = gameOverScreen.GetComponent<Image>().color;
-            startColor.a = 1.0f;
-            gameOverScreen.GetComponent<Image>().color = startColor;
             gameOverScreen.SetActive(false);
         }
 
@@ -189,26 +203,25 @@ public class UIManager : MonoBehaviour
     {
         if (gameOverScreen != null)
         {
-            Color startColor = gameOverScreen.GetComponent<Image>().color;
-            startColor.a = 1.0f;
-            gameOverScreen.GetComponent<Image>().color = startColor;
             gameOverScreen.SetActive(true);
         }
     }
 
     private void CreateMainMenu()
     {
-        GameObject newStartButton = Instantiate(Resources.Load("UI/MenuButton_Base") as GameObject, mainMenuHolder);
+        mainMenu = mainMenuButtonHolder.parent.gameObject;
+
+        GameObject newStartButton = Instantiate(Resources.Load("UI/MenuButton_Base") as GameObject, mainMenuButtonHolder);
         startButton = newStartButton.GetComponent<Button>();
         startButton.GetComponentInChildren<Text>().text = "play";
         startButton.onClick.AddListener(OnStartButtonPressed);
 
-        GameObject newQuitButton = Instantiate(Resources.Load("UI/MenuButton_Base") as GameObject, mainMenuHolder);
+        GameObject newQuitButton = Instantiate(Resources.Load("UI/MenuButton_Base") as GameObject, mainMenuButtonHolder);
         quitButton = newQuitButton.GetComponent<Button>();
         quitButton.GetComponentInChildren<Text>().text = "quit";
         quitButton.onClick.AddListener(OnQuitButtonPressed);
 
-        GameObject newCreditsButton = Instantiate(Resources.Load("UI/MenuButton_Base") as GameObject, mainMenuHolder);
+        GameObject newCreditsButton = Instantiate(Resources.Load("UI/MenuButton_Base") as GameObject, mainMenuButtonHolder);
         creditsButton = newCreditsButton.GetComponent<Button>();
         creditsButton.GetComponentInChildren<Text>().text = "credits";
         creditsButton.onClick.AddListener(OnCreditsButtonPressed);
@@ -217,36 +230,47 @@ public class UIManager : MonoBehaviour
         closeCreditsScreenButton = newCloseCreditsScreenButton.GetComponent<Button>();
         closeCreditsScreenButton.GetComponentInChildren<Text>().text = "close";
         closeCreditsScreenButton.onClick.AddListener(CloseCreditsScreen);
+
+        GameObject newMainMenuVolumeSlider = Instantiate(Resources.Load("UI/MenuSlider") as GameObject, mainMenuVolumeSliderHolder);
+        mainMenuVolumeSlider = newMainMenuVolumeSlider.GetComponent<Slider>();
+        mainMenuVolumeSlider.GetComponentInChildren<Text>().text = "volume";
+        volumeSliderValue = em.BroadcastRequestVolumeLevel();
+        mainMenuVolumeSlider.value = volumeSliderValue;
     }
 
     private void CreatePauseMenu()
     {
-        GameObject newResumeButton = Instantiate(Resources.Load("UI/MenuButton_Base") as GameObject, pauseMenuHolder);
+        pauseMenu = pauseMenuButtonHolder.parent.gameObject;
+
+        GameObject newResumeButton = Instantiate(Resources.Load("UI/MenuButton_Base") as GameObject, pauseMenuButtonHolder);
         resumeButton = newResumeButton.GetComponent<Button>();
         resumeButton.GetComponentInChildren<Text>().text = "resume";
         resumeButton.onClick.AddListener(OnResumeButtonPressed);
 
-        GameObject newRestartButton = Instantiate(Resources.Load("UI/MenuButton_Base") as GameObject, pauseMenuHolder);
+        GameObject newRestartButton = Instantiate(Resources.Load("UI/MenuButton_Base") as GameObject, pauseMenuButtonHolder);
         restartButton = newRestartButton.GetComponent<Button>();
         restartButton.GetComponentInChildren<Text>().text = "restart";
         restartButton.onClick.AddListener(OnRestartButtonPressed);
 
-        GameObject newExitGameButton = Instantiate(Resources.Load("UI/MenuButton_Base") as GameObject, pauseMenuHolder);
+        GameObject newExitGameButton = Instantiate(Resources.Load("UI/MenuButton_Base") as GameObject, pauseMenuButtonHolder);
         exitGameButton = newExitGameButton.GetComponent<Button>();
         exitGameButton.GetComponentInChildren<Text>().text = "exit";
         exitGameButton.onClick.AddListener(OnExitGameButtonPressed);
+
+        GameObject newPauseMenuVolumeSlider = Instantiate(Resources.Load("UI/MenuSlider") as GameObject, pauseMenuVolumeSliderHolder);
+        pauseMenuVolumeSlider = newPauseMenuVolumeSlider.GetComponent<Slider>();
+        pauseMenuVolumeSlider.GetComponentInChildren<Text>().text = "volume";
+        volumeSliderValue = em.BroadcastRequestVolumeLevel();
+        pauseMenuVolumeSlider.value = volumeSliderValue;
     }
 
     private void OnStartButtonPressed()
     {
-        //Start the game (load first level, close main menu)
-        //em.BroadcastRequestLoadLevel(firstLevelIndex);
         em.BroadcastRequestLoadLevel(firstLevelIndex);
     }
 
     private void OnQuitButtonPressed()
     {
-        //Stop everything, close application
         em.BroadcastRequestExitApplication();
     }
 
@@ -273,7 +297,6 @@ public class UIManager : MonoBehaviour
 
     private void OnRestartButtonPressed()
     {
-        //TODO: Restart the level (or the whole game?)
         int currentSceneIndex = em.BroadcastRequestCurrentSceneIndex();
         em.BroadcastRequestLoadLevel(currentSceneIndex);
     }
@@ -301,22 +324,24 @@ public class UIManager : MonoBehaviour
 
     private void EnableMainMenu()
     {
-        mainMenuHolder.parent.gameObject.SetActive(true);
+        mainMenu.SetActive(true);
+        mainMenuVolumeSlider.value = em.BroadcastRequestVolumeLevel();
     }
 
     private void DisableMainMenu()
     {
-        mainMenuHolder.parent.gameObject.SetActive(false);
+        mainMenu.SetActive(false);
     }
 
     private void EnablePauseMenu()
     {
-        pauseMenuHolder.parent.gameObject.SetActive(true);
+        pauseMenu.SetActive(true);
+        pauseMenuVolumeSlider.value = em.BroadcastRequestVolumeLevel();
     }
 
     private void DisablePauseMenu()
     {
-        pauseMenuHolder.parent.gameObject.SetActive(false);
+        pauseMenu.SetActive(false);
     }
 
     void OnPauseStateChange(bool newPauseState)
@@ -357,6 +382,11 @@ public class UIManager : MonoBehaviour
             DisablePauseMenu();
             pauseMenuAvailable = true;
             em.OnInputEvent -= OnInputEvent;
+        }
+
+        if (gameOverScreen != null)
+        {
+            gameOverScreen.SetActive(false);
         }
 
         timeStartedLerping = Time.time;

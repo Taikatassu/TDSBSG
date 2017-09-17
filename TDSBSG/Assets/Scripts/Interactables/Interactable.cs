@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactable : MonoBehaviour {
-
+public class Interactable : MonoBehaviour
+{
     protected bool isInUse = false;
     [SerializeField]
     protected bool stationaryInteractable = false;
@@ -11,7 +11,6 @@ public class Interactable : MonoBehaviour {
     protected float endDurationTime = 0.0f;
     [SerializeField]
     protected List<ERobotType> permissionList;
-
 
     public bool GetIsStationaryInteractable()
     {
@@ -49,7 +48,7 @@ public class Interactable : MonoBehaviour {
     {
         foreach (ERobotType i in permissionList)
         {
-            if(robotTypeOfPlayer == i)
+            if (robotTypeOfPlayer == i)
             {
                 return true;
             }

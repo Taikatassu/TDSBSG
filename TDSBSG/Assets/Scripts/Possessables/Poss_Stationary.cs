@@ -14,6 +14,7 @@ public class Poss_Stationary : MonoBehaviour, IPossessable
     protected Interactable interactableObject;
     protected Poss_ConnectedMaster connectionMaster = null;
 
+    protected bool isStationary = true;
     bool canMove = false;
     bool isPossessed = false;
     bool isDisobeying = false;
@@ -27,20 +28,12 @@ public class Poss_Stationary : MonoBehaviour, IPossessable
         em = toolbox.GetComponent<EventManager>();
         possInfo = toolbox.GetComponent<PossessableInfo>();
     }
-
-    private void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-        tag = "Possessable"; //Add this to all possessables
-        gameObject.layer = LayerMask.NameToLayer("Possessable"); //Add this to all possessables
-    }
-
+    
     private void OnEnable()
     {
         possInfo.possessables.Add(this);
 
         em.OnInitializeGame += OnInitializeGame;
-        em.OnDisobeyingDetected += OnDisobeyingDetected;
     }
 
     private void OnDisable()
@@ -48,7 +41,6 @@ public class Poss_Stationary : MonoBehaviour, IPossessable
         possInfo.possessables.Remove(this);
 
         em.OnInitializeGame -= OnInitializeGame;
-        em.OnDisobeyingDetected -= OnDisobeyingDetected;
     }
 
     protected virtual void OnInitializeGame()
@@ -58,10 +50,9 @@ public class Poss_Stationary : MonoBehaviour, IPossessable
         possInfo = toolbox.GetComponent<PossessableInfo>();
         rb = GetComponent<Rigidbody>();
         tag = "Possessable"; //Add this to all possessables
+        gameObject.layer = LayerMask.NameToLayer("Possessable"); //Add this to all possessables
         disobeyingList = new List<GameObject>();
         canMove = true;
-
-        //ResetAll();
     }
 
     private void ResetAll()
@@ -92,6 +83,8 @@ public class Poss_Stationary : MonoBehaviour, IPossessable
 
     public void AddDisobeyingToList(GameObject go)
     {
+        //No need to add to 
+
         //if (!disobeyingList.Contains(go))
         //{
         //    disobeyingList.Add(go);
@@ -100,7 +93,7 @@ public class Poss_Stationary : MonoBehaviour, IPossessable
 
     public void RemoveDisobeyingFromList(GameObject go)
     {
-        //No need to add to 
+        //No need to remove from 
 
         //if (disobeyingList.Contains(go))
         //{
@@ -139,6 +132,11 @@ public class Poss_Stationary : MonoBehaviour, IPossessable
             default:
                 break;
         }
+    }
+
+    public bool GetIsStationary()
+    {
+        return isStationary;
     }
 
     public void Possess()
@@ -196,13 +194,10 @@ public class Poss_Stationary : MonoBehaviour, IPossessable
         {
             isDisobeying = false;
         }
-    }
 
-    private void OnDisobeyingDetected(ERobotType detectedRobotType, IPossessable detectedRobot)
-    {
-        if (this == (UnityEngine.Object)detectedRobot)
+        if (canMove)
         {
-            // cant move
+            //Stop rotation etc.
         }
     }
 }

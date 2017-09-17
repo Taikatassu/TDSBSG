@@ -18,31 +18,8 @@ public class Room : MonoBehaviour
         em = toolbox.GetComponent<EventManager>();
     }
 
-    // Get room's level of securityS
+    // Get room's level of security
     public int GetLevelOfSecurity() { return levelOfSecurity; }
-
-    //void OnTriggerEnter(Collider other)
-    //{
-    //    if (!other.GetComponent(typeof(IPossessable))) { return; }
-    //    IPossessable iPossessable = other.GetComponent(typeof(IPossessable)) as IPossessable;
-    //    if (iPossessable.GetIsPossessed())
-    //    {
-    //        ERobotType typeOfPlayer = iPossessable.GetRobotType();
-    //        bool isSameType = false;
-    //        foreach (ERobotType i in listOfAllowedRobotType)
-    //        {
-    //            if (typeOfPlayer == i)
-    //            {
-    //                isSameType = true;
-    //                break;
-    //            }
-    //        }
-
-    //        iPossessable.AddDisobeyingToList(gameObject);
-    //        em.BroadcastRoomEntered(levelOfSecurity, isSameType,
-    //            other.GetComponent<IPossessable>().GetRobotType());
-    //    }
-    //}
 
     private void OnTriggerStay(Collider other)
     {

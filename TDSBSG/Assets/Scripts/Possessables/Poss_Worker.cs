@@ -108,7 +108,7 @@ public class Poss_Worker : Poss_Mobile
                         moveXValue--;
                     }
 
-                    Vector3 movementVelocity; // = new Vector3(moveXValue, 0, moveZValue).normalized;
+                    Vector3 movementVelocity;
                     movementVelocity = (cameraRotatorTransform.forward * moveZValue
                         + cameraRotatorTransform.right * moveXValue).normalized;
 
