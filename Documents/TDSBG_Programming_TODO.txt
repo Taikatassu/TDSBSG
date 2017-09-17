@@ -188,7 +188,7 @@ DONE - Fix door permission indicator light location (public transform for all do
 - Fix game over screen displaying (display for x time until reloading the scene. Currenly practically never visible
   because new scene is instantly loaded and a loading screen is displayed on top of it)
 - Finish field of view mesh calculation optimization
-- Camere collision with environment / auto transparency to walls (somehow prevent environment from 
+- Camera collision with environment / auto transparency to walls (somehow prevent environment from 
   blocking the player's vision)
 - Take damage, knocked out and directional top sprites (Playtester critique: top sprites don't show character 
   animations (knockedOut, takeDamage))
