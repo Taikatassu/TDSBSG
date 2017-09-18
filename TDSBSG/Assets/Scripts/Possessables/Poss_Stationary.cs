@@ -29,7 +29,7 @@ public class Poss_Stationary : MonoBehaviour, IPossessable
         possInfo = toolbox.GetComponent<PossessableInfo>();
     }
     
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         possInfo.possessables.Add(this);
 

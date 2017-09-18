@@ -22,23 +22,21 @@ public class EventManager : MonoBehaviour
     }
 
     public delegate void EmptyVoid();
-    public delegate void IntVoid(int integer);
     public delegate void BoolVoid(bool boolean);
-    public delegate void StringVoid(string str);
-    public delegate void InputVoid(EInputType inputType);
-    public delegate void IntBoolRobotTypeVoid(int integer, bool boolean, ERobotType eRobotType);
-    public delegate void IntBoolVector3Void(int integer, bool boolean, Vector3 vec3);
-    public delegate void IntRobotTypeVoid(int integer, ERobotType eRobotType);
-    public delegate GameObject EmptyGameObject();
-    public delegate void RobotTypeVoid(ERobotType eRobotType);
-    public delegate void RobotTypeIPossessableVoid(ERobotType eRobotType, IPossessable detectedRobot);
-    public delegate int EmptyInt();
-    public delegate Vector3 EmptyVector3();
-    public delegate void Vector3Void(Vector3 vec3);
-    public delegate ERobotType EmptyRobotType();
-    public delegate void SoundEffectVoid(SoundEffect soundEffect);
+    public delegate void IntVoid(int integer);
     public delegate void FloatVoid(float floatingPoint);
+    public delegate void StringVoid(string str);
+    public delegate void Vector3Void(Vector3 vec3);
+    public delegate void InputVoid(EInputType inputType);
+    public delegate void RobotTypeVoid(ERobotType eRobotType);
+    public delegate void SoundEffectVoid(SoundEffect soundEffect);
+    public delegate void IntRobotTypeVoid(int integer, ERobotType eRobotType);
+    public delegate void IntBoolVector3Void(int integer, bool boolean, Vector3 vec3);
+    public delegate int EmptyInt();
     public delegate float EmptyFloat();
+    public delegate Vector3 EmptyVector3();
+    public delegate ERobotType EmptyRobotType();
+    public delegate GameObject EmptyGameObject();
 
     public event EmptyVoid OnInitializeGame;
     public void BroadcastInitializeGame()
@@ -121,51 +119,6 @@ public class EventManager : MonoBehaviour
         else
         {
             return Vector3.zero;
-        }
-    }
-
-    public event RobotTypeIPossessableVoid OnDisobeyingDetected;
-    public void BroadcastDisobeyingDetected(ERobotType detectedRobotType, IPossessable detectedRobot)
-    {
-        if (OnDisobeyingDetected != null)
-        {
-            OnDisobeyingDetected(detectedRobotType, detectedRobot);
-        }
-    }
-
-    public event IntBoolRobotTypeVoid OnRoomEntered;
-    public void BroadcastRoomEntered(int roomSecurityLevel, bool isAllowed, ERobotType enteringRobotType)
-    {
-        if (OnRoomEntered != null)
-        {
-            OnRoomEntered(roomSecurityLevel, isAllowed, enteringRobotType);
-        }
-    }
-
-    public event IntBoolRobotTypeVoid OnDoorEntered;
-    public void BroadcastDoorEntered(int doorSecurityLevel, bool isAllowed, ERobotType enteringRobotType)
-    {
-        if (OnDoorEntered != null)
-        {
-            OnDoorEntered(doorSecurityLevel, isAllowed, enteringRobotType);
-        }
-    }
-
-    public event IntRobotTypeVoid OnAlertStateChange;
-    public void BroadcastAlertStateChange(int newState, ERobotType wantedRobot)
-    {
-        if (OnAlertStateChange != null)
-        {
-            OnAlertStateChange(newState, wantedRobot);
-        }
-    }
-
-    public event IntVoid OnSecurityTierChange;
-    public void BroadcastSecurityTierChange(int newTier)
-    {
-        if (OnSecurityTierChange != null)
-        {
-            OnSecurityTierChange(newTier);
         }
     }
 
@@ -252,18 +205,10 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public event BoolVoid OnHideEnvironmentStateChange;
-    public void BroadcastHideEnvironmentStateChange(bool newState)
-    {
-        if (OnHideEnvironmentStateChange != null)
-        {
-            OnHideEnvironmentStateChange(newState);
-        }
-    }
-
     public event EmptyVoid OnPlayerCatched;
     public void BroadcastPlayerCatched()
     {
+        Debug.Log("BroadcastPlayerCatched");
         if (OnPlayerCatched != null)
         {
             OnPlayerCatched();
@@ -302,7 +247,7 @@ public class EventManager : MonoBehaviour
     }
 
     public event BoolVoid OnPossessablePossessed;
-    public void BroadcastEventPossessablePossessed(bool stationary)
+    public void BroadcastPossessablePossessed(bool stationary)
     {
         if (OnPossessablePossessed != null)
         {

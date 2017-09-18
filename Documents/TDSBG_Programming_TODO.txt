@@ -193,7 +193,11 @@ DONE - Fix game over screen displaying (display for x time until reloading the s
        because new scene is instantly loaded and a loading screen is displayed on top of it)
 DONE - Remove all unnecessary Debug.Log prints
 DONE - Check through all "TODO" comments in script, and fix / complete all WIP features deemed necessary
+DONE - Disable security manager?
+DONE - Vending machine possession does not work!?
 
+- Fix forklift liftable placement
+- Add star particles to the knock out meter
 - Finish field of view mesh calculation optimization
 	- Find out why the last two faces of the mesh are not drawn!
 - Post processing?
@@ -205,6 +209,8 @@ DONE - Check through all "TODO" comments in script, and fix / complete all WIP f
 - Audio
 	DONE - Music for levels (starts playing when a level is loaded, once the loading screen closes)
 	DONE - Music for main menu (starts playing when main menu is loaded, once the loading screen closes)
+	- Requestable audio clips for gameplay events (game over, game completed, etc. Scene background music continues
+	  after the sound effect is played)
 	- Toggleable SoundEffects for all characters
 	- Implement final audio files
 	- Audio clips needed:

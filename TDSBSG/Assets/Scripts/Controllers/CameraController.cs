@@ -19,7 +19,6 @@ public class CameraController : MonoBehaviour
     Vector3 rotatorRefVelocity = Vector3.zero;
     Vector3 cameraRefVeloity = Vector3.zero;
     bool isFollowing = false;
-    int cameraMode = 0; //0 = tilted & close, 1 = top down & high up (strategic / map view)
     Vector3 rotationOffset = Vector3.zero;
     float rotationSpeed = 12f;
     Vector3 lastMousePosition = Vector3.zero;
@@ -34,6 +33,7 @@ public class CameraController : MonoBehaviour
     Camera cam;
     Vector3[] clipPoints;
     bool ignoreCameraCollision = false;
+    bool rotateCameraButtonDown = false;
     #endregion
 
     private void Awake()
@@ -45,19 +45,19 @@ public class CameraController : MonoBehaviour
     private void OnEnable()
     {
         em.OnInitializeGame += OnInitializeGame;
-        em.OnInputEvent += OnInputEvent;
         em.OnRequestCameraReference += OnRequestCameraReference;
         em.OnMouseInputEvent += OnMouseInputEvent;
         em.OnPossessablePossessed += OnPossessablePossessed;
+        em.OnMousePositionChange += OnMousePositionChange;
     }
 
     private void OnDisable()
     {
         em.OnInitializeGame -= OnInitializeGame;
-        em.OnInputEvent -= OnInputEvent;
         em.OnRequestCameraReference -= OnRequestCameraReference;
         em.OnMouseInputEvent -= OnMouseInputEvent;
         em.OnPossessablePossessed -= OnPossessablePossessed;
+        em.OnMousePositionChange -= OnMousePositionChange;
     }
 
     void OnInitializeGame()
@@ -67,7 +67,6 @@ public class CameraController : MonoBehaviour
         target = em.BroadcastRequestPlayerReference().transform;
 
         cameraHeightPercentage = initialCameraHeightPercentage;
-        cameraMode = 0;
         Vector3 targetPosition = target.position;
         rotatorTransform.position = target.position;
         rotatorTransform.eulerAngles = target.eulerAngles;
@@ -81,59 +80,34 @@ public class CameraController : MonoBehaviour
         return gameObject;
     }
 
-    private void OnInputEvent(EInputType newInput)
-    {
-        switch (newInput)
-        {
-            case EInputType.CAMERAMODE_KEYDOWN:
-                ToggleCameraMode();
-                break;
-            default:
-                break;
-        }
-    }
-
     private void OnMouseInputEvent(int button, bool down, Vector3 mousePosition)
     {
         if (button == 2)
         {
             lastMousePosition = mousePosition;
-            if (down)
-            {
-                em.OnMousePositionChange += OnMousePositionChange;
-            }
-            else
-            {
-                em.OnMousePositionChange -= OnMousePositionChange;
-            }
+            rotateCameraButtonDown = down;
         }
     }
 
     private void OnMousePositionChange(Vector3 newPosition)
     {
-        float mouseMoveDistance = lastMousePosition.x - newPosition.x;
-        lastMousePosition = newPosition;
+        if (rotateCameraButtonDown)
+        {
+            if (rotatorTransform != null)
+            {
+                float mouseMoveDistance = lastMousePosition.x - newPosition.x;
+                lastMousePosition = newPosition;
 
-        rotationOffset.y = mouseMoveDistance * rotationSpeed * Time.fixedDeltaTime;
+                rotationOffset.y = mouseMoveDistance * rotationSpeed * Time.fixedDeltaTime;
 
-        rotatorTransform.eulerAngles += rotationOffset;
+                rotatorTransform.eulerAngles += rotationOffset;
+            }
+        }
     }
 
     private void OnPossessablePossessed(bool wasStationary)
     {
         ignoreCameraCollision = wasStationary;
-    }
-
-    private void ToggleCameraMode()
-    {
-        if (cameraMode == 0)
-        {
-            cameraMode = 1;
-        }
-        else if (cameraMode == 1)
-        {
-            cameraMode = 0;
-        }
     }
 
     private float CheckTargetVisibilityMultiCast()
@@ -242,7 +216,7 @@ public class CameraController : MonoBehaviour
             UpdateClipPoints();
             float obscureDistance = CheckTargetVisibilityMultiCast();
             //float obscureDistance = CheckTargetVisibilitySingleCast();
-            
+
             if (ignoreCameraCollision || cameraHeightPercentage > 0.2f)
             {
                 cameraZoomerTransform.localPosition = Vector3.SmoothDamp(cameraZoomerTransform.localPosition,
@@ -258,13 +232,11 @@ public class CameraController : MonoBehaviour
 
                     cameraZoomerTransform.position = Vector3.SmoothDamp(cameraZoomerTransform.position,
                         cameraZoomerDesiredPosition, ref cameraZoomerVelocity, smoothTime / 2);
-                    //cameraZoomerTransform.position = cameraZoomerDesiredPosition;
                 }
                 else
                 {
                     cameraZoomerTransform.localPosition = Vector3.SmoothDamp(cameraZoomerTransform.localPosition,
                         Vector3.zero, ref cameraZoomerVelocity, smoothTime / 2);
-                    //cameraZoomerTransform.localPosition = Vector3.zero;
                 }
             }
         }

@@ -129,7 +129,7 @@ public class Player : MonoBehaviour
     private void PossessPossessable(IPossessable newPossession)
     {
         bool isStationary = newPossession.GetIsStationary();
-        em.BroadcastEventPossessablePossessed(isStationary);
+        em.BroadcastPossessablePossessed(isStationary);
 
         switch (newPossession.GetPossessableType())
         {

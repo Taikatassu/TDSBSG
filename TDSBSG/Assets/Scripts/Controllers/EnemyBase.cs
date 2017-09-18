@@ -62,69 +62,17 @@ public class EnemyBase : MonoBehaviour
 
     private void OnEnable()
     {
-        if (isHostile)
-        {
-            em.OnAlertStateChange += OnAlartStateChange;
-            em.OnSecurityTierChange += OnSecurityTierChange;
-        }
         em.OnPauseActorsStateChange += OnPauseActorsStateChange;
     }
 
     private void OnDisable()
     {
-        if (isHostile)
-        {
-            em.OnAlertStateChange -= OnAlartStateChange;
-            em.OnSecurityTierChange -= OnSecurityTierChange;
-        }
         em.OnPauseActorsStateChange -= OnPauseActorsStateChange;
     }
 
     public void SetIsHostile(bool newIsHostile)
     {
         isHostile = newIsHostile;
-    }
-
-    protected virtual void OnAlartStateChange(int newState, ERobotType newWantedRobot)
-    {
-        if (!isHostile)
-        {
-            switch (newState)
-            {
-                case 0:
-                    if (!isAlerted)
-                    {
-                        return;
-                    }
-
-                    SetIsAlerted(false);
-                    visionRangeMultiplier = defaultVisionRangeMultiplier;
-                    visionAngleMultiplier = defaultVisionAngleMultiplier;
-                    break;
-                case 1:
-                    if (isAlerted)
-                    {
-                        return;
-                    }
-
-                    SetIsAlerted(true);
-                    visionRangeMultiplier = alertedVisionRangeMultiplier;
-                    visionAngleMultiplier = alertedVisionAngleMultiplier;
-                    break;
-                case 2:
-                    if (isAlerted)
-                    {
-                        return;
-                    }
-
-                    isAlerted = true;
-                    visionRangeMultiplier = alertedVisionRangeMultiplier;
-                    visionAngleMultiplier = alertedVisionAngleMultiplier;
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 
     protected void StopPossessable(IPossessable newStoppedPossessable)
@@ -136,14 +84,6 @@ public class EnemyBase : MonoBehaviour
 
         stoppedPossessable = newStoppedPossessable;
         stoppedPossessable.ChangeCanMoveState(false);
-    }
-
-    private void OnSecurityTierChange(int newTier)
-    {
-        if (isHostile)
-        {
-            currentSecurityTier = newTier;
-        }
     }
 
     private void OnPauseActorsStateChange(bool newState)
@@ -199,14 +139,6 @@ public class EnemyBase : MonoBehaviour
     public void SetPatrolPoints(List<PatrolPoint> newPatrolPoints)
     {
         patrolPoints = newPatrolPoints;
-    }
-
-    protected virtual void SetIsAlerted(bool newState)
-    {
-        if (isAlerted != newState)
-        {
-            isAlerted = newState;
-        }
     }
 
     protected virtual void StartChase()
@@ -302,7 +234,7 @@ public class EnemyBase : MonoBehaviour
     #region FixedUpdate & LateUpdate
     protected virtual void FixedUpdate()
     {
-        if (initialized)
+        if (initialized && !isPaused)
         {
             if (isHostile)
             {
@@ -354,8 +286,7 @@ public class EnemyBase : MonoBehaviour
                                         //If we are alerted and the hit possessable is a robot of the type we're looking for
                                         if (isAlerted && detectedRobot.GetRobotType() == wantedRobot)
                                         {
-                                            //Send an event about detecting the target and start chasing it
-                                            em.BroadcastDisobeyingDetected(detectedRobot.GetRobotType(), detectedRobot);
+                                            //Stop the possessable and start chasing it
                                             StopPossessable(detectedRobot);
                                             currentTarget = detectedRobot.GetGameObject().transform;
                                             StartChase();
@@ -363,8 +294,7 @@ public class EnemyBase : MonoBehaviour
                                         //If the hit possessable is currently disobeying
                                         else if (detectedRobot.GetIsDisobeying())
                                         {
-                                            //Send an event about detecting the target and start chasing it
-                                            em.BroadcastDisobeyingDetected(detectedRobot.GetRobotType(), detectedRobot);
+                                            //Stop the possessable and start chasing it
                                             StopPossessable(detectedRobot);
                                             currentTarget = detectedRobot.GetGameObject().transform;
                                             wantedRobot = detectedRobot.GetRobotType();
@@ -382,9 +312,12 @@ public class EnemyBase : MonoBehaviour
 
     protected virtual void LateUpdate()
     {
-        if (isHostile)
+        if (isPaused)
         {
-            myFoV.DrawFieldOfView();
+            if (isHostile)
+            {
+                myFoV.DrawFieldOfView();
+            }
         }
     }
     #endregion

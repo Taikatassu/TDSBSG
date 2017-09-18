@@ -384,11 +384,6 @@ public class UIManager : MonoBehaviour
             em.OnInputEvent -= OnInputEvent;
         }
 
-        if (gameOverScreen != null)
-        {
-            gameOverScreen.SetActive(false);
-        }
-
         timeStartedLerping = Time.time;
         isFading = true;
     }
@@ -398,6 +393,11 @@ public class UIManager : MonoBehaviour
         Color panelColor = blackPanel.color;
         panelColor.a = 1.0f;
         blackPanel.color = panelColor;
+
+        if (gameOverScreen != null)
+        {
+            gameOverScreen.SetActive(false);
+        }
 
     }
 }

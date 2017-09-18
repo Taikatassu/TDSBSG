@@ -21,8 +21,10 @@ public class Poss_Turret : Poss_Stationary
     float shootCooldownTimer;
     bool shooting = false;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+
         shooting = false;
 
         if (!useDefaultProjectiles)

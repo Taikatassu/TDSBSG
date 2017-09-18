@@ -33,6 +33,7 @@ public class Enemy_Patroller : EnemyBase
     float lookAroundDuration = 1f;
     float lookAroundTime = 0f;
     Vector3 lastKnownTargetPos = Vector3.zero;
+    bool playerCatched = false;
     #endregion
 
     public override void InitializeEnemy()
@@ -49,6 +50,8 @@ public class Enemy_Patroller : EnemyBase
 
     private void OnDisable()
     {
+        playerCatched = false;
+
         em.OnPauseActorsStateChange -= OnPauseActorsStateChange;
     }
 
@@ -58,40 +61,12 @@ public class Enemy_Patroller : EnemyBase
         isPaused = newState;
     }
 
-    #region Alerts
-    protected override void SetIsAlerted(bool newState)
-    {
-        base.SetIsAlerted(newState);
-    }
-
-    protected override void OnAlartStateChange(int newState, ERobotType newWantedRobot)
-    {
-        base.OnAlartStateChange(newState, newWantedRobot);
-
-        if (isHostile)
-        {
-            switch (newState)
-            {
-                case 0:
-                    ResumePatrolling();
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-    #endregion
-
     #region Patrolling
     private void InitializePatrolling()
     {
         isPatrolling = true;
 
-        //Teleport ourselves to the first patrol point
+        //Teleport us to the first patrol point
         transform.position = patrolPoints[0].transform.position;
 
         //If there are more than one patrol points
@@ -416,7 +391,11 @@ public class Enemy_Patroller : EnemyBase
                                     {
                                         if (currentTarget.GetComponent<IPossessable>().GetIsPossessed())
                                         {
-                                            em.BroadcastPlayerCatched();
+                                            if (!playerCatched)
+                                            {
+                                                playerCatched = true;
+                                                em.BroadcastPlayerCatched();
+                                            }
                                         }
                                     }
                                 }

@@ -4,23 +4,9 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
-
-    Toolbox toolbox;
-    EventManager em;
-    [SerializeField]
-    private int levelOfSecurity = 0; // room's level of security
     [SerializeField, Header("List of allowed robot type")]
     List<ERobotType> listOfAllowedRobotType = new List<ERobotType>();
-
-    private void Awake()
-    {
-        toolbox = FindObjectOfType<Toolbox>();
-        em = toolbox.GetComponent<EventManager>();
-    }
-
-    // Get room's level of security
-    public int GetLevelOfSecurity() { return levelOfSecurity; }
-
+    
     private void OnTriggerStay(Collider other)
     {
         //Ignore stationary possessables for now 
@@ -44,8 +30,6 @@ public class Room : MonoBehaviour
                 {
                     iPossessable.AddDisobeyingToList(gameObject);
                 }
-
-                em.BroadcastRoomEntered(levelOfSecurity, isSameType, robotType);
             }
         }
     }

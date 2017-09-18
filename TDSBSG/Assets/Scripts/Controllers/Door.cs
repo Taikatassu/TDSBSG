@@ -4,21 +4,8 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    Toolbox toolbox;
-    EventManager em;
-    [SerializeField]
-    private int levelOfSecurity = 0; // door's level of security
     [SerializeField, Header("Allowed robot types")]
     List<ERobotType> listOfAllowedRobotType = new List<ERobotType>();
-
-    private void Awake()
-    {
-        toolbox = FindObjectOfType<Toolbox>();
-        em = toolbox.GetComponent<EventManager>();
-    }
-
-    // Get room's level of securityS
-    public int GetLevelOfSecurity() { return levelOfSecurity; }
 
     void OnTriggerEnter(Collider other)
     {
@@ -37,9 +24,10 @@ public class Door : MonoBehaviour
                 }
             }
 
-            iPossessable.AddDisobeyingToList(gameObject);
-            em.BroadcastDoorEntered(levelOfSecurity, isSameType,
-                other.GetComponent<IPossessable>().GetRobotType());
+            if (!isSameType)
+            {
+                iPossessable.AddDisobeyingToList(gameObject);
+            }
         }
     }
 

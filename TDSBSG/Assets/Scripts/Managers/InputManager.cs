@@ -13,7 +13,6 @@ public class InputManager : MonoBehaviour
     private KeyCode moveDownKey;
     private KeyCode moveRightKey;
     private KeyCode moveLeftKey;
-    private KeyCode cameraModeKey;
     private KeyCode pauseKey;
     private KeyCode useKey;
     private KeyCode rotateCameraClockwise;
@@ -49,7 +48,6 @@ public class InputManager : MonoBehaviour
         moveRightKey = KeyCode.D;
         moveLeftKey = KeyCode.A;
         pauseKey = KeyCode.Escape;
-        cameraModeKey = KeyCode.M;
         useKey = KeyCode.Space;
         rotateCameraClockwise = KeyCode.Q;
         rotateCameraCounterClockwise = KeyCode.E;
@@ -104,16 +102,6 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyUp(pauseKey))
         {
             em.BroadcastInputEvent(EInputType.PAUSE_KEYUP);
-        }
-
-        //Camera Mode
-        if (Input.GetKeyDown(cameraModeKey))
-        {
-            em.BroadcastInputEvent(EInputType.CAMERAMODE_KEYDOWN);
-        }
-        if (Input.GetKeyUp(cameraModeKey))
-        {
-            em.BroadcastInputEvent(EInputType.CAMRAMODE_KEYUP);
         }
 
         //Use (possessable ability)
@@ -193,8 +181,6 @@ public enum EInputType
     MOVELEFT_KEYUP,
     PAUSE_KEYDOWN,
     PAUSE_KEYUP,
-    CAMERAMODE_KEYDOWN,
-    CAMRAMODE_KEYUP,
     USE_KEYDOWN,
     USE_KEYUP,
     ROTATECAMERACLOCKWISE_KEYDOWN,
