@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door : MonoBehaviour
+public class Restricted_Door : MonoBehaviour
 {
     [SerializeField, Header("Allowed robot types")]
     List<ERobotType> listOfAllowedRobotType = new List<ERobotType>();

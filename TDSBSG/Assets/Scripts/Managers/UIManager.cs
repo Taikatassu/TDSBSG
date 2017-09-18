@@ -195,6 +195,7 @@ public class UIManager : MonoBehaviour
                 gameCompletedScreen.SetActive(true);
                 gameCompletedScreenTimer = gameCompletedScreenDuration;
                 gameCompletedScreenVisible = true;
+                OpenCreditsScreen();
             }
         }
     }

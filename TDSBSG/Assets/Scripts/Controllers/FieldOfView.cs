@@ -8,8 +8,7 @@ public class FieldOfView : MonoBehaviour
     private float viewRange = 0f;
     [SerializeField]
     private float viewAngle = 0f;
-    [SerializeField]
-    float visionMeshResolution = 1f;
+    float visionMeshResolution = 0.5f;
     [SerializeField]
     LayerMask obstacleMask;
     public MeshFilter viewMeshFilter;
@@ -17,6 +16,8 @@ public class FieldOfView : MonoBehaviour
     MeshRenderer viewMeshRenderer = null;
     Material defaultMaterial = null;
     Material turnedOffMaterial = null;
+    int edgeResolveIterations = 6;
+    float edgeDistanceThreshold = 0.5f;
 
     private void Start()
     {
@@ -77,14 +78,36 @@ public class FieldOfView : MonoBehaviour
         int stepCount = Mathf.RoundToInt(viewAngle * visionMeshResolution);
         float stepAngleSize = viewAngle / stepCount;
         List<Vector3> viewPoints = new List<Vector3>();
+        ViewCastInfo oldViewCast = new ViewCastInfo();
         for (int i = 0; i <= stepCount; i++)
         {
             float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
             ViewCastInfo newViewCast = ViewCast(angle);
+
+            if (i > 0)
+            {
+                bool edgeDistanceThresholdExceeded
+                    = Mathf.Abs(oldViewCast.dist - newViewCast.dist) > edgeDistanceThreshold;
+                if (oldViewCast.hit != newViewCast.hit
+                    || oldViewCast.hit && newViewCast.hit && edgeDistanceThresholdExceeded)
+                {
+                    EdgeInfo edge = FindEdge(oldViewCast, newViewCast);
+                    if (edge.pointA != Vector3.zero)
+                    {
+                        viewPoints.Add(edge.pointA);
+                    }
+                    if (edge.pointB != Vector3.zero)
+                    {
+                        viewPoints.Add(edge.pointB);
+                    }
+                }
+            }
+
             viewPoints.Add(newViewCast.point);
+            oldViewCast = newViewCast;
         }
 
-        int vertexCount = viewPoints.Count - 1;
+        int vertexCount = viewPoints.Count + 1;
         Vector3[] vertices = new Vector3[vertexCount];
         int[] triangles = new int[(vertexCount - 2) * 3];
 
@@ -100,10 +123,41 @@ public class FieldOfView : MonoBehaviour
                 triangles[i * 3 + 2] = i + 2;
             }
         }
+
         viewMesh.Clear();
+
         viewMesh.vertices = vertices;
         viewMesh.triangles = triangles;
         viewMesh.RecalculateNormals();
+    }
+
+    EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast)
+    {
+        float minAngle = minViewCast.angle;
+        float maxAngle = maxViewCast.angle;
+        Vector3 minPoint = Vector3.zero;
+        Vector3 maxPoint = Vector3.zero;
+
+        for (int i = 0; i < edgeResolveIterations; i++)
+        {
+            float angle = (minAngle + maxAngle) / 2;
+            ViewCastInfo newViewCast = ViewCast(angle);
+
+            bool edgeDistanceThresholdExceeded
+                = Mathf.Abs(minViewCast.dist - newViewCast.dist) > edgeDistanceThreshold;
+            if (newViewCast.hit == minViewCast.hit && !edgeDistanceThresholdExceeded)
+            {
+                minAngle = angle;
+                minPoint = newViewCast.point;
+            }
+            else
+            {
+                maxAngle = angle;
+                maxPoint = newViewCast.point;
+            }
+        }
+
+        return new EdgeInfo(minPoint, maxPoint);
     }
 
     ViewCastInfo ViewCast(float globalAngle)
@@ -117,7 +171,7 @@ public class FieldOfView : MonoBehaviour
         else
         {
             return new ViewCastInfo(false, transform.position + dir * viewRange,
-                hit.distance, globalAngle);
+                viewRange, globalAngle);
         }
     }
 
@@ -137,4 +191,17 @@ public class FieldOfView : MonoBehaviour
         }
 
     }
+
+    public struct EdgeInfo
+    {
+        public Vector3 pointA;
+        public Vector3 pointB;
+
+        public EdgeInfo(Vector3 _pointA, Vector3 _pointB)
+        {
+            pointA = _pointA;
+            pointB = _pointB;
+        }
+    }
+
 }

@@ -3,29 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Projectile : MonoBehaviour {
-
+public class Projectile : MonoBehaviour
+{
     [SerializeField]
     bool reusable = false;
+    bool isActive = false;
 
-    private void OnCollisionEnter(Collision collision) {
-        EnemyBase enemy = collision.gameObject.GetComponent<EnemyBase>();
+    public void SetIsActive(bool newState)
+    {
+        isActive = newState;
+    }
 
-        if (enemy) {
-            enemy.KnockOut();
-        }
+    private void OnEnable()
+    {
+        isActive = false;
+    }
 
-        GameObject splash = Instantiate(Resources.Load("ParticleEffect/SplashParticle") as GameObject, 
-            transform.position, transform.rotation);
-        Destroy(splash, 3.0f);
-
-        if (reusable)
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (isActive)
         {
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            Destroy(gameObject);
+            EnemyBase enemy = collision.gameObject.GetComponent<EnemyBase>();
+
+            if (enemy)
+            {
+                enemy.KnockOut();
+            }
+
+            GameObject splash = Instantiate(Resources.Load("ParticleEffect/SplashParticle") as GameObject,
+                transform.position, transform.rotation);
+            Destroy(splash, 3.0f);
+
+            if (reusable)
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

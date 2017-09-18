@@ -102,6 +102,10 @@ public class Poss_Turret : Poss_Stationary
                     projectile.transform.position = spawnTransform.position;
                     projectile.transform.rotation = spawnTransform.rotation;
                     projectile.GetComponent<Rigidbody>().isKinematic = false;
+                    if (projectile.GetComponent<Projectile>())
+                    {
+                        projectile.GetComponent<Projectile>().SetIsActive(true);
+                    }
                 }
 
                 projectile.GetComponent<Rigidbody>().AddForce(transform.forward * shootForce, ForceMode.Impulse);

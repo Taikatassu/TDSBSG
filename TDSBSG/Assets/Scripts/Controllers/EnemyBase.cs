@@ -312,7 +312,7 @@ public class EnemyBase : MonoBehaviour
 
     protected virtual void LateUpdate()
     {
-        if (isPaused)
+        if (!isPaused)
         {
             if (isHostile)
             {

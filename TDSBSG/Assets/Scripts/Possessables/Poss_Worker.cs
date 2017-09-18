@@ -9,6 +9,8 @@ public class Poss_Worker : Poss_Mobile
     [SerializeField]
     Transform lifter;
     [SerializeField]
+    Transform lifterAttachMarker;
+    [SerializeField]
     float heightOfLifter = 2.0f;
 
     [SerializeField]
@@ -150,10 +152,6 @@ public class Poss_Worker : Poss_Mobile
             case EInputType.USE_KEYDOWN:
                 if (liftingObject)
                 {
-                    if (overlappingObjects.Count > 0)
-                    {
-                        Debug.Log(overlappingObjects[0].name);
-                    }
                     if (overlappingObjects.Count == 0)
                     {
                         if (liftingStationaryObject)
@@ -169,12 +167,18 @@ public class Poss_Worker : Poss_Mobile
                     Interactable_Liftable closestLiftable = GetClosestLiftable();
                     if (closestLiftable != null)
                     {
-                        float result = closestLiftable.StartInteraction(lifter);
+                        float result = closestLiftable.StartInteraction(lifterAttachMarker);
                         if (result >= 0)
                         {
                             if (closestLiftable.GetIsStationaryInteractable())
                             {
                                 liftingStationaryObject = true;
+                            }
+                            else
+                            {
+                                Vector2 liftableMeasures = closestLiftable.GetMeasures();
+                                lifterAttachMarker.localPosition =
+                                    new Vector3(0, -0.4f, liftableMeasures.x / 2 + 0.4f);
                             }
 
                             StartLerp(true);

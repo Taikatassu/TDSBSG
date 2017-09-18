@@ -146,7 +146,6 @@ GameObject:
   - component: {fileID: 114294282154675122}
   - component: {fileID: 114117646893950290}
   - component: {fileID: 114328708380131670}
-  - component: {fileID: 114456939164099532}
   - component: {fileID: 114695660420583582}
   - component: {fileID: 114540855774249082}
   - component: {fileID: 114891726876256700}
@@ -1631,21 +1630,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 827284437ae60d84385df4118817d36b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114456939164099532
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1284438480634866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: deab7b8116bf8ee4bbe78b7788f76d0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  numOfTiers: 5
-  pointPerTier: 100
-  roomEnterIncrease: 20
-  doorEnterIncrease: 20
 --- !u!114 &114482104102800792
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2066,6 +2050,18 @@ MonoBehaviour:
     _loop: 1
   - _name: LoadingScreen_Music
     _clip: {fileID: 8300000, guid: bb6e2dab9e803bb46b5204b1058574e5, type: 3}
+    _source: {fileID: 0}
+    _volume: 1
+    _pitch: 1
+    _loop: 0
+  - _name: LevelStart_Cue
+    _clip: {fileID: 8300000, guid: 272a118320cf4534fa909d4a10495285, type: 3}
+    _source: {fileID: 0}
+    _volume: 1
+    _pitch: 1
+    _loop: 0
+  - _name: GameOver_Cue
+    _clip: {fileID: 8300000, guid: d6163704ab3ca7545919d9b27cc8f665, type: 3}
     _source: {fileID: 0}
     _volume: 1
     _pitch: 1
@@ -2628,7 +2624,7 @@ RectTransform:
   m_Children:
   - {fileID: 224518001070180162}
   m_Father: {fileID: 224532770588043496}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2889,8 +2885,8 @@ RectTransform:
   - {fileID: 224811800851735152}
   - {fileID: 224554714941870348}
   - {fileID: 224302650267250426}
-  - {fileID: 224042919304861530}
   - {fileID: 224870217271328940}
+  - {fileID: 224042919304861530}
   - {fileID: 224024157007742282}
   m_Father: {fileID: 4540267426113654}
   m_RootOrder: 1
@@ -3160,7 +3156,7 @@ RectTransform:
   - {fileID: 224628523991236790}
   - {fileID: 224256799141695904}
   m_Father: {fileID: 224532770588043496}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

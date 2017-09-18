@@ -33,6 +33,7 @@ public class Interactable_Door : Interactable
     bool autoClose = true;
     float timeStartedLerping = 0f;
     EDoorState state;
+    List<GameObject> currentDoorOpeners = new List<GameObject>();
     [SerializeField]
     Transform accessLightMarker;
     [SerializeField]
@@ -133,6 +134,38 @@ public class Interactable_Door : Interactable
         }
     }
 
+    private void StartOpenDoor()
+    {
+        timeStartedLerping = Time.time;
+        if (doorObject != null)
+        {
+            startPos = doorObject.transform.localPosition;
+            startRot = doorObject.transform.localEulerAngles;
+        }
+        if (doorObject_2 != null)
+        {
+            startPos_2 = doorObject_2.transform.localPosition;
+            startRot_2 = doorObject_2.transform.localEulerAngles;
+        }
+        state = EDoorState.IS_OPENING;
+    }
+
+    private void StartCloseDoor()
+    {
+        timeStartedLerping = Time.time;
+        if (doorObject != null)
+        {
+            startPos = doorObject.transform.localPosition;
+            startRot = doorObject.transform.localEulerAngles;
+        }
+        if (doorObject_2 != null)
+        {
+            startPos_2 = doorObject_2.transform.localPosition;
+            startRot_2 = doorObject_2.transform.localEulerAngles;
+        }
+        state = EDoorState.IS_CLOSING;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent(typeof(IPossessable)))
@@ -142,18 +175,11 @@ public class Interactable_Door : Interactable
             {
                 if (ContainPermissionList(hitUser.GetRobotType()))
                 {
-                    timeStartedLerping = Time.time;
-                    if (doorObject != null)
+                    if (currentDoorOpeners.Count == 0)
                     {
-                        startPos = doorObject.transform.localPosition;
-                        startRot = doorObject.transform.localEulerAngles;
+                        StartOpenDoor();
                     }
-                    if (doorObject_2 != null)
-                    {
-                        startPos_2 = doorObject_2.transform.localPosition;
-                        startRot_2 = doorObject_2.transform.localEulerAngles;
-                    }
-                    state = EDoorState.IS_OPENING;
+                    currentDoorOpeners.Add(other.gameObject);
                     CreateGreenLightEffect();
                     return;
                 }
@@ -166,18 +192,11 @@ public class Interactable_Door : Interactable
         }
         else if (other.GetComponent<EnemyBase>())
         {
-            timeStartedLerping = Time.time;
-            if (doorObject != null)
+            if (currentDoorOpeners.Count == 0)
             {
-                startPos = doorObject.transform.localPosition;
-                startRot = doorObject.transform.localEulerAngles;
+                StartOpenDoor();
             }
-            if (doorObject_2 != null)
-            {
-                startPos_2 = doorObject_2.transform.localPosition;
-                startRot_2 = doorObject_2.transform.localEulerAngles;
-            }
-            state = EDoorState.IS_OPENING;
+            currentDoorOpeners.Add(other.gameObject);
             CreateGreenLightEffect();
             return;
         }
@@ -196,36 +215,31 @@ public class Interactable_Door : Interactable
                 {
                     if (ContainPermissionList(hitUser.GetRobotType()))
                     {
-                        timeStartedLerping = Time.time;
-                        if (doorObject != null)
+                        if (currentDoorOpeners.Contains(other.gameObject))
                         {
-                            startPos = doorObject.transform.localPosition;
-                            startRot = doorObject.transform.localEulerAngles;
+                            currentDoorOpeners.Remove(other.gameObject);
+
+                            if (currentDoorOpeners.Count == 0)
+                            {
+                                StartCloseDoor();
+                            }
                         }
-                        if (doorObject_2 != null)
-                        {
-                            startPos_2 = doorObject_2.transform.localPosition;
-                            startRot_2 = doorObject_2.transform.localEulerAngles;
-                        }
-                        state = EDoorState.IS_CLOSING;
                     }
                 }
                 OffLightEffect();
             }
             else if (other.GetComponent<EnemyBase>())
             {
-                timeStartedLerping = Time.time;
-                if (doorObject != null)
+                if (currentDoorOpeners.Contains(other.gameObject))
                 {
-                    startPos = doorObject.transform.localPosition;
-                    startRot = doorObject.transform.localEulerAngles;
+                    currentDoorOpeners.Remove(other.gameObject);
+
+                    if (currentDoorOpeners.Count == 0)
+                    {
+                        StartCloseDoor();
+                    }
                 }
-                if (doorObject_2 != null)
-                {
-                    startPos_2 = doorObject_2.transform.localPosition;
-                    startRot_2 = doorObject_2.transform.localEulerAngles;
-                }
-                state = EDoorState.IS_CLOSING;
+
                 OffLightEffect();
             }
         }

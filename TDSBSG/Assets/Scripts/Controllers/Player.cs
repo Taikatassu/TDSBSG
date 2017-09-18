@@ -165,6 +165,14 @@ public class Player : MonoBehaviour
                 {
                     if (hit.collider.GetComponent(typeof(IPossessable)))
                     {
+                        //If currently possessing stationary, increase possession range slightly
+                        //to prevent players from getting stuck
+                        float adjustedPossessionRange = possessionRange;
+                        if (primaryPossession.GetIsStationary())
+                        {
+                            adjustedPossessionRange += 2;
+                        }
+
                         IPossessable hitPossessable = hit.collider.GetComponent<IPossessable>();
                         Vector3 raycastOrigin = transform.position;
                         raycastOrigin.y++;
@@ -176,7 +184,8 @@ public class Player : MonoBehaviour
                             somethingFound = true;
                             return;
                         }
-                        else if (Physics.Raycast(raycastOrigin, hitObjectDirection, out hit, possessionRange, possessBlockinMask))
+                        else if (Physics.Raycast(raycastOrigin, hitObjectDirection, 
+                            out hit, adjustedPossessionRange, possessBlockinMask))
                         {
                             if (hit.collider.gameObject == hitPossessable.GetGameObject())
                             {

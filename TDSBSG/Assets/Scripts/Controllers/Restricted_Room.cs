@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Room : MonoBehaviour
+public class Restricted_Room : MonoBehaviour
 {
     [SerializeField, Header("List of allowed robot type")]
     List<ERobotType> listOfAllowedRobotType = new List<ERobotType>();

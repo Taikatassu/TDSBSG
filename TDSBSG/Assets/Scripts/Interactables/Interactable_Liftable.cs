@@ -7,6 +7,10 @@ public class Interactable_Liftable : Interactable
 {
     Transform currentLifter;
     Rigidbody rb;
+    [SerializeField]
+    float height = 2;
+    [SerializeField]
+    float thickness = 2;
 
     private void FixedUpdate()
     {
@@ -42,11 +46,11 @@ public class Interactable_Liftable : Interactable
         {
             return -1.0f;
         }
-        if(rb != null)
+        if(rb == null)
         {
             rb = GetComponent<Rigidbody>();
-            rb.isKinematic = true;
         }
+        rb.isKinematic = true;
 
         return startDurationTime;
     }
@@ -58,11 +62,12 @@ public class Interactable_Liftable : Interactable
         {
             GetComponent<Collider>().enabled = false;
         }
-        if (rb != null)
+        if (rb == null)
         {
             rb = GetComponent<Rigidbody>();
-            rb.isKinematic = true;
         }
+
+        rb.isKinematic = true;
         isInUse = true;
         return 0.0f;
     }
@@ -74,12 +79,18 @@ public class Interactable_Liftable : Interactable
         {
             GetComponent<Collider>().enabled = true;
         }
-        if (rb != null)
+        if (rb == null)
         {
             rb = GetComponent<Rigidbody>();
-            rb.isKinematic = false;
         }
+
+        rb.isKinematic = false;
         isInUse = false;
         return endDurationTime;
+    }
+
+    public Vector2 GetMeasures()
+    {
+        return new Vector2(thickness, height);
     }
 }

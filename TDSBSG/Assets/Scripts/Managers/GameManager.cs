@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     float startingLevelPeriodDuration = 1f;
     bool playerCatched = false;
     float playerCatchedTimer = 0f;
-    float playerCatchedTimerDuration = 1f;
+    float playerCatchedTimerDuration = 1.5f;
 
     private void Awake()
     {
@@ -108,6 +108,48 @@ public class GameManager : MonoBehaviour
         {
             TogglePauseGame();
         }
+
+        if (playerCatched)
+        {
+            bool skipGameOverScreen = false;
+            switch (newInput)
+            {
+                case EInputType.MOVEUP_KEYDOWN:
+                    skipGameOverScreen = true;
+                    break;
+                case EInputType.MOVEDOWN_KEYDOWN:
+                    skipGameOverScreen = true;
+                    break;
+                case EInputType.MOVERIGHT_KEYDOWN:
+                    skipGameOverScreen = true;
+                    break;
+                case EInputType.MOVELEFT_KEYDOWN:
+                    skipGameOverScreen = true;
+                    break;
+                case EInputType.PAUSE_KEYDOWN:
+                    skipGameOverScreen = true;
+                    break;
+                case EInputType.USE_KEYDOWN:
+                    skipGameOverScreen = true;
+                    break;
+                case EInputType.ROTATECAMERACLOCKWISE_KEYDOWN:
+                    skipGameOverScreen = true;
+                    break;
+                case EInputType.ROTATECAMERACOUNTERCLOCKWISE_KEYDOWN:
+                    skipGameOverScreen = true;
+                    break;
+                default:
+                    break;
+            }
+
+            if (skipGameOverScreen)
+            {
+                playerCatched = false;
+                int currentSceneIndex = em.BroadcastRequestCurrentSceneIndex();
+                em.BroadcastRequestLoadLevel(currentSceneIndex);
+            }
+        }
+
     }
 
     void OnRequestLoadLevel(int sceneBuildIndex)
@@ -202,6 +244,8 @@ public class GameManager : MonoBehaviour
     {
         playerCatchedTimer = playerCatchedTimerDuration;
         playerCatched = true;
+        em.BroadcastRequestAudio("GameOver_Cue");
+        pausingAvailable = false;
     }
 
     private void FixedUpdate()

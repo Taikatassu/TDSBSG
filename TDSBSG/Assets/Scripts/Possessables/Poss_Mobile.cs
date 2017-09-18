@@ -149,7 +149,7 @@ public class Poss_Mobile : MonoBehaviour, IPossessable
         }
         else
         {
-            Debug.LogWarning("RemoveDisobeyingFromList: Object to remove not found!");
+            Debug.LogWarning("RemoveDisobeyingFromList: Object to remove not found! " + go.name);
         }
     }
 

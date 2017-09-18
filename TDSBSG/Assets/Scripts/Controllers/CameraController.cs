@@ -120,12 +120,11 @@ public class CameraController : MonoBehaviour
             Vector3 rayDirection = clipPoints[i] - target.position;
             float rayDistance = rayDirection.magnitude;
 
-            Debug.DrawRay(rayOrigin, rayDirection, Color.blue, 1f);
+            //Debug.DrawRay(rayOrigin, rayDirection, Color.blue, 1f);
             RaycastHit hit;
             if (Physics.Raycast(rayOrigin, rayDirection, out hit, rayDistance, cameraObscureMask, QueryTriggerInteraction.Ignore))
             {
-
-                Debug.DrawRay(rayOrigin, rayDirection.normalized * hit.distance, Color.blue, 1f);
+                //Debug.DrawRay(rayOrigin, rayDirection.normalized * hit.distance, Color.blue, 1f);
 
                 if (cameraZoomAdjustment == 0)
                 {
@@ -150,11 +149,11 @@ public class CameraController : MonoBehaviour
         Vector3 rayDirection = transform.position - target.position;
         float rayDistance = rayDirection.magnitude;
 
-        Debug.DrawRay(rayOrigin, rayDirection, Color.blue, 1f);
+        //Debug.DrawRay(rayOrigin, rayDirection, Color.blue, 1f);
         RaycastHit hit;
         if (Physics.Raycast(rayOrigin, rayDirection, out hit, rayDistance, cameraObscureMask, QueryTriggerInteraction.Ignore))
         {
-            Debug.DrawRay(rayOrigin, rayDirection.normalized * hit.distance, Color.blue, 1f);
+            //Debug.DrawRay(rayOrigin, rayDirection.normalized * hit.distance, Color.blue, 1f);
             cameraZoomAdjustment = (transform.position - hit.point).magnitude;
         }
 
@@ -173,13 +172,9 @@ public class CameraController : MonoBehaviour
 
             clipPoints = new Vector3[5];
             clipPoints[0] = (atRotation * new Vector3(-x, y, z)) + cameraPosition;
-            Debug.DrawRay(cameraPosition, clipPoints[0] - cameraPosition, Color.green, 0.1f);
             clipPoints[1] = (atRotation * new Vector3(x, y, z)) + cameraPosition;
-            Debug.DrawRay(cameraPosition, clipPoints[1] - cameraPosition, Color.green, 0.1f);
             clipPoints[2] = (atRotation * new Vector3(-x, -y, z)) + cameraPosition;
-            Debug.DrawRay(cameraPosition, clipPoints[2] - cameraPosition, Color.green, 0.1f);
             clipPoints[3] = (atRotation * new Vector3(x, -y, z)) + cameraPosition;
-            Debug.DrawRay(cameraPosition, clipPoints[3] - cameraPosition, Color.green, 0.1f);
             clipPoints[4] = cameraPosition/* - camera.transform.forward*/;
         }
     }

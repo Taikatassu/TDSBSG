@@ -147,6 +147,8 @@ DONE - Loading screen
   possessables, even those not currently possessed by the player)
 - Secondary possessables (stationary turrets, etc.)
 - More enemy types (stationary turrets, etc.)
+- Create spawners for Possessibles, to ensure newest version of prefab is always loaded 
+  (currently placed within other prefabs in scene, which overrides prefab instance auto updating)
 
 Build 1.01
 DONE - Credits (triple check everyones full names and proper titles)
@@ -195,22 +197,29 @@ DONE - Remove all unnecessary Debug.Log prints
 DONE - Check through all "TODO" comments in script, and fix / complete all WIP features deemed necessary
 DONE - Disable security manager?
 DONE - Vending machine possession does not work!?
+DONE - Enemy fov not visible
+DONE - Fix forklift liftable placement
+DONE - Modify interactible door so that the current openers are stored in a list, and the door closes only 
+       after the list is completely empty
+DONE - Add star particles to the knock out meter and tweak draw order (should always be on top of all characters)
+DONE - Polish connected node indicator effect
+DONE - Polish soda can hit effect
+DONE - Open credits screen after game completion
+DONE - Increase door trigger size
+DONE - Finish field of view mesh calculation optimization
+	DONE - Find out why the last two faces of the mesh are not drawn
 
-- Fix forklift liftable placement
-- Add star particles to the knock out meter
-- Finish field of view mesh calculation optimization
-	- Find out why the last two faces of the mesh are not drawn!
-- Post processing?
 - Some way to show the user the controls of the game (prompt when possessing a robot that can do something with 
   the "use" button? A tutorial screen accessible from the main menu?)
+- Post processing?
 - Add required credits to all third party assets (e.g. free license audio files)!!
 - Take damage, knocked out and directional top sprites (Playtester critique: top sprites don't show character 
   animations (knockedOut, takeDamage))
-- Audio
+WIP - Audio
 	DONE - Music for levels (starts playing when a level is loaded, once the loading screen closes)
 	DONE - Music for main menu (starts playing when main menu is loaded, once the loading screen closes)
-	- Requestable audio clips for gameplay events (game over, game completed, etc. Scene background music continues
-	  after the sound effect is played)
+	WIP - Requestable audio clips for gameplay events (game over, game completed, etc. Scene background music continues
+	    after the sound effect is played)
 	- Toggleable SoundEffects for all characters
 	- Implement final audio files
 	- Audio clips needed:

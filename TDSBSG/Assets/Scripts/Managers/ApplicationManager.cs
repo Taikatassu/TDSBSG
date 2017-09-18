@@ -136,6 +136,11 @@ public class ApplicationManager : MonoBehaviour
         {
             SetLoadingScreenState(false);
         }
+
+        if (currentSceneIndex >= firstLevelIndex && currentSceneIndex <= lastLevelIndex)
+        {
+            em.BroadcastRequestAudio("LevelStart_Cue");
+        }
     }
 
     void OnRequestLoadLevel(int sceneBuildIndex)

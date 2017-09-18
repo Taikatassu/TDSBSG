@@ -10,7 +10,7 @@ public class Poss_ConnectedMaster : Poss_Stationary
     List<int> connectedPossessablePairs = new List<int>();
     List<ConnectionInfo> connectionInfoList = new List<ConnectionInfo>();
     bool connectionIndicatorsEnabled = false;
-    float indicatorWidth = 0.3f;
+    float indicatorWidth = 1f;
 
     protected override void OnInitializeGame()
     {
@@ -56,7 +56,8 @@ public class Poss_ConnectedMaster : Poss_Stationary
                 newLineRenderer.endWidth = indicatorWidth;
                 newLineRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
                 newLineRenderer.receiveShadows = false;
-                ConnectionInfo newConnection = new ConnectionInfo(newLineRenderer, connectedFirst.GetGameObject().transform, 
+                newLineRenderer.textureMode = LineTextureMode.Tile;
+                ConnectionInfo newConnection = new ConnectionInfo(newLineRenderer, connectedFirst.GetGameObject().transform,
                     connectedSecond.GetGameObject().transform);
                 connectionInfoList.Add(newConnection);
             }
@@ -66,10 +67,10 @@ public class Poss_ConnectedMaster : Poss_Stationary
         UpdateConnectionIndicators();
         SetConnectionIndicatorState(false);
     }
-    
+
     public void SetConnectionIndicatorState(bool newState)
     {
-        if(connectionIndicatorsEnabled != newState)
+        if (connectionIndicatorsEnabled != newState)
         {
             connectionIndicatorsEnabled = newState;
             float count = connectionInfoList.Count;
