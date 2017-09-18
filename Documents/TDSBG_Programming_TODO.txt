@@ -1,3 +1,6 @@
+---------------------------------------------  i am smiley - TODO-list ---------------------------------------------------
+
+Completed:
 DONE Alert state system
 DONE - Global security state (increases slowly by disobedience, but never decreases)
 DONE - Global alert state (alert on / off) (more than two states needed?)
@@ -24,6 +27,12 @@ DONE - Vision cone angle and range increases when alerted
 	- When entering this state, a timer will start running (it will reset if the state changes)
 	- Once the timer is at zero, the alert will end and the state will return to the default one (No alert)
 -REDESIGNED-
+
+DONE Simplified alert / chasing system
+DONE - Enemies detect disobeying possessed possessables
+	DONE - When detected, possessable cannot move and the detecting guard will come to investigate
+	DONE - If the guard gets within catch range of a possessable possessed by the player, current level is restarted
+	DONE - The player can however still possess possessables while detected and therefore possibly evade capture
 
 DONE Methods of disobedience:
 DONE - Enter a restricted room
@@ -139,8 +148,11 @@ DONE - Game over screen
 DONE - Remove roomba from the beginning of level_02
 DONE - Game completed screen
 DONE - Loading screen
+DONE - Enemies can travel through vents (technically still possible, practically should not happen in 
+       vast majority of cases)
+
+Suggestions for future development:
 - Implement slight smooth on the possessed possessable rotation
-- Enemies can travel through vents?
 - Simple AI for the possessables (they should have tasks to complete to keep them occuped until the player 
   possesses them)
 - Implement any possessable detection support to enemies (so that enemies can detect any and all disobeying
@@ -150,7 +162,15 @@ DONE - Loading screen
 - Create spawners for Possessibles, to ensure newest version of prefab is always loaded 
   (currently placed within other prefabs in scene, which overrides prefab instance auto updating)
 
+
+
+
+--------------------------------------------------- End Of IGCC 2107 -----------------------------------------------------
+
+
 Build 1.01
+
+Completed:
 DONE - Credits (triple check everyones full names and proper titles)
 	DONE - Main menu button "credits" (opens credits screen)
 	DONE - While in credits screen, new button "Close" is available
@@ -209,6 +229,9 @@ DONE - Increase door trigger size
 DONE - Finish field of view mesh calculation optimization
 	DONE - Find out why the last two faces of the mesh are not drawn
 
+
+
+TODO:
 - Some way to show the user the controls of the game (prompt when possessing a robot that can do something with 
   the "use" button? A tutorial screen accessible from the main menu?)
 - Post processing?
