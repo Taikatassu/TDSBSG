@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 92741576807234038}
   - component: {fileID: 124079871831802076}
   - component: {fileID: 81815340064293014}
+  - component: {fileID: 114752619533779296}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -253,7 +254,7 @@ Camera:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294965247
-  m_RenderingPath: -1
+  m_RenderingPath: 3
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
@@ -296,13 +297,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22f16b84899fe5042aee4f9f1d354f2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  posOffsetMode0: {x: 0, y: 7, z: -5}
+  posOffsetMode0: {x: 0, y: 3, z: -5}
   posOffsetMode1: {x: 0, y: 30, z: -1}
   initialCameraHeightPercentage: 0.25
   cameraObscureMask:
     serializedVersion: 2
     m_Bits: 4294964169
   cam: {fileID: 20474126460778616}
+--- !u!114 &114752619533779296
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1761874209983986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 0}
 --- !u!124 &124079871831802076
 Behaviour:
   m_ObjectHideFlags: 1

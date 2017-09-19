@@ -147,45 +147,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 20474126460778616, guid: 663349144de885b429b7214c5545b8cd,
-        type: 2}
-      propertyPath: m_BackGroundColor.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 20474126460778616, guid: 663349144de885b429b7214c5545b8cd,
-        type: 2}
-      propertyPath: m_BackGroundColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 20474126460778616, guid: 663349144de885b429b7214c5545b8cd,
-        type: 2}
-      propertyPath: m_BackGroundColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114066890989869068, guid: 663349144de885b429b7214c5545b8cd,
-        type: 2}
-      propertyPath: posOffsetMode0.y
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114066890989869068, guid: 663349144de885b429b7214c5545b8cd,
-        type: 2}
-      propertyPath: posOffsetMode0.z
-      value: -5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114066890989869068, guid: 663349144de885b429b7214c5545b8cd,
-        type: 2}
-      propertyPath: posOffsetMode1.y
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 114066890989869068, guid: 663349144de885b429b7214c5545b8cd,
-        type: 2}
-      propertyPath: posOffsetMode1.z
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1206717188523362, guid: 663349144de885b429b7214c5545b8cd, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 663349144de885b429b7214c5545b8cd, type: 2}
   m_IsPrefabParent: 0
