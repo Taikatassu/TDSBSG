@@ -228,13 +228,20 @@ DONE - Open credits screen after game completion
 DONE - Increase door trigger size
 DONE - Finish field of view mesh calculation optimization
 	DONE - Find out why the last two faces of the mesh are not drawn
+DONE - Post processing?
+	DONE - Remove dirt textures (unnecessary bloat files)
+	DONE - First time of toggling the settings on and off does nothing, but after that it starts working?
+	DONE - Try build the game with post processing implemented
 
 
 
 TODO:
+- Fix guards walking through objects (isKinematic = false, though that will allow possessibles to push enemies around. 
+  tweak rigidbody mass on each character to simulate realistic pushing (forklifts can push guards, roombas cannot))
+- Fix guards visibility through possessibles (add possessibles (and interactables?) layer to vision cast mask)
+- Modify the Interactable_Door permission light to support door specific lights?
 - Some way to show the user the controls of the game (prompt when possessing a robot that can do something with 
   the "use" button? A tutorial screen accessible from the main menu?)
-- Post processing?
 - Add required credits to all third party assets (e.g. free license audio files)!!
 - Take damage, knocked out and directional top sprites (Playtester critique: top sprites don't show character 
   animations (knockedOut, takeDamage))

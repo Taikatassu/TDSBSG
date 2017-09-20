@@ -37,6 +37,8 @@ public class EventManager : MonoBehaviour
     public delegate Vector3 EmptyVector3();
     public delegate ERobotType EmptyRobotType();
     public delegate GameObject EmptyGameObject();
+    public delegate void PostProcessingSettingBoolVoid(EPostProcessingSetting setting, bool boolean);
+    public delegate bool PostProcessingSettingBool(EPostProcessingSetting setting);
 
     public event EmptyVoid OnInitializeGame;
     public void BroadcastInitializeGame()
@@ -277,4 +279,26 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public event PostProcessingSettingBoolVoid OnPostProcessingSettingChange;
+    public void BroadcastPostProcessingSettingChange(EPostProcessingSetting settingToChange, bool newState)
+    {
+        if(OnPostProcessingSettingChange != null)
+        {
+            OnPostProcessingSettingChange(settingToChange, newState);
+        }
+    }
+
+    public event PostProcessingSettingBool OnRequestPostProcessingSettingState;
+    public bool BroadcastRequestPostProcessingSettingState(EPostProcessingSetting settingToGetTheStateOf)
+    {
+        if (OnRequestPostProcessingSettingState != null)
+        {
+            return OnRequestPostProcessingSettingState(settingToGetTheStateOf);
+        }
+        else
+        {
+            Debug.LogWarning("No subscribers to OnRequestPostProcessingSettingState, returning false!");
+            return false;
+        }
+    }
 }

@@ -14,7 +14,9 @@ public class UIManager : MonoBehaviour
     // MainMenu
     GameObject mainMenu;
     public Transform mainMenuButtonHolder;
-    public Transform mainMenuVolumeSliderHolder;
+    public Transform mainMenuSettingsHolder;
+    Toggle mainMenuAntiAliasingToggle;
+    Toggle mainMenuAmbientOcclusionToggle;
     Button startButton;
     Button quitButton;
     Button creditsButton;
@@ -23,7 +25,9 @@ public class UIManager : MonoBehaviour
     // PauseMenu
     GameObject pauseMenu;
     public Transform pauseMenuButtonHolder;
-    public Transform pauseMenuVolumeSliderHolder;
+    public Transform pauseMenuSettingsHolder;
+    Toggle pauseMenuAntiAliasingToggle;
+    Toggle pauseMenuAmbientOcclusionToggle;
     Button resumeButton;
     Button restartButton;
     Button exitGameButton;
@@ -56,7 +60,11 @@ public class UIManager : MonoBehaviour
     int firstLevelIndex = -1;
     int lastLevelIndex = -1;
 
+    bool antiAliasingToggleState = false;
+    bool ambientOcclusionToggleState = false;
     float volumeSliderValue = 0f;
+    bool antiAliasingToggleDefaultState = true;
+    bool ambientOcclusionToggleDefaultState = false;
 
     private void Awake()
     {
@@ -82,6 +90,13 @@ public class UIManager : MonoBehaviour
         DisablePauseMenu();
 
         isFading = false;
+
+        antiAliasingToggleDefaultState = em.BroadcastRequestPostProcessingSettingState(EPostProcessingSetting.ANTIALIASING);
+        antiAliasingToggleState = antiAliasingToggleDefaultState;
+        ambientOcclusionToggleDefaultState = em.BroadcastRequestPostProcessingSettingState(EPostProcessingSetting.AMBIENTOCCLUSION);
+        ambientOcclusionToggleState = ambientOcclusionToggleDefaultState;
+
+        //TODO: Enabling pause menu resets the post processing settings to the one last set in pause menu
     }
 
     private void Update()
@@ -93,6 +108,18 @@ public class UIManager : MonoBehaviour
                 volumeSliderValue = mainMenuVolumeSlider.value;
                 em.BroadcastVolumeSliderValueChange(volumeSliderValue);
             }
+
+            if (mainMenuAntiAliasingToggle.isOn != antiAliasingToggleState)
+            {
+                antiAliasingToggleState = mainMenuAntiAliasingToggle.isOn;
+                em.BroadcastPostProcessingSettingChange(EPostProcessingSetting.ANTIALIASING, antiAliasingToggleState);
+            }
+
+            if (mainMenuAmbientOcclusionToggle.isOn != ambientOcclusionToggleState)
+            {
+                ambientOcclusionToggleState = mainMenuAmbientOcclusionToggle.isOn;
+                em.BroadcastPostProcessingSettingChange(EPostProcessingSetting.AMBIENTOCCLUSION, ambientOcclusionToggleState);
+            }
         }
 
         if (pauseMenu.activeSelf == true)
@@ -101,6 +128,18 @@ public class UIManager : MonoBehaviour
             {
                 volumeSliderValue = pauseMenuVolumeSlider.value;
                 em.BroadcastVolumeSliderValueChange(volumeSliderValue);
+            }
+
+            if (pauseMenuAntiAliasingToggle.isOn != antiAliasingToggleState)
+            {
+                antiAliasingToggleState = pauseMenuAntiAliasingToggle.isOn;
+                em.BroadcastPostProcessingSettingChange(EPostProcessingSetting.ANTIALIASING, antiAliasingToggleState);
+            }
+
+            if (pauseMenuAmbientOcclusionToggle.isOn != ambientOcclusionToggleState)
+            {
+                ambientOcclusionToggleState = pauseMenuAmbientOcclusionToggle.isOn;
+                em.BroadcastPostProcessingSettingChange(EPostProcessingSetting.AMBIENTOCCLUSION, ambientOcclusionToggleState);
             }
         }
     }
@@ -111,7 +150,7 @@ public class UIManager : MonoBehaviour
         {
             float timeSinceStarted = Time.time - timeStartedLerping;
             float percentageCompleted = timeSinceStarted / fadeTime;
-            
+
             Color panelColor = blackPanel.color;
             panelColor.a = Mathf.Lerp(1, 0, percentageCompleted);
             blackPanel.color = panelColor;
@@ -167,6 +206,7 @@ public class UIManager : MonoBehaviour
         {
             creditsScreen.SetActive(false);
         }
+
     }
 
     private void OnDisable()
@@ -176,6 +216,14 @@ public class UIManager : MonoBehaviour
         em.OnRequestLoadLevel -= OnRequestLoadLevel;
         em.OnPlayerCatched -= OnPlayerCatched;
         em.OnLevelCompleted -= OnLevelCompleted;
+
+
+        antiAliasingToggleState = antiAliasingToggleDefaultState;
+        em.BroadcastPostProcessingSettingChange(EPostProcessingSetting.ANTIALIASING, antiAliasingToggleState);
+        ambientOcclusionToggleState = ambientOcclusionToggleDefaultState;
+        em.BroadcastPostProcessingSettingChange(EPostProcessingSetting.AMBIENTOCCLUSION, ambientOcclusionToggleState);
+
+
     }
 
     private void OnInputEvent(EInputType newInput)
@@ -232,11 +280,24 @@ public class UIManager : MonoBehaviour
         closeCreditsScreenButton.GetComponentInChildren<Text>().text = "close";
         closeCreditsScreenButton.onClick.AddListener(CloseCreditsScreen);
 
-        GameObject newMainMenuVolumeSlider = Instantiate(Resources.Load("UI/MenuSlider") as GameObject, mainMenuVolumeSliderHolder);
+        GameObject newMainMenuVolumeSlider = Instantiate(Resources.Load("UI/MenuSlider") as GameObject, mainMenuSettingsHolder);
         mainMenuVolumeSlider = newMainMenuVolumeSlider.GetComponent<Slider>();
         mainMenuVolumeSlider.GetComponentInChildren<Text>().text = "volume";
         volumeSliderValue = em.BroadcastRequestVolumeLevel();
         mainMenuVolumeSlider.value = volumeSliderValue;
+
+        GameObject newMainMenuAntiAliasingToggle = Instantiate(Resources.Load("UI/MenuToggle") as GameObject, mainMenuSettingsHolder);
+        mainMenuAntiAliasingToggle = newMainMenuAntiAliasingToggle.GetComponent<Toggle>();
+        antiAliasingToggleState = em.BroadcastRequestPostProcessingSettingState(EPostProcessingSetting.ANTIALIASING);
+        mainMenuAntiAliasingToggle.isOn = antiAliasingToggleState;
+        mainMenuAntiAliasingToggle.GetComponentInChildren<Text>().text = "anti-aliasing";
+
+        GameObject newMainMenuAmbientOcclusionToggle = Instantiate(Resources.Load("UI/MenuToggle") as GameObject, mainMenuSettingsHolder);
+        mainMenuAmbientOcclusionToggle = newMainMenuAmbientOcclusionToggle.GetComponent<Toggle>();
+        ambientOcclusionToggleState = em.BroadcastRequestPostProcessingSettingState(EPostProcessingSetting.AMBIENTOCCLUSION);
+        mainMenuAmbientOcclusionToggle.isOn = ambientOcclusionToggleState;
+        mainMenuAmbientOcclusionToggle.GetComponentInChildren<Text>().text = "ambient occlusion";
+
     }
 
     private void CreatePauseMenu()
@@ -258,11 +319,23 @@ public class UIManager : MonoBehaviour
         exitGameButton.GetComponentInChildren<Text>().text = "exit";
         exitGameButton.onClick.AddListener(OnExitGameButtonPressed);
 
-        GameObject newPauseMenuVolumeSlider = Instantiate(Resources.Load("UI/MenuSlider") as GameObject, pauseMenuVolumeSliderHolder);
+        GameObject newPauseMenuVolumeSlider = Instantiate(Resources.Load("UI/MenuSlider") as GameObject, pauseMenuSettingsHolder);
         pauseMenuVolumeSlider = newPauseMenuVolumeSlider.GetComponent<Slider>();
         pauseMenuVolumeSlider.GetComponentInChildren<Text>().text = "volume";
         volumeSliderValue = em.BroadcastRequestVolumeLevel();
         pauseMenuVolumeSlider.value = volumeSliderValue;
+
+        GameObject newPauseMenuAntiAliasingToggle = Instantiate(Resources.Load("UI/MenuToggle") as GameObject, pauseMenuSettingsHolder);
+        pauseMenuAntiAliasingToggle = newPauseMenuAntiAliasingToggle.GetComponent<Toggle>();
+        antiAliasingToggleState = em.BroadcastRequestPostProcessingSettingState(EPostProcessingSetting.ANTIALIASING);
+        pauseMenuAntiAliasingToggle.isOn = antiAliasingToggleState;
+        pauseMenuAntiAliasingToggle.GetComponentInChildren<Text>().text = "anti-aliasing";
+
+        GameObject newPauseMenuAmbientOcclusionToggle = Instantiate(Resources.Load("UI/MenuToggle") as GameObject, pauseMenuSettingsHolder);
+        pauseMenuAmbientOcclusionToggle = newPauseMenuAmbientOcclusionToggle.GetComponent<Toggle>();
+        ambientOcclusionToggleState = em.BroadcastRequestPostProcessingSettingState(EPostProcessingSetting.AMBIENTOCCLUSION);
+        pauseMenuAmbientOcclusionToggle.isOn = ambientOcclusionToggleState;
+        pauseMenuAmbientOcclusionToggle.GetComponentInChildren<Text>().text = "ambient occlusion";
     }
 
     private void OnStartButtonPressed()
@@ -327,6 +400,11 @@ public class UIManager : MonoBehaviour
     {
         mainMenu.SetActive(true);
         mainMenuVolumeSlider.value = em.BroadcastRequestVolumeLevel();
+
+        antiAliasingToggleState = em.BroadcastRequestPostProcessingSettingState(EPostProcessingSetting.ANTIALIASING);
+        mainMenuAntiAliasingToggle.isOn = antiAliasingToggleState;
+        ambientOcclusionToggleState = em.BroadcastRequestPostProcessingSettingState(EPostProcessingSetting.AMBIENTOCCLUSION);
+        mainMenuAmbientOcclusionToggle.isOn = ambientOcclusionToggleState;
     }
 
     private void DisableMainMenu()
@@ -338,6 +416,11 @@ public class UIManager : MonoBehaviour
     {
         pauseMenu.SetActive(true);
         pauseMenuVolumeSlider.value = em.BroadcastRequestVolumeLevel();
+
+        antiAliasingToggleState = em.BroadcastRequestPostProcessingSettingState(EPostProcessingSetting.ANTIALIASING);
+        pauseMenuAntiAliasingToggle.isOn = antiAliasingToggleState;
+        ambientOcclusionToggleState = em.BroadcastRequestPostProcessingSettingState(EPostProcessingSetting.AMBIENTOCCLUSION);
+        pauseMenuAmbientOcclusionToggle.isOn = ambientOcclusionToggleState;
     }
 
     private void DisablePauseMenu()
