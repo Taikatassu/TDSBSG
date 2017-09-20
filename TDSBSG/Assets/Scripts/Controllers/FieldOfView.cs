@@ -164,13 +164,15 @@ public class FieldOfView : MonoBehaviour
     {
         Vector3 dir = DirFromAngle(globalAngle, true);
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, dir, out hit, viewRange, obstacleMask))
+        Vector3 raycastOrigin = transform.position;
+        raycastOrigin.y += 0.1f;
+        if (Physics.Raycast(raycastOrigin, dir, out hit, viewRange, obstacleMask))
         {
             return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
         }
         else
         {
-            return new ViewCastInfo(false, transform.position + dir * viewRange,
+            return new ViewCastInfo(false, raycastOrigin + dir * viewRange,
                 viewRange, globalAngle);
         }
     }

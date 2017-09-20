@@ -184,6 +184,10 @@ public class Poss_Worker : Poss_Mobile
                             StartLerp(true);
                             currentLiftable = closestLiftable;
                             liftingObject = true;
+                            if (currentLiftable.GetIsStationaryInteractable())
+                            {
+                                rb.isKinematic = true;
+                            }
                         }
                     }
                 }
@@ -232,6 +236,7 @@ public class Poss_Worker : Poss_Mobile
             EndPosOfLerp = lifterDownPos;
             isLerpUp = false;
         }
+
     }
 
     private void LerpInteractableObject()
@@ -252,6 +257,10 @@ public class Poss_Worker : Poss_Mobile
             }
             else
             {
+                if (currentLiftable.GetIsStationaryInteractable())
+                {
+                    rb.isKinematic = false;
+                }
                 ChangeColliderParameters(triggerOriginalPos, triggerOriginalScale);
                 overlappingObjects.Clear();
                 lifter.GetComponent<Collider>().enabled = false;

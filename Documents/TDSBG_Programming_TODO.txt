@@ -152,7 +152,6 @@ DONE - Enemies can travel through vents (technically still possible, practically
        vast majority of cases)
 
 Suggestions for future development:
-- Implement slight smooth on the possessed possessable rotation
 - Simple AI for the possessables (they should have tasks to complete to keep them occuped until the player 
   possesses them)
 - Implement any possessable detection support to enemies (so that enemies can detect any and all disobeying
@@ -232,13 +231,14 @@ DONE - Post processing?
 	DONE - Remove dirt textures (unnecessary bloat files)
 	DONE - First time of toggling the settings on and off does nothing, but after that it starts working?
 	DONE - Try build the game with post processing implemented
+DONE - Fix guards walking through objects (isKinematic = false, though that will allow possessibles to push enemies around. 
+       tweak rigidbody mass on each character to simulate realistic pushing (forklifts can push guards, roombas cannot))
+DONE - Fix guards visibility through possessibles (add possessibles (and interactables?) layer to vision cast mask)
 
 
 
 TODO:
-- Fix guards walking through objects (isKinematic = false, though that will allow possessibles to push enemies around. 
-  tweak rigidbody mass on each character to simulate realistic pushing (forklifts can push guards, roombas cannot))
-- Fix guards visibility through possessibles (add possessibles (and interactables?) layer to vision cast mask)
+- Implement slight smooth on the possessed possessable rotation
 - Modify the Interactable_Door permission light to support door specific lights?
 - Some way to show the user the controls of the game (prompt when possessing a robot that can do something with 
   the "use" button? A tutorial screen accessible from the main menu?)

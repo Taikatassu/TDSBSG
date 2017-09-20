@@ -302,7 +302,7 @@ MonoBehaviour:
   initialCameraHeightPercentage: 0.25
   cameraObscureMask:
     serializedVersion: 2
-    m_Bits: 4294964169
+    m_Bits: 4294960073
   cam: {fileID: 20474126460778616}
 --- !u!114 &114752619533779296
 MonoBehaviour:
