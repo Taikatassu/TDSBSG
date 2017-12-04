@@ -289,11 +289,11 @@ public class Enemy_Patroller : EnemyBase
                                 if (isStuck)
                                 {
                                     isStuck = false;
-                                    Debug.Log("Was stuck, isStuck now set to false, continuing guarding");
+                                    //Debug.Log("Was stuck, isStuck now set to false, continuing guarding");
                                 }
 
-                                Debug.Log(gameObject.name + " Guarding, remainingDistance: "
-                                    + remainingDistance + ", lastDistance: " + lastDistance);
+                                //Debug.Log(gameObject.name + " Guarding, remainingDistance: "
+                                //    + remainingDistance + ", lastDistance: " + lastDistance);
                                 //If we should look around when guarding the patrol point (and aren't already doing that)
                                 if (!rotatingToGuardPosition && !atGuardRotation && !lookingAround
                                     && patrolPoints[currentPatrolPointIndex].GetShouldLookAround())
@@ -369,17 +369,17 @@ public class Enemy_Patroller : EnemyBase
                                 if (isStuck)
                                 {
                                     isStuck = false;
-                                    Debug.Log("Was stuck, isStuck now set to false, continuing patrolling");
+                                    //Debug.Log("Was stuck, isStuck now set to false, continuing patrolling");
                                 }
 
-                                Debug.Log(gameObject.name + " Patrolling, remainingDistance: "
-                                    + remainingDistance + ", lastDistance: " + lastDistance);
+                                //Debug.Log(gameObject.name + " Patrolling, remainingDistance: "
+                                //    + remainingDistance + ", lastDistance: " + lastDistance);
                                 #region Setting next patrol point if current reached, and guarding not neccessary
                                 float newGuardingDuration = patrolPoints[currentPatrolPointIndex].GetGuardingDuration();
                                 //If we should be guarding the patrol point
                                 if (newGuardingDuration > 0)
                                 {
-                                    Debug.Log("Started guarding patrol point");
+                                    //Debug.Log("Started guarding patrol point");
                                     //Start guarding the patrol point
                                     guardingTimer = newGuardingDuration;
                                     isGuarding = true;

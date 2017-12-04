@@ -210,7 +210,7 @@ public class EventManager : MonoBehaviour
     public event EmptyVoid OnPlayerCatched;
     public void BroadcastPlayerCatched()
     {
-        Debug.Log("BroadcastPlayerCatched");
+        //Debug.Log("BroadcastPlayerCatched");
         if (OnPlayerCatched != null)
         {
             OnPlayerCatched();
